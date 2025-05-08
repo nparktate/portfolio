@@ -1,293 +1,212 @@
-# `INIT:SEQUENCE//NICHOLAS_TATE_PARK.sys`
+# ┌─────────────────────────────────────────┐
+#  NICHOLAS TATE PARK / MOTION / DESIGN / DEV
+# └─────────────────────────────────────────┘
 
-<details>
-<summary>root@visitor:~$ whoami</summary>
+## Fragmented Notes on Motion, Typography, & Computational Aesthetics
 
-```
- ▄▄    ▄ ▄▄▄▄▄ ▄▄▄▄▄ ▄▄   ▄    ▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄    ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄    ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄   ▄ 
-█  █  █ █ █   █ █   █ █ █  █    █     █       █      █       █        █       █       █       █       █    █       █       █       █ █  █ █
-█   █▀▀█ █ █▄█ █ █▄█ █ █  █ █    █ ▄▄▄ █    ▄▄▄█  ▄   █    ▄▄▄█  ▄▄▄▄    ▄▄▄  █▄     ▄█   ▄   █   ▄▄▄▄█    █    ▄▄▄█   ▄   █   ▄▄▄▄█  █ █ █
-█       █ █     █     █ █   ██    █▄▄▄█ █   █   █ █▄█  █   █▄▄▄█ █▄▄▄▄   █   █   █   █ █  █ █  █  █  ▄▄█    █   █▄▄▄█  █ █  █  █▄▄▄▄█   ██ █
-█  ▄    █ █ █▄█ █ █▄█ █ █    █    █     █   █   █      █    ▄▄▄█▄▄▄▄  █   █▄█    █   █ █ █▄█ █ █ █ █        █    ▄▄▄█ █▄█ █ █▄▄▄▄  █    ██ █
-█ █ █   █ █ █ █ █ █ █ █ █    █    █     █   █   █ █▄█  █   █   █▄▄▄▄▄ █  █       █   █ █     █ █ █▄█        █   █   █     █ █▄▄▄▄█ █    █ █
-█▄█  █▄▄█ █▄█ █▄█▄█ █▄█▄█    █    █▄▄▄▄▄█▄▄▄█   █▄█ █▄▄█▄▄▄█   █▄▄▄▄▄▄█ █        █▄▄▄█ █     █ █▄▄▄▄▄█    █▄▄▄█   █▄▄▄▄▄▄▄█▄▄▄▄▄▄▄█▄█    █▄█
-```
-
-</details>
-
-<details>
-<summary>root@visitor:~$ ls -la /usr/bin/ntpark</summary>
+Premise: Motion design exists at an interdisciplinary nexus between temporal arts and information architecture. The manipulation of form across time creates meaning not possible in static mediums.
 
 ```
--r-xr-xr-x  1 creative motion      89,612 Jan 1  1970 /usr/bin/ntpark
-drwx------ 26 ntpark  design        4,096 Feb 12 03:14 .consciousness
+      ▒█▀▄▀█ █▀▀█ ▀▀█▀▀ ▀█▀ █▀▀█ █▀▀▄
+      ▒█▒█▒█ █░░█ ░░█░░ ▒█░ █░░█ █░░█
+      ▒█░░▒█ ▀▀▀▀ ░░▀░░ ▄█▄ ▀▀▀▀ ▀░░▀
 ```
 
-</details>
+Been thinking about the temporal characteristics of typography lately. Not just variable fonts (though I'm obsessed) but how meaning changes when letters are allowed to breathe. In my WBD work I keep pushing for more dynamic type systems despite the technical debt they create. Worth it though.
 
-<details>
-<summary>root@visitor:~$ cat .hidden_motives</summary>
+Academia completely undervalues motion in typographic systems. The classic Bringhurst text "Elements of Typographic Style" barely mentions motion at all, as if type is inherently static. It's not.
 
-```
-E̷f̷f̷i̷c̷i̷e̷n̷c̷y̷.̷ ̷I̷n̷n̷o̷v̷a̷t̷i̷o̷n̷.̷ ̷C̷l̷a̷r̷i̷t̷y̷.̷ ̷C̷o̷n̷n̷e̷c̷t̷i̷o̷n̷.̷
-```
+Sometimes I just stare at my AE timeline for too long. The bezier handles start talking back.
 
-</details>
+Last night spent 4 hours rebuilding HBO's titles as pure expressions. No keyframes. Just math. Probably unnecessary but hypnotic.
 
-<details>
-<summary>root@visitor:~$ ntpark --locate</summary>
+I really should walk Hank more.
 
-```
-Tracing consciousness...
-[COORDINATES REDACTED BY SYSTEM]
-Elevation: ~sea level
-Timezone: Eastern Standard Time
-Weather pattern: ~Coastal
+### On Variable Typography & Responsive Design
 
-DATA CLASSIFIED: Approved users only
-```
-
-</details>
-
-<details>
-<summary>root@visitor:~$ strings /dev/ntpark/memory | grep -i "home"</summary>
+The academic literature on variable fonts focuses excessively on technical implementation rather than expressive potential. Parametric variation creates a foundation for what Lupton might call "typography as discourse" rather than mere decoration.
 
 ```
-00AD4F: New England coastal existence
-00AD52: Proximity to Atlantic currents
-00AD59: Entity:HANK [classification: CORGI] requires walking
-00AD64: Entity:SIRFRY [classification: TABBY] judges silently
-00AD78: Entity:EMILY [classification: PARTNER] detected
-00AD89: WARNING: Access violation - memory protected
+    __________________
+   /                  \
+  /   VARIABLE SPACE   \
+ /                      \
+|   contains multitudes  |
+|                       |
+|   of possibility      |
+ \                     /
+  \___________________/
 ```
 
-</details>
+Note to self: Emily suggested better documentation for the SmartSort plugin. She's right. Comment your code, idiot.
 
-<details>
-<summary>root@visitor:~$ touch README.md && echo "Why are you here?" > README.md</summary>
+I keep returning to Manovich's "The Language of New Media" (2001) when thinking about computational aesthetics. His concept of transcoding - where cultural categories blur into computational ones - describes exactly what I'm trying to do with motion design systems.
 
-<pre style="background-color: #0f0f0f; color: #f8f8f2; font-family: monospace; padding: 10px; border-radius: 3px; overflow: auto;">
-<span style="color: #ff5555;">ACCESS DENIED:</span> This repository exists in a quantum state. 
-You are simultaneously the observer and the observed.
+The MINI needs an oil change.
 
-<span style="color: #8be9fd;">Try interacting with the document to collapse the waveform.</span>
-</pre>
-
-</details>
-
-<details>
-<summary>root@visitor:~$ ntpark --execute creative_process</summary>
+My favorite bezier curve is the one After Effects uses for "Ease In Overshoot" - there's something deeply satisfying about its mathematical behavior.
 
 ```
-[■■■■■□□□□□] 42% complete
-Loading modules: warner.bros.discovery, after.effects, blender.4_2_3...
-Importing dependencies: geometry.nodes, dynamic.typography, variable.responsiveness
-ERROR: Too many ideas detected. System overflow.
-SUGGESTION: Expand container to fit typography.
-REALITY CHECK: Time is 02:37. You should sleep.
+       ╱│
+      ╱ │
+     ╱  │
+    ╱   │
+   ╱    │
+  ╱     │  
+ ╱      │       
+╱       ╱╲
+        │ ╲
+        │  ╲
+        │   ╲
+        │    ╲
+        │     ╲
+        │      ╲
+────────┴───────╲────
 ```
 
-</details>
+Just received feedback on the HBO title sequence. Note to self: just because YOU appreciate the difference between 23.976fps and 24fps doesn't mean the average viewer will. But I'll die on this hill anyway.
 
-<details>
-<summary>root@visitor:~$ find / -name "*inspiration*" -type f -not -path "*/address/*" | sort</summary>
+Dissertation topic I'll never write: "The Phenomenology of Keyframes: Temporal Interpolation as Cognitive Metaphor"
 
-```
-/home/ntpark/inspiration/are.na
-/home/ntpark/inspiration/motionographer
-/home/ntpark/inspiration/muzli
-/home/ntpark/inspiration/spectacle
-/home/ntpark/inspiration/typewolf
-/proc/self/hank/requires_walkies
-/tmp/.dreams/infinite_loop.shdr
-/var/log/sirfry/knocked_something_over_again
-```
+RISD professors would probably hate that I spend so much time thinking about commercial motion design. But then again the ability to express complex narrative through sequential imagery is literally what got humans this far, so who's shallow now?
 
-</details>
+### Personal Development Notes
 
-<details>
-<summary>root@visitor:~$ xxd -g 1 .projects | head -20</summary>
+My Minecraft plugins have gotten increasingly complex:
+- SmartSort: OpenAI integration works but latency is unacceptable
+- SmartChat: Handles 1200+ messages/min on busy server
+- SmartEntities: Better pathfinding but memory leak after 3 hours
+
+Must optimize OpenAI calls for SmartSort. Maybe batch processing? The problem with AI is my own impatience - want everything now.
+
+Spent 2 hours debugging shader graph in Unity yesterday only to realize it was a VRAM issue, not my code. Classic.
 
 ```
-00000000: 4d 4f 54 49 4f 4e 20 44 45 53 49 47 4e 00 68 62  MOTION DESIGN.hb
-00000010: 6f 00 74 69 74 6c 65 73 00 6d 61 72 6b 65 74 69  o.titles.marketi
-00000020: 6e 67 00 53 54 41 54 49 43 20 44 45 53 49 47 4e  ng.STATIC DESIGN
-00000030: 00 33 44 20 41 4e 49 4d 41 54 49 4f 4e 00 57 45  .3D ANIMATION.WE
-00000040: 42 20 44 45 56 00 4a 61 76 61 00 50 61 70 65 72  B DEV.Java.Paper
-00000050: 4d 43 00 41 49 00 53 6d 61 72 74 53 6f 72 74 00  MC.AI.SmartSort.
-00000060: 53 6d 61 72 74 43 68 61 74 00 53 6d 61 72 74 45  SmartChat.SmartE
-00000070: 6e 74 69 74 69 65 73 00 FE FD 00 00 00 FF EF 00  ntities.........
+     /\___/\
+    (  o o  )  < typographic decisions 
+    /   *   \    matter more than you 
+    \__\_/__/    think, human
+       /   \
 ```
 
-</details>
+^ Sirfry sat on keyboard while coding. Kept the comment because it's accurate.
 
-<details>
-<summary>root@visitor:~$ netstat -tuln | grep "creativity"</summary>
+The GUI for my latest After Effects expression controller is becoming unwieldy. 294 parameters is probably excessive, but each one serves a purpose.
 
-```
-tcp        0      0 127.0.0.1:4242          0.0.0.0:*               LISTEN      # risd_consciousness
-tcp6       0      0 ::1:8110                :::*                    LISTEN      # motion_design_port
-udp        0      0 0.0.0.0:1337            0.0.0.0:*                           # blender_node_listener
-udp6       0      0 :::9876                 :::*                                # type_variable_interface
-```
+Thinking about self-organizing systems. What if motion design could respond dynamically to semantic content? Not just motion tracking but meaning tracking.
 
-</details>
+Should probably actually go to sleep at a reasonable hour. (Note added at 3:47am)
 
-<details>
-<summary>root@visitor:~$ cat /etc/ntpark/values.conf</summary>
+### On Efficiency vs Expression
+
+Just read Tufte's "Visual Display of Quantitative Information" for the 5th time. Still finding new insights. His data-ink ratio concept applies perfectly to motion design - every frame should justify its existence.
+
+The urge to optimize never stops. Rebuilt my entire After Effects template library yesterday. Again.
 
 ```
-# Configuration for core values
-# Last modified: [TIMESTAMP ENCRYPTED]
-
-EFFICIENCY=1
-INNOVATION=1
-HONESTY=1
-CLARITY=1
-CONNECTION=1
-REDUNDANCY=0
-BLOAT=0
-FLUFF=0
-CRINGE=0
-
-# Action triggers
-on_redundancy_detected="eliminate"
-on_innovation_opportunity="pursue"
-on_connection_lost="restore"
+▓█████▄ ▓█████   ██████  ██▓  ▄████  ███▄    █ 
+▒██▀ ██▌▓█   ▀ ▒██    ▒ ▓██▒ ██▒ ▀█▒ ██ ▀█   █ 
+░██   █▌▒███   ░ ▓██▄   ▒██▒▒██░▄▄▄░▓██  ▀█ ██▒
+░▓█▄   ▌▒▓█  ▄   ▒   ██▒░██░░▓█  ██▓▓██▒  ▐▌██▒
+░▒████▓ ░▒████▒▒██████▒▒░██░░▒▓███▀▒▒██░   ▓██░
 ```
 
-</details>
-
-<details>
-<summary>root@visitor:~$ ps aux | grep -i personality</summary>
+Geometry Nodes in Blender are essentially visual programming for 3D space. This approach to computational design deserves more academic attention. The nodes don't merely represent operations but embody a spatial grammar.
 
 ```
-ntpark      1337  0.0  0.0 492128 28624 ?    Ss   Jan26   0:01 introspective --technical-depth=high --creative-wavelength=constant
-ntpark      1338  0.0  0.0 492128 28624 ?    Ss   Jan26   0:21 humor --no-cringe --sharp=true
-ntpark      1339  0.0  0.0 492128 28624 ?    Ss   Jan26   2:34 sensitivity --global-awareness --future-concerns="AI development" --preserve-legacy
-ntpark      9999  0.0  0.0 666666 66666 ?    Ss   ????    ?:?? unknown_process --encrypted --beyond-comprehension
+        ┌───────────┐     ┌────────────┐     ┌──────────┐
+        │ Transform │────▶│ Point      │────▶│ Instance │
+        │ Geometry  │     │ Distribute │     │ on Points│
+        └───────────┘     └────────────┘     └──────────┘
+              ▲                  ▲                 ▲
+              │                  │                 │
+              │                  │                 │
+        ┌───────────┐     ┌────────────┐     ┌──────────┐
+        │ Randomize │     │ Attribute  │     │ Object   │
+        │ Value     │────▶│ Mix        │────▶│ Info     │
+        └───────────┘     └────────────┘     └──────────┘
 ```
 
-</details>
+Spent all day perfecting NYC traffic simulation in Blender. Not for any project, just personal satisfaction. The level of granular control in procedural systems is intoxicating.
 
-<details>
-<summary>root@visitor:~$ lsusb</summary>
+Need to remember to register for that typography conference.
 
-```
-Bus 003 Device 001: ID 1d6b:0003 Linux Foundation Geometry Nodes Hub
-Bus 002 Device 002: ID 046d:c24d Logitech G923 Racing Wheel
-Bus 002 Device 003: ID MINI:C00P Cooper S F55 Interface
-Bus 001 Device 005: ID r15d:2023 RISD Creative Interface
-```
+Just discovered a paper on dynamic bezier interpolation that might solve the "pop" effect in my title animations. Citation: Jakubiak, E.J., Perry, R.N., & Frisken, S.F. (2006). "An improved representation for stroke-based fonts."
 
-</details>
+When I'm deep in the zone coding or animating, sometimes I forget to eat. Emily left food outside my office door yesterday. She's too good for me.
 
-<!-- Easter egg: Move your cursor in a figure-8 pattern while holding Alt -->
+### Research Directions & Random Thoughts
 
-<div id="quantum-container" style="display:none">
-When typography expands to fill space, does meaning contract to preserve balance?
-</div>
-
-<!-- ROT13: Gur inpuhz orgjrra gjb inevnoyr sbagf vf jurer ernyvgl pbyyncfrf. -->
-
-<details>
-<summary>root@visitor:~$ for i in {1..10}; do echo $((RANDOM % 2)); done | grep 42</summary>
+Hypothesis: Variable typography in responsive contexts should operate more like fluid dynamics than rigid transformations. Text should flow into available space rather than merely scale.
 
 ```
-universe.exe encountered an unexpected error at dimension 26
-rebooting consciousness...
-...
-...
-ERROR: Failed to locate meaning. Try typography.
+   ╭───────╮    ╭────────╮    ╭────────╮
+   │CONCEPT │───▶│THOUGHT │───▶│CREATION│
+   ╰───────╯    ╰────────╯    ╰────────╯
+       │            ▲             │
+       ▼            │             ▼
+   ╭───────╮    ╭────────╮    ╭────────╮
+   │ITERATE│◀───│EVALUATE│◀───│REFLECT │
+   ╰───────╯    ╰────────╯    ╰────────╯
 ```
 
-</details>
+My sim racing rig is getting out of hand. But the force feedback through the wheel helps me understand physics in a way that translates to motion design. There's something about feeling the weight transfer in a corner that connects to easing functions.
 
-<!-- Moving your mouse to all 4 corners of this document in sequence activates debug mode -->
+Still mad that Adobe deprecated Flash. The timeline-based interactivity model was unmatched. Current web animation frameworks feel like poor substitutes.
 
-<details>
-<summary>root@visitor:~$ echo "MOTION.DESIGN.RESPONSIVE.EXPERIMENTAL" | openssl enc -base64</summary>
+The corgi (Hank) has opinions about my motion design work. He sits and stares at certain animations. Is he responding to movement patterns that trigger predatory instincts? Need to research this.
 
-```
-TU9USU9OLkRFU0lHTi5SRVNQT05TSVZFLkVYUEVSSU1FTlRBTA==
-```
+Academic citation needed: The non-linear perception of time in motion graphics creates a temporal uncanny valley effect when viewers attempt to reconcile computational time with experienced time. (I just made this up but it FEELS true)
 
-</details>
+I should organize my project files better.
 
-<details>
-<summary>root@visitor:~$ sudo apt-get install ntpark-essence</summary>
+Found new meaning in nested expressions yesterday:
 
-```
-Reading package lists... Done
-Building dependency tree       
-Reading state information... Done
-The following additional packages will be installed:
-  creative-energy technical-expertise blender-mastery
-  variable-typography dynamic-spaces minecraft-development
-Suggested packages:
-  honesty efficiency innovation connection
-The following NEW packages will be installed:
-  ntpark-essence creative-energy technical-expertise blender-mastery
-  variable-typography dynamic-spaces minecraft-development
-0 upgraded, 7 newly installed, 0 to remove and 4 not upgraded.
-Need to get 287 MB of archives.
-After this operation, 926 MB of additional disk space will be used.
-Do you want to continue? [Y/n] Y
-
-[Progress bar freezes at 99%]
-
-This installation requires a direct neurological interface.
-Please place your consciousness here: [__________________]
+```javascript
+// Control amplitude based on frequency and layer index
+amp = effect("Amplitude")("Slider") * Math.sin(time * effect("Frequency")("Slider") * (index/5));
+// Apply to rotation with phase shift
+transform.rotation + amp * (Math.cos(time * 0.5) + 1) * 15;
 ```
 
-</details>
+Hours spent optimizing this: 3
+Visible difference: Minimal
+Satisfaction: Immense
 
-<!-- Wave to your webcam while holding down Ctrl+Shift+Alt -->
+The tabby (Sirfry) knocked over my coffee onto my Wacom tablet yesterday. Surprisingly still works.
 
-<details>
-<summary>root@visitor:~$ cat /dev/random | strings | grep emotion | head -1</summary>
+### Future Explorations
 
-```
-Each project contains exactly one (1) emotion, encrypted. 
-If you can locate it, you've discovered the core intent.
+Need to explore more deeply:
+1. Advanced interpolation methods beyond cubic bezier
+2. Semantic analysis as control input for animation
+3. Neural networks as motion generators
+4. Physical simulation as design constraint
 
-[INTERACTIVE: Solve the maze below by highlighting text]
+Reading list:
+- "Perceptual Principles for Scalable Sequence Visualization" (2021)
+- "The Algorithms of Typography" (Knuth, 1999)
+- "Dynamic Canvas: Composition and Computational Aesthetics" (MIT Press)
 
-┌─────┬───┬───────┬───┬───────┐
-│     │   │       │   │       │
-├─┐ ┌─┘ ┌─┘ ┌───┐ └─┐ │ ┌───┐ │
-│ │ │   │   │   │   │ │ │   │ │
-│ │ │ ┌─┘ ┌─┘ ┌─┘ ┌─┘ └─┘ ┌─┘ │
-│ │ │ │   │   │   │       │   │
-│ └─┘ └─┐ │ ┌─┘ ┌─┘ ┌───┐ │ ┌─┤
-│       │ │ │   │   │   │ │ │ │
-├───┐ ┌─┘ │ │ ┌─┘ ┌─┘ ┌─┘ └─┘ │
-│   │ │   │ │ │   │   │       │
-│ ┌─┘ │ ┌─┘ └─┘ ┌─┘ ┌─┘ ┌─────┤
-│ │   │ │       │   │   │     │
-│ │ ┌─┘ │ ┌───┐ │ ┌─┘ ┌─┘ ┌─┐ │
-│ │ │   │ │   │ │ │   │   │ │ │
-│ └─┘ ┌─┘ └─┐ │ │ │ ┌─┘ ┌─┘ │ │
-│     │     │ │ │ │ │   │   │ │
-└─────┴─────┴─┴─┴─┴─┴───┴───┴─┘
-```
+The experimental portfolio concept should push variable font responsiveness to breaking point. Not just responsive but hyper-responsive.
 
-</details>
-
-<!-- Click these numbers in sequence: 4 8 15 16 23 42 -->
-
-<details>
-<summary>root@visitor:~$ exit</summary>
+Maybe I'm overthinking this.
 
 ```
-Connection to nicholas.tate.park closed.
-Typography fills more space than words require.
-Responsive is not just a state, it's a dialogue.
-The grid awaits your exploration.
-
-[End of transmission: 7B E1 9D 03 F5 42 A6 8C]
+╭─────────────────────────────────────────────────────╮
+│  Sometimes I wonder if anyone will read this README  │
+│  Besides me. But it helps organize scattered thoughts │
+╰─────────────────────────────────────────────────────╯
 ```
 
-</details>
+Trying to be better about documentation. These notes are part of that effort.
 
-<!-- If you've found all easter eggs, the portfolio transforms. The grid reveals itself. -->
+There's something profoundly therapeutic about aligning keyframes to precise intervals. The satisfaction of perfectly distributed animation events is unmatched.
+
+Typography is frozen sound. Motion typography is music made visible.
+
+My car needs an inspection sticker.
+
+One day I want to create a fully generative title sequence where no two viewings are identical. The HBO executives would hate it. I'll make it anyway.
+
+[END OF SCATTERED THOUGHTS - 02.13.24 - 4:21am]
