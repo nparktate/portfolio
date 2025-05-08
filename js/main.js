@@ -61,25 +61,35 @@ document.addEventListener('DOMContentLoaded', () => {
             parentCategory.style.overflow = 'visible';
         }
         
-        // Split text into words for line breaking
+        // Split text intelligently for better line breaks
         const words = originalText.split(' ');
         
-        // Determine optimal number of lines based on text length and container
-        const textLength = originalText.length;
+        // Always use exactly 2 lines for better readability
+        const maxLines = 2;
         
-        // Use 2 lines for shorter text, 3 for longer text
-        const maxLines = textLength > 20 ? 3 : 2;
-        
-        // Organize text into lines of equal word count
+        // Split text more intelligently - try to balance line lengths
         let lines = [];
-        let wordsPerLine = Math.ceil(words.length / maxLines);
         
-        for (let i = 0; i < words.length; i += wordsPerLine) {
-            lines.push(words.slice(i, i + wordsPerLine).join(' '));
+        if (words.length === 1) {
+            // Special case for single word - just use it
+            lines.push(words[0]);
+        } else if (words.length === 2) {
+            // Special case for two words - one per line
+            lines.push(words[0]);
+            lines.push(words[1]);
+        } else if (words.length === 3) {
+            // Special case for three words - first word on first line, rest on second
+            lines.push(words[0]);
+            lines.push(words[1] + ' ' + words[2]);
+        } else {
+            // For longer text, balance the words across two lines
+            const midpoint = Math.ceil(words.length / 2);
+            lines.push(words.slice(0, midpoint).join(' '));
+            lines.push(words.slice(midpoint).join(' '));
         }
         
-        // Calculate available height for each line
-        const totalSpacing = lines.length <= 2 ? 0.5 : 0.4; // 50% for 2 lines, 40% for 3 lines
+        // Calculate available height for each line - add extra space between lines
+        const totalSpacing = 0.5; // Always use 50% spacing for 2 lines
         const availableHeight = containerHeight * (1 - totalSpacing);
         const lineHeight = Math.max(CONFIG.minFontSize, Math.floor(availableHeight / lines.length));
         const marginHeight = Math.floor((containerHeight * totalSpacing) / (lines.length * 2));
@@ -91,13 +101,19 @@ document.addEventListener('DOMContentLoaded', () => {
         lineContainer.style.display = 'flex';
         lineContainer.style.flexDirection = 'column';
         lineContainer.style.alignItems = 'center';
-        lineContainer.style.justifyContent = 'center';
+        lineContainer.style.justifyContent = 'space-between'; // Better spacing between lines
         lineContainer.style.minHeight = `${containerHeight}px`;
         lineContainer.style.overflow = 'visible';
         textElement.appendChild(lineContainer);
         
+        // Console.log for debugging
+        console.log("Multi-line text: ", lines);
+        
         // Create spans for each line with fixed precise positions
         lines.forEach((line, index) => {
+            // Skip empty lines
+            if (!line.trim()) return;
+            
             const lineSpan = document.createElement('span');
             lineSpan.textContent = line;
             lineSpan.style.fontSize = `${lineHeight}px`;
@@ -111,10 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
             lineSpan.style.width = '100%';
             lineSpan.style.textAlign = 'center';
             lineSpan.style.visibility = 'visible';
+            lineSpan.style.opacity = '1';
+            
+            // Debug info inside span
+            lineSpan.setAttribute('data-debug', `Line ${index+1}: ${line}`);
             
             lineContainer.appendChild(lineSpan);
             
-            // Calculate and apply horizontal scaling for this line - use 98% of width for better fill
+            // Calculate and apply horizontal scaling for this line - aggressively fill width
             const lineWidth = lineSpan.offsetWidth;
             const availableWidth = containerWidth * 0.98; // 98% of container width
             let scaleX = 1;
@@ -122,9 +142,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lineWidth > availableWidth) {
                 // Scale down if too wide
                 scaleX = availableWidth / lineWidth;
-            } else if (lineWidth < availableWidth * 0.9) {
-                // Scale up if too narrow (but be more aggressive)
-                scaleX = Math.min(1.2, availableWidth / lineWidth);
+            } else {
+                // Always scale up to fill width
+                scaleX = availableWidth / lineWidth * 0.98; // 98% fill
             }
             
             // Apply scale with transform instead of CSS var for better browser compatibility
@@ -223,9 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalText = textElement.textContent;
         const singleLineWidth = getTextWidth(textElement);
         
-        // Trigger line breaking earlier for portrait mode - use dynamic threshold based on text length
-        const breakThreshold = originalText.length > 15 ? 0.8 : 0.9;
-        if (singleLineWidth > containerWidth * breakThreshold) {
+        // Always break text for "3D ANIMATION & DESIGN" 
+        if (originalText.includes("3D ANIMATION") || 
+            originalText.includes("&") || 
+            originalText.length > 15 ||
+            singleLineWidth > containerWidth * 0.8) {
             // Text needs to be split into multiple lines
             handleMultiLineText(textElement, originalText, containerHeight, containerWidth);
             return;
@@ -608,6 +630,13 @@ document.addEventListener('DOMContentLoaded', () => {
             adjustTextSize();
             // Force a second adjustment after browser has settled
             setTimeout(adjustTextSize, 200);
+            // And a third adjustment after everything is really settled
+            setTimeout(adjustTextSize, 500);
         }, 100);
     });
+    
+    // Force adjustment periodically on page load to ensure all text displays correctly
+    setTimeout(() => adjustTextSize(), 100);
+    setTimeout(() => adjustTextSize(), 500);
+    setTimeout(() => adjustTextSize(), 1000);
 });
