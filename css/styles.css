@@ -50,7 +50,10 @@ body, html {
     white-space: nowrap;
     letter-spacing: -0.02em;
     color: rgba(255, 255, 255, 0.8);
-    transition: color 0.3s ease, font-variation-settings 0.5s ease;
+    transition: color 0.3s ease, font-variation-settings 0.5s ease, transform 0.3s ease;
+    will-change: transform, font-variation-settings;
+    min-height: 1em;
+    line-height: 0.9;
 }
 
 /* Hover effects */
@@ -61,6 +64,12 @@ body, html {
 .category:hover .category-text {
     color: #ffffff;
     font-variation-settings: 'wght' 700;
+}
+
+/* Prevent jittering during scroll */
+html.is-scrolling .category-text {
+    transition: none !important;
+    font-variation-settings: 'wght' 500 !important;
 }
 
 /* Active category */
@@ -180,6 +189,13 @@ body, html {
     #project-details.active {
         transform: translateX(0);
     }
+    
+    /* Allow line breaking in vertical/narrow layouts */
+    .category-text {
+        white-space: normal;
+        line-height: 0.9;
+        text-align: left;
+    }
 }
 
 /* Ultra-responsive text sizing animation */
@@ -189,10 +205,28 @@ body, html {
     }
 }
 
+/* Portrait orientation specific styling */
+@media (orientation: portrait) {
+    .category-text {
+        white-space: normal;
+        hyphens: auto;
+    }
+    
+    .category {
+        min-height: 10vh;
+    }
+}
+
 /* For the tech demo / experimental vibe */
 ::selection {
     background-color: rgba(255, 255, 255, 0.2);
     color: #ffffff;
+}
+
+/* Ensure minimum font weight to prevent thin text */
+.category-text {
+    font-variation-settings: 'wght' var(--font-weight, 400);
+    --font-weight: clamp(300, var(--calculated-weight, 400), 900);
 }
 
 /* Scrollbar styling for the experimental feel */

@@ -35,17 +35,34 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Function to adjust text size to fill container - hyper responsive
     function adjustTextSize() {
+        // Check if we're in portrait mode for different text handling
+        const isPortrait = window.innerHeight > window.innerWidth;
+        
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
             const containerHeight = category.offsetHeight;
             const containerWidth = category.offsetWidth;
             
             // Start with a base size based on container height
-            let fontSize = Math.floor(containerHeight * 0.85); // 85% of container height
+            let fontSize = Math.floor(containerHeight * (isPortrait ? 0.7 : 0.85)); // Adjust for portrait mode
             textElement.style.fontSize = `${fontSize}px`;
             
-            // Adjust font weight based on available width
-            let weight = 100; // Start with lightest weight
+            // Set minimum weight to prevent super thin text
+            let weight = 300; // Start with a more substantial weight
+            
+            // In portrait mode, handle line breaks differently
+            if (isPortrait) {
+                textElement.style.whiteSpace = 'normal';
+                // For portrait/vertical orientation, prioritize readability over filling width
+                weight = 500; // Use a more readable weight
+                textElement.style.fontVariationSettings = `'wght' ${weight}`;
+                // Skip the complex scaling/transformation
+                textElement.style.transform = 'none';
+                return;
+            }
+            
+            // For landscape, continue with responsive sizing
+            textElement.style.whiteSpace = 'nowrap';
             textElement.style.fontVariationSettings = `'wght' ${weight}`;
             
             // Measure and adjust
@@ -56,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
             while (textWidth < targetWidth && weight < 900) {
                 weight += 25;
                 textElement.style.fontVariationSettings = `'wght' ${weight}`;
+                textElement.style.setProperty('--calculated-weight', weight);
                 textWidth = textElement.offsetWidth;
                 
                 if (weight >= 900) break;
@@ -63,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // We went too far, step back
                     weight -= 25;
                     textElement.style.fontVariationSettings = `'wght' ${weight}`;
+                    textElement.style.setProperty('--calculated-weight', weight);
                     break;
                 }
             }
@@ -71,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (textWidth < targetWidth * 0.9) {
                 // Text is too small, add letter spacing
                 let letterSpacing = 0;
-                while (textWidth < targetWidth * 0.95 && letterSpacing < 0.2) {
+                while (textWidth < targetWidth * 0.95 && letterSpacing < 0.1) { // Reduced max letter spacing
                     letterSpacing += 0.01;
                     textElement.style.letterSpacing = `${letterSpacing}em`;
                     textWidth = textElement.offsetWidth;
@@ -79,16 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (textWidth > targetWidth) {
                 // Text is too large, reduce letter spacing
                 let letterSpacing = 0;
-                while (textWidth > targetWidth && letterSpacing > -0.05) {
+                while (textWidth > targetWidth && letterSpacing > -0.03) { // Less aggressive negative spacing
                     letterSpacing -= 0.01;
                     textElement.style.letterSpacing = `${letterSpacing}em`;
                     textWidth = textElement.offsetWidth;
                 }
             }
             
-            // Add a slight scale effect for perfect fitting
+            // Add a slight scale effect for perfect fitting - but limit the shrinking
             if (textWidth > targetWidth) {
-                const scale = targetWidth / textWidth;
+                const scale = Math.max(0.9, targetWidth / textWidth); // Don't scale below 90%
                 textElement.style.transform = `scaleX(${scale.toFixed(3)})`;
             } else {
                 textElement.style.transform = 'scaleX(1)';
@@ -179,8 +198,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Debounce function to prevent excessive calculations
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+    }
+    
     // Add additional experimental interaction - mouse movement affects typography
-    document.addEventListener('mousemove', (e) => {
+    document.addEventListener('mousemove', debounce((e) => {
         if (!activeCategory) {
             const mouseX = e.clientX / window.innerWidth;
             const mouseY = e.clientY / window.innerHeight;
@@ -194,15 +223,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 const distanceY = Math.abs(e.clientY - centerY) / window.innerHeight;
                 
                 // Apply subtle typographic effects based on mouse position
-                const weightVariation = Math.max(100, Math.min(900, 400 + (1 - distanceY) * 300));
+                // Increased minimum weight to prevent too-thin text
+                const weightVariation = Math.max(350, Math.min(900, 500 + (1 - distanceY) * 300));
                 textElement.style.fontVariationSettings = `'wght' ${Math.round(weightVariation)}`;
+                textElement.style.setProperty('--calculated-weight', Math.round(weightVariation));
                 
-                // Add subtle movement
-                const offsetX = (mouseX - 0.5) * 10;
-                textElement.style.transform = `translateX(${offsetX}px) scaleX(${textElement.style.transform ? textElement.style.transform.split('(')[1].split(')')[0] : '1'})`;
+                // Add subtle movement - but less aggressive
+                const offsetX = (mouseX - 0.5) * 5; // Reduced from 10 to 5 for less movement
+                
+                // Get current scale if it exists
+                let currentScale = '1';
+                if (textElement.style.transform) {
+                    const scaleMatch = textElement.style.transform.match(/scaleX\(([0-9.]+)\)/);
+                    if (scaleMatch && scaleMatch[1]) {
+                        currentScale = scaleMatch[1];
+                    }
+                }
+                
+                textElement.style.transform = `translateX(${offsetX}px) scaleX(${currentScale})`;
             });
         }
-    });
+    }, 20)); // 20ms debounce for smoother performance
     
     // Double-click anywhere to go back to main view
     document.addEventListener('dblclick', () => {
@@ -219,28 +260,46 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
     
-    // Call adjustTextSize on load and resize
-    window.addEventListener('resize', () => {
-        adjustTextSize();
+    // Handle scroll events - add class to prevent jittering
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        document.documentElement.classList.add('is-scrolling');
         
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            document.documentElement.classList.remove('is-scrolling');
+            // Recalculate after scrolling stops
+            adjustTextSize();
+        }, 150);
+    });
+    
+    // Call adjustTextSize on load and resize - but debounced
+    const debouncedResize = debounce(() => {
         // Add resize animation transition temporarily
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
             textElement.style.transition = 'all 0.3s ease';
-            
-            setTimeout(() => {
-                textElement.style.transition = '';
-            }, 300);
         });
-    });
+        
+        adjustTextSize();
+        
+        setTimeout(() => {
+            categories.forEach(category => {
+                const textElement = category.querySelector('.category-text');
+                textElement.style.transition = '';
+            });
+        }, 300);
+    }, 100);
+    
+    window.addEventListener('resize', debouncedResize);
     
     // Initial adjustment
     adjustTextSize();
     
-    // Get super dynamic with setInterval to constantly check and adjust text
+    // Less frequent updates to prevent jittering
     setInterval(() => {
-        if (document.visibilityState === 'visible') {
+        if (document.visibilityState === 'visible' && !document.documentElement.classList.contains('is-scrolling')) {
             adjustTextSize();
         }
-    }, 2000);
+    }, 5000); // Reduced frequency from 2s to 5s
 });
