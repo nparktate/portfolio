@@ -30,7 +30,6 @@ body, html {
     flex: 1;
     width: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
     position: relative;
     cursor: pointer;
@@ -40,6 +39,7 @@ body, html {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin: 0;
     box-sizing: border-box;
+    min-height: fit-content;
 }
 
 .category:last-child {
@@ -240,18 +240,19 @@ html.is-scrolling .category-text {
     }
     
     .category {
-        min-height: 16vh;
+        min-height: 20vh;
         justify-content: center;
         align-items: center;
         overflow: visible;
-        padding: 1vh 0;
+        padding: 2vh 0;
     }
     
     .category-inner {
-        padding: 2vh 8vw;
+        padding: 3vh 8vw;
         height: 100%;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
     
     .categories-container {
@@ -283,13 +284,15 @@ html.is-scrolling .category-text {
 .category-text.multi-line {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
     white-space: normal;
-    line-height: 1.5;
+    line-height: 2;
     transform: none !important;
     width: 100%;
-    padding: 0.5em 0;
+    padding: 1em 0;
     min-height: 100%;
+    position: relative;
 }
 
 .category-text.multi-line span {
@@ -297,9 +300,12 @@ html.is-scrolling .category-text {
     white-space: nowrap;
     transform-origin: center;
     transform: scale(var(--line-scale-x, 1), var(--line-scale-y, 1));
-    margin: 0.2em 0;
+    margin: 0.5em 0;
+    padding: 0.2em 0;
     overflow: visible;
-    height: auto;
+    height: 1.2em;
+    position: relative;
+    max-height: 1.5em;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
@@ -317,7 +323,9 @@ html.is-scrolling .category-text {
     }
     
     .category-text.multi-line span {
-        margin: 0.15em 0;
+        margin: 0.5em 0;
+        height: 1em;
+        max-height: 1em;
     }
 }
 
@@ -340,8 +348,10 @@ html.is-scrolling .category-text {
         }
     
         .category-text.multi-line span {
-            margin: 0.25em 0;
-            line-height: 1.2;
+            margin: 0.6em 0;
+            line-height: 1.5;
+            height: 1.2em;
+            position: relative;
         }
 }
 
