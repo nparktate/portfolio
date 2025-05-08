@@ -1,16 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all category elements
+    // Get categories and project elements
     const categories = document.querySelectorAll('.category');
     const projectGrid = document.getElementById('project-grid');
     const projectDetails = document.getElementById('project-details');
     
-    // Create text elements inside categories
+    // Create projects container for each category
     categories.forEach(category => {
-        const text = document.createElement('div');
-        text.classList.add('category-text');
-        text.textContent = category.textContent;
-        category.textContent = ''; // Clear the original content
-        category.appendChild(text);
+        // Text elements are now in HTML for better structure control
+        const textElement = category.querySelector('.category-text');
+        
+        // Initialize CSS variables for perfect scaling
+        textElement.style.setProperty('--text-scale-x', 1);
+        textElement.style.setProperty('--text-scale-y', 1);
         
         // Create the projects container for this category
         const projectsContainer = document.createElement('div');
@@ -33,86 +34,162 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Function to adjust text size to fill container - hyper responsive
+    // Function to perfectly size text to fill container space
     function adjustTextSize() {
-        // Check if we're in portrait mode for different text handling
-        const isPortrait = window.innerHeight > window.innerWidth;
+        // Get viewport dimensions and orientation
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const isPortrait = viewportHeight > viewportWidth;
+        
+        // Calculate total available height
+        const totalHeight = document.querySelector('.categories-container').offsetHeight;
+        const categoryCount = categories.length;
+        
+        // Calculate target height per category (accounting for borders)
+        const targetHeight = (totalHeight / categoryCount) - 1; // -1px for borders
         
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
-            const containerHeight = category.offsetHeight;
-            const containerWidth = category.offsetWidth;
             
-            // Start with a base size based on container height
-            let fontSize = Math.floor(containerHeight * (isPortrait ? 0.7 : 0.85)); // Adjust for portrait mode
+            // Reset text properties to measure natural size
+            textElement.style.fontSize = '';
+            textElement.style.fontVariationSettings = '';
+            textElement.style.letterSpacing = '';
+            textElement.style.wordSpacing = '';
+            textElement.style.transform = '';
+            
+            // Set category height to target height
+            category.style.height = `${targetHeight}px`;
+            
+            // Calculate max available width (accounting for padding)
+            const containerWidth = category.offsetWidth - (isPortrait ? 40 : 20); // Account for padding
+            
+            // Set initial font size based on container height
+            // Use 80% of container height as starting point
+            let fontSize = Math.floor(targetHeight * 0.8);
             textElement.style.fontSize = `${fontSize}px`;
             
-            // Set minimum weight to prevent super thin text
-            let weight = 300; // Start with a more substantial weight
-            
-            // In portrait mode, handle line breaks differently
+            // Switch between landscape and portrait handling
             if (isPortrait) {
-                textElement.style.whiteSpace = 'normal';
-                // For portrait/vertical orientation, prioritize readability over filling width
-                weight = 500; // Use a more readable weight
-                textElement.style.fontVariationSettings = `'wght' ${weight}`;
-                // Skip the complex scaling/transformation
-                textElement.style.transform = 'none';
-                return;
-            }
-            
-            // For landscape, continue with responsive sizing
-            textElement.style.whiteSpace = 'nowrap';
-            textElement.style.fontVariationSettings = `'wght' ${weight}`;
-            
-            // Measure and adjust
-            let textWidth = textElement.offsetWidth;
-            const targetWidth = containerWidth * 0.95; // Target 95% of container width
-            
-            // Increase weight until optimal filling
-            while (textWidth < targetWidth && weight < 900) {
-                weight += 25;
-                textElement.style.fontVariationSettings = `'wght' ${weight}`;
-                textElement.style.setProperty('--calculated-weight', weight);
-                textWidth = textElement.offsetWidth;
-                
-                if (weight >= 900) break;
-                if (textWidth > targetWidth) {
-                    // We went too far, step back
-                    weight -= 25;
-                    textElement.style.fontVariationSettings = `'wght' ${weight}`;
-                    textElement.style.setProperty('--calculated-weight', weight);
-                    break;
-                }
-            }
-            
-            // Fine-tune letter spacing if needed
-            if (textWidth < targetWidth * 0.9) {
-                // Text is too small, add letter spacing
-                let letterSpacing = 0;
-                while (textWidth < targetWidth * 0.95 && letterSpacing < 0.1) { // Reduced max letter spacing
-                    letterSpacing += 0.01;
-                    textElement.style.letterSpacing = `${letterSpacing}em`;
-                    textWidth = textElement.offsetWidth;
-                }
-            } else if (textWidth > targetWidth) {
-                // Text is too large, reduce letter spacing
-                let letterSpacing = 0;
-                while (textWidth > targetWidth && letterSpacing > -0.03) { // Less aggressive negative spacing
-                    letterSpacing -= 0.01;
-                    textElement.style.letterSpacing = `${letterSpacing}em`;
-                    textWidth = textElement.offsetWidth;
-                }
-            }
-            
-            // Add a slight scale effect for perfect fitting - but limit the shrinking
-            if (textWidth > targetWidth) {
-                const scale = Math.max(0.9, targetWidth / textWidth); // Don't scale below 90%
-                textElement.style.transform = `scaleX(${scale.toFixed(3)})`;
+                handlePortraitText(textElement, targetHeight, containerWidth);
             } else {
-                textElement.style.transform = 'scaleX(1)';
+                handleLandscapeText(textElement, targetHeight, containerWidth);
             }
         });
+    }
+    
+    // Handle text for portrait orientation
+    function handlePortraitText(textElement, containerHeight, containerWidth) {
+        // Enable line breaks for narrow screens
+        textElement.style.whiteSpace = 'normal';
+        
+        // Start with a substantial weight that works for line breaks
+        let weight = 500;
+        textElement.style.fontVariationSettings = `'wght' ${weight}`;
+        textElement.style.setProperty('--calculated-weight', weight);
+        
+        // Get initial measurements
+        let textHeight = textElement.scrollHeight;
+        let textWidth = textElement.scrollWidth;
+        
+        // First adjust font size to fit height
+        let currentFontSize = parseFloat(getComputedStyle(textElement).fontSize);
+        let sizeFactor = 1;
+        
+        if (textHeight > containerHeight * 0.9) {
+            // Text too tall, reduce size
+            sizeFactor = (containerHeight * 0.9) / textHeight;
+            currentFontSize = currentFontSize * sizeFactor;
+            textElement.style.fontSize = `${currentFontSize}px`;
+        }
+        
+        // Now check width
+        textWidth = textElement.scrollWidth;
+        
+        // If text is too wide, adjust letter-spacing first
+        if (textWidth > containerWidth) {
+            let letterSpacing = 0;
+            // Decrease letter spacing to make it fit
+            while (textWidth > containerWidth && letterSpacing > -0.03) {
+                letterSpacing -= 0.01;
+                textElement.style.letterSpacing = `${letterSpacing}em`;
+                textWidth = textElement.scrollWidth;
+            }
+            
+            // If still too wide, use scaling as last resort
+            if (textWidth > containerWidth) {
+                const scaleX = Math.max(0.85, containerWidth / textWidth);
+                textElement.style.setProperty('--text-scale-x', scaleX);
+            }
+        }
+        
+        // Set a decent scale for Y to ensure it fits
+        textElement.style.setProperty('--text-scale-y', 0.95);
+    }
+    
+    // Handle text for landscape orientation (prioritize filling width)
+    function handleLandscapeText(textElement, containerHeight, containerWidth) {
+        // Keep text on a single line in landscape
+        textElement.style.whiteSpace = 'nowrap';
+        
+        // Use 80% of container height for font size
+        let fontSize = Math.floor(containerHeight * 0.85);
+        textElement.style.fontSize = `${fontSize}px`;
+        
+        // Start with a middle weight
+        let weight = 400;
+        textElement.style.fontVariationSettings = `'wght' ${weight}`;
+        textElement.style.setProperty('--calculated-weight', weight);
+        
+        // Get initial text width
+        let textWidth = textElement.offsetWidth;
+        
+        // Use binary search to find optimal weight for filling width
+        // This is much more efficient than incrementing by fixed amounts
+        let minWeight = 100;
+        let maxWeight = 900;
+        let bestWeight = weight;
+        let bestDiff = Math.abs(textWidth - containerWidth);
+        
+        // 10 iterations is typically enough to get very close
+        for (let i = 0; i < 10; i++) {
+            if (textWidth < containerWidth) {
+                // Text too narrow, try a heavier weight
+                minWeight = weight;
+                weight = Math.min(900, Math.floor((weight + maxWeight) / 2));
+            } else {
+                // Text too wide, try a lighter weight
+                maxWeight = weight;
+                weight = Math.max(100, Math.floor((weight + minWeight) / 2));
+            }
+            
+            textElement.style.fontVariationSettings = `'wght' ${weight}`;
+            textElement.style.setProperty('--calculated-weight', weight);
+            textWidth = textElement.offsetWidth;
+            
+            // Keep track of best result
+            const diff = Math.abs(textWidth - containerWidth);
+            if (diff < bestDiff) {
+                bestDiff = diff;
+                bestWeight = weight;
+            }
+        }
+        
+        // Use the weight that got us closest to target width
+        textElement.style.fontVariationSettings = `'wght' ${bestWeight}`;
+        textElement.style.setProperty('--calculated-weight', bestWeight);
+        textWidth = textElement.offsetWidth;
+        
+        // Fine-tune with letter spacing if needed
+        if (Math.abs(textWidth - containerWidth) > containerWidth * 0.05) {
+            const letterSpacing = (textWidth < containerWidth) ? 0.02 : -0.02;
+            textElement.style.letterSpacing = `${letterSpacing}em`;
+            textWidth = textElement.offsetWidth;
+        }
+        
+        // Use precise scaling as the final adjustment
+        const scaleX = containerWidth / textWidth;
+        textElement.style.setProperty('--text-scale-x', scaleX.toFixed(3));
     }
     
     // Track active elements
@@ -208,42 +285,49 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
-    // Add additional experimental interaction - mouse movement affects typography
+    // Add subtle interactive typography effects
     document.addEventListener('mousemove', debounce((e) => {
         if (!activeCategory) {
             const mouseX = e.clientX / window.innerWidth;
             const mouseY = e.clientY / window.innerHeight;
             
-            categories.forEach((category, index) => {
+            categories.forEach((category) => {
                 const textElement = category.querySelector('.category-text');
                 
-                // Calculate distance from mouse to this category (simplified)
+                // Get category position
                 const rect = category.getBoundingClientRect();
                 const centerY = rect.top + rect.height / 2;
-                const distanceY = Math.abs(e.clientY - centerY) / window.innerHeight;
                 
-                // Apply subtle typographic effects based on mouse position
-                // Increased minimum weight to prevent too-thin text
-                const weightVariation = Math.max(350, Math.min(900, 500 + (1 - distanceY) * 300));
-                textElement.style.fontVariationSettings = `'wght' ${Math.round(weightVariation)}`;
-                textElement.style.setProperty('--calculated-weight', Math.round(weightVariation));
+                // Calculate normalized distance (0-1)
+                const distanceY = Math.abs(e.clientY - centerY) / (window.innerHeight / 2);
+                const normalizedDistance = Math.min(1, distanceY);
                 
-                // Add subtle movement - but less aggressive
-                const offsetX = (mouseX - 0.5) * 5; // Reduced from 10 to 5 for less movement
+                // Get stored weight and scales
+                const baseWeight = parseInt(textElement.style.getPropertyValue('--calculated-weight') || 400);
+                const scaleX = parseFloat(textElement.style.getPropertyValue('--text-scale-x') || 1);
+                const scaleY = parseFloat(textElement.style.getPropertyValue('--text-scale-y') || 1);
                 
-                // Get current scale if it exists
-                let currentScale = '1';
-                if (textElement.style.transform) {
-                    const scaleMatch = textElement.style.transform.match(/scaleX\(([0-9.]+)\)/);
-                    if (scaleMatch && scaleMatch[1]) {
-                        currentScale = scaleMatch[1];
-                    }
+                // Calculate hover effect - increase weight for nearby text
+                // This achieves a subtle "magnetic" effect
+                let hoverWeight = baseWeight;
+                if (normalizedDistance < 0.5) {
+                    // Boost weight for categories close to cursor (max +200 weight)
+                    const boost = 200 * (1 - normalizedDistance * 2);
+                    hoverWeight = Math.min(900, Math.round(baseWeight + boost));
                 }
                 
-                textElement.style.transform = `translateX(${offsetX}px) scaleX(${currentScale})`;
+                // Set the hover-influenced weight
+                textElement.style.fontVariationSettings = `'wght' ${hoverWeight}`;
+                
+                // Subtle horizontal shift based on mouse position
+                const maxShift = 2; // max pixels to shift
+                const shiftX = (mouseX - 0.5) * maxShift;
+                
+                // Apply transform with original scaling preserved
+                textElement.style.transform = `translateX(${shiftX}px) scale(${scaleX}, ${scaleY})`;
             });
         }
-    }, 20)); // 20ms debounce for smoother performance
+    }, 50)); // Increased debounce for smoother performance
     
     // Double-click anywhere to go back to main view
     document.addEventListener('dblclick', () => {
@@ -296,10 +380,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial adjustment
     adjustTextSize();
     
-    // Less frequent updates to prevent jittering
-    setInterval(() => {
-        if (document.visibilityState === 'visible' && !document.documentElement.classList.contains('is-scrolling')) {
+    // Create a ResizeObserver for precise size tracking
+    const resizeObserver = new ResizeObserver(entries => {
+        if (!document.documentElement.classList.contains('is-scrolling')) {
             adjustTextSize();
         }
-    }, 5000); // Reduced frequency from 2s to 5s
+    });
+    
+    // Observe the categories container
+    resizeObserver.observe(document.querySelector('.categories-container'));
+    
+    // Track viewport changes
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+    let isAdjusting = false;
+    
+    // Throttled resize handler for better performance
+    window.addEventListener('resize', () => {
+        if (isAdjusting) return;
+        
+        isAdjusting = true;
+        requestAnimationFrame(() => {
+            const currentWidth = window.innerWidth;
+            const currentHeight = window.innerHeight;
+            
+            // Only adjust if dimensions actually changed
+            if (lastWidth !== currentWidth || lastHeight !== currentHeight) {
+                adjustTextSize();
+                lastWidth = currentWidth;
+                lastHeight = currentHeight;
+            }
+            
+            isAdjusting = false;
+        });
+    });
+    
+    // Clean up observer on page unload
+    window.addEventListener('beforeunload', () => {
+        resizeObserver.disconnect();
+    });
 });

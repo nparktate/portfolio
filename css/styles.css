@@ -9,7 +9,7 @@ body, html {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    font-family: 'Roboto Flex', sans-serif;
+    font-family: 'Archivo', sans-serif;
     background-color: #0f0f0f;
     color: #ffffff;
 }
@@ -21,6 +21,8 @@ body, html {
     display: flex;
     flex-direction: column;
     position: relative;
+    align-items: stretch;
+    justify-content: space-between;
 }
 
 /* Individual category styling */
@@ -29,12 +31,15 @@ body, html {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
     position: relative;
     cursor: pointer;
-    overflow: hidden;
+    overflow: visible;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    padding: 0 2vw;
+    padding: 0;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0;
+    box-sizing: border-box;
 }
 
 .category:last-child {
@@ -44,16 +49,22 @@ body, html {
 /* Dynamic text sizing */
 .category-text {
     width: 100%;
-    transform-origin: left center;
+    height: 100%;
+    transform-origin: center;
     font-variation-settings: 'wght' 400;
     text-transform: uppercase;
     white-space: nowrap;
     letter-spacing: -0.02em;
     color: rgba(255, 255, 255, 0.8);
-    transition: color 0.3s ease, font-variation-settings 0.5s ease, transform 0.3s ease;
+    transition: color 0.3s ease, font-variation-settings 0.5s ease;
     will-change: transform, font-variation-settings;
-    min-height: 1em;
-    line-height: 0.9;
+    line-height: 0.85;
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    position: relative;
 }
 
 /* Hover effects */
@@ -70,6 +81,7 @@ body, html {
 html.is-scrolling .category-text {
     transition: none !important;
     font-variation-settings: 'wght' 500 !important;
+    transform: none !important;
 }
 
 /* Active category */
@@ -193,8 +205,16 @@ html.is-scrolling .category-text {
     /* Allow line breaking in vertical/narrow layouts */
     .category-text {
         white-space: normal;
-        line-height: 0.9;
-        text-align: left;
+        word-break: break-word;
+        line-height: 0.85;
+        text-align: center;
+        margin: 0.15em 0;
+        font-variation-settings: 'wght' 450 !important;
+    }
+    
+    .category {
+        min-height: 15vh;
+        padding: 1vh 6vw;
     }
 }
 
@@ -210,10 +230,23 @@ html.is-scrolling .category-text {
     .category-text {
         white-space: normal;
         hyphens: auto;
+        overflow-wrap: break-word;
+        font-variation-settings: 'wght' 500 !important;
+        line-height: 0.85;
     }
     
     .category {
-        min-height: 10vh;
+        min-height: 16vh;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .category-inner {
+        padding: 2vh 8vw;
+    }
+    
+    .categories-container {
+        justify-content: space-between;
     }
 }
 
@@ -223,10 +256,52 @@ html.is-scrolling .category-text {
     color: #ffffff;
 }
 
-/* Ensure minimum font weight to prevent thin text */
+/* Ensure text properly fills available space */
 .category-text {
     font-variation-settings: 'wght' var(--font-weight, 400);
-    --font-weight: clamp(300, var(--calculated-weight, 400), 900);
+    --font-weight: clamp(200, var(--calculated-weight, 400), 900);
+    transform-origin: center;
+    transform: scale(var(--text-scale-x, 1), var(--text-scale-y, 1));
+    position: relative;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    max-width: none;
+    max-height: none;
+}
+
+/* Add more space in smaller viewports to prevent overflow */
+@media (max-height: 600px) {
+    .category-inner {
+        padding: 1vh 3vw;
+    }
+    
+    .category-text {
+        line-height: 0.7;
+    }
+}
+
+/* Portrait orientation adjustments for text breaking */
+@media (orientation: portrait) {
+    .category-text {
+        white-space: normal !important;
+        word-break: break-word;
+        text-align: center;
+        line-height: 0.9;
+    }
+    
+    .category-inner {
+        padding: 2vh 8vw;
+    }
+}
+
+/* Ensure full viewport height utilization */
+.categories-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    min-height: -webkit-fill-available;
+    justify-content: space-between;
 }
 
 /* Scrollbar styling for the experimental feel */
