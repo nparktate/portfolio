@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lineScaleMargin: 0.98, // Scale lines to 98% of container width for better fill
         maxLines: 3,           // Maximum number of lines to break text into
         earlyBreakThreshold: 0.85, // Break lines when text exceeds 85% of width
-        minLineMargin: 20      // Minimum pixels between lines
+        minLineMargin: 20,     // Minimum pixels between lines
+        minFontSize: 20,       // Minimum font size in pixels
+        minCategoryHeight: 120 // Minimum category height in pixels
     };
     
     // Helper function to get text width without wrapping
@@ -39,6 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Function to handle multi-line text with guaranteed spacing
     function handleMultiLineText(textElement, originalText, containerHeight, containerWidth) {
+        // Ensure minimum container height
+        containerHeight = Math.max(CONFIG.minCategoryHeight, containerHeight);
+        
         // Mark as multi-line
         textElement.classList.add('multi-line');
         
@@ -53,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             parentCategory.style.alignItems = 'center';
             parentCategory.style.justifyContent = 'center';
             parentCategory.style.minHeight = '20vh'; // Force minimum height
+            parentCategory.style.overflow = 'visible';
         }
         
         // Split text into words for line breaking
@@ -60,12 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Determine optimal number of lines based on text length and container
         const textLength = originalText.length;
-        const lineBreakThreshold = containerWidth * 0.8; // Break if text is wider than 80% of container
         
         // Use 2 lines for shorter text, 3 for longer text
         const maxLines = textLength > 20 ? 3 : 2;
         
-        // First attempt: organize text into maxLines lines of equal word count
+        // Organize text into lines of equal word count
         let lines = [];
         let wordsPerLine = Math.ceil(words.length / maxLines);
         
@@ -73,16 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
             lines.push(words.slice(i, i + wordsPerLine).join(' '));
         }
         
-        // Calculate available height for each line - account for number of lines!
-        // Give more vertical space for fewer lines
+        // Calculate available height for each line
         const totalSpacing = lines.length <= 2 ? 0.5 : 0.4; // 50% for 2 lines, 40% for 3 lines
-        const lineHeight = Math.floor((containerHeight * (1 - totalSpacing)) / lines.length);
+        const availableHeight = containerHeight * (1 - totalSpacing);
+        const lineHeight = Math.max(CONFIG.minFontSize, Math.floor(availableHeight / lines.length));
         const marginHeight = Math.floor((containerHeight * totalSpacing) / (lines.length * 2));
         
-        // Create container to measure final height
+        // Create container to measure final height - with visibility
         const lineContainer = document.createElement('div');
         lineContainer.style.width = '100%';
         lineContainer.style.position = 'relative';
+        lineContainer.style.display = 'flex';
+        lineContainer.style.flexDirection = 'column';
+        lineContainer.style.alignItems = 'center';
+        lineContainer.style.justifyContent = 'center';
+        lineContainer.style.minHeight = `${containerHeight}px`;
+        lineContainer.style.overflow = 'visible';
         textElement.appendChild(lineContainer);
         
         // Create spans for each line with fixed precise positions
@@ -99,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             lineSpan.style.position = 'relative';
             lineSpan.style.width = '100%';
             lineSpan.style.textAlign = 'center';
+            lineSpan.style.visibility = 'visible';
             
             lineContainer.appendChild(lineSpan);
             
@@ -525,8 +537,15 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Observe the categories container
     resizeObserver.observe(document.querySelector('.categories-container'));
+    // Run initial text size adjustment after a slight delay to ensure proper calculation
+    setTimeout(() => {
+        adjustTextSize();
+        
+        // Force a second adjustment after browser has fully rendered
+        setTimeout(adjustTextSize, 100);
+    }, 10);
     
-    // Track viewport changes
+    // Perform continuous adjustment when tab is visible and not scrolling
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
     let isAdjusting = false;
@@ -536,23 +555,59 @@ document.addEventListener('DOMContentLoaded', () => {
         if (isAdjusting) return;
         
         isAdjusting = true;
+        
+        // Clear any existing line breaks during resize
+        categories.forEach(category => {
+            const textElement = category.querySelector('.category-text');
+            if (textElement && textElement.classList.contains('multi-line')) {
+                // Store the original text
+                const originalText = textElement.textContent.trim();
+                
+                // Reset to single line temporarily
+                textElement.classList.remove('multi-line');
+                textElement.innerHTML = originalText;
+                textElement.style.whiteSpace = 'nowrap';
+            }
+        });
+        
+        // Use double RAF for better rendering
         requestAnimationFrame(() => {
-            const currentWidth = window.innerWidth;
-            const currentHeight = window.innerHeight;
-            
-            // Only adjust if dimensions actually changed
-            if (lastWidth !== currentWidth || lastHeight !== currentHeight) {
+            requestAnimationFrame(() => {
+                const currentWidth = window.innerWidth;
+                const currentHeight = window.innerHeight;
+                
+                // Always adjust on resize to handle orientation changes properly
                 adjustTextSize();
                 lastWidth = currentWidth;
                 lastHeight = currentHeight;
-            }
-            
-            isAdjusting = false;
+                
+                isAdjusting = false;
+            });
         });
     });
     
     // Clean up observer on page unload
     window.addEventListener('beforeunload', () => {
         resizeObserver.disconnect();
+    });
+    
+    // Add orientation change listener for mobile devices
+    window.addEventListener('orientationchange', () => {
+        // Reset all text elements
+        categories.forEach(category => {
+            const textElement = category.querySelector('.category-text');
+            if (textElement) {
+                const originalText = textElement.innerText.trim();
+                textElement.classList.remove('multi-line');
+                textElement.innerHTML = originalText;
+            }
+        });
+        
+        // Wait for orientation change to complete
+        setTimeout(() => {
+            adjustTextSize();
+            // Force a second adjustment after browser has settled
+            setTimeout(adjustTextSize, 200);
+        }, 100);
     });
 });

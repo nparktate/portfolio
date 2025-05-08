@@ -39,7 +39,7 @@ body, html {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin: 0;
     box-sizing: border-box;
-    min-height: fit-content;
+    min-height: 20vh;
 }
 
 .category:last-child {
@@ -294,6 +294,9 @@ html.is-scrolling .category-text {
     min-height: 100%;
     position: relative;
     box-sizing: border-box;
+    visibility: visible !important;
+    overflow: visible !important;
+    min-height: 20vh;
 }
 
 .category-text.multi-line span {
@@ -310,6 +313,8 @@ html.is-scrolling .category-text {
     width: 100%;
     text-align: center;
     box-sizing: border-box;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
@@ -325,13 +330,20 @@ html.is-scrolling .category-text {
     .category-text.multi-line {
         padding: 2vh 0;
         justify-content: space-around;
+        min-height: 15vh;
+        visibility: visible !important;
     }
     
     .category-text.multi-line span {
-        margin: 1em 0;
+        margin: 1.2em 0;
         height: 1em;
         max-height: 1em;
         width: 100%;
+        visibility: visible !important;
+    }
+    
+    .category {
+        min-height: 15vh;
     }
 }
 
@@ -356,19 +368,23 @@ html.is-scrolling .category-text {
     .category-text.multi-line {
         justify-content: space-around;
         height: auto;
+        min-height: 20vh;
         padding: 3vh 0;
+        visibility: visible !important;
     }
     
     .category-text.multi-line span {
-        margin: 1.5em 0;
+        margin: 2em 0;
         line-height: 1.5;
-        height: 1.2em;
+        height: 1.5em;
         position: relative;
         width: 100%;
+        visibility: visible !important;
     }
     
     .category {
         padding: 3vh 0;
+        min-height: 20vh;
     }
 }
 
@@ -379,6 +395,13 @@ html.is-scrolling .category-text {
     height: 100vh;
     min-height: -webkit-fill-available;
     justify-content: space-between;
+    overflow: visible;
+}
+
+/* Ensure text is always visible regardless of resize state */
+.category, .category-text, .category-inner, .category-text span {
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Scrollbar styling for the experimental feel */
