@@ -6,10 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Configuration
     const CONFIG = {
-        multiLineSpacing: 0.3, // 30% of height for spacing between lines
-        lineScaleMargin: 0.9,  // Scale lines to 90% of container width
+        multiLineSpacing: 0.4, // 40% of height for spacing between lines
+        lineScaleMargin: 0.98, // Scale lines to 98% of container width for better fill
         maxLines: 3,           // Maximum number of lines to break text into
-        earlyBreakThreshold: 0.9 // Break lines when text exceeds 90% of width
+        earlyBreakThreshold: 0.85, // Break lines when text exceeds 85% of width
+        minLineMargin: 20      // Minimum pixels between lines
     };
     
     // Helper function to get text width without wrapping
@@ -47,21 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add extra spacing to the container
         const parentCategory = textElement.closest('.category');
         if (parentCategory) {
-            parentCategory.style.padding = '3vh 2vw';
+            parentCategory.style.padding = '4vh 2vw';
             parentCategory.style.display = 'flex';
             parentCategory.style.alignItems = 'center';
             parentCategory.style.justifyContent = 'center';
-            parentCategory.style.minHeight = 'fit-content';
+            parentCategory.style.minHeight = '20vh'; // Force minimum height
         }
         
         // Split text into words for line breaking
         const words = originalText.split(' ');
         
-        // Calculate max number of lines based on container height
-        // We want to limit this to prevent extreme clipping
-        const maxLines = Math.min(3, Math.floor(containerHeight / 80));
+        // Determine optimal number of lines based on text length and container
+        const textLength = originalText.length;
+        const lineBreakThreshold = containerWidth * 0.8; // Break if text is wider than 80% of container
         
-        // First attempt: organize text into maxLines lines
+        // Use 2 lines for shorter text, 3 for longer text
+        const maxLines = textLength > 20 ? 3 : 2;
+        
+        // First attempt: organize text into maxLines lines of equal word count
         let lines = [];
         let wordsPerLine = Math.ceil(words.length / maxLines);
         
@@ -69,9 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
             lines.push(words.slice(i, i + wordsPerLine).join(' '));
         }
         
-        // Calculate available height per line (including margins)
-        const lineHeight = Math.floor(containerHeight / lines.length) * 0.6;
-        const marginHeight = Math.floor(containerHeight / lines.length) * 0.2;
+        // Calculate available height for each line - account for number of lines!
+        // Give more vertical space for fewer lines
+        const totalSpacing = lines.length <= 2 ? 0.5 : 0.4; // 50% for 2 lines, 40% for 3 lines
+        const lineHeight = Math.floor((containerHeight * (1 - totalSpacing)) / lines.length);
+        const marginHeight = Math.floor((containerHeight * totalSpacing) / (lines.length * 2));
+        
+        // Create container to measure final height
+        const lineContainer = document.createElement('div');
+        lineContainer.style.width = '100%';
+        lineContainer.style.position = 'relative';
+        textElement.appendChild(lineContainer);
         
         // Create spans for each line with fixed precise positions
         lines.forEach((line, index) => {
@@ -80,24 +92,27 @@ document.addEventListener('DOMContentLoaded', () => {
             lineSpan.style.fontSize = `${lineHeight}px`;
             lineSpan.style.fontVariationSettings = `'wght' 500`;
             lineSpan.style.margin = `${marginHeight}px 0`;
+            lineSpan.style.padding = '0';
             lineSpan.style.height = `${lineHeight}px`;
             lineSpan.style.lineHeight = `${lineHeight}px`;
             lineSpan.style.display = 'block';
             lineSpan.style.position = 'relative';
+            lineSpan.style.width = '100%';
+            lineSpan.style.textAlign = 'center';
             
-            textElement.appendChild(lineSpan);
+            lineContainer.appendChild(lineSpan);
             
-            // Calculate and apply horizontal scaling for this line
+            // Calculate and apply horizontal scaling for this line - use 98% of width for better fill
             const lineWidth = lineSpan.offsetWidth;
-            const availableWidth = containerWidth * 0.9; // 90% of container width
+            const availableWidth = containerWidth * 0.98; // 98% of container width
             let scaleX = 1;
             
             if (lineWidth > availableWidth) {
                 // Scale down if too wide
                 scaleX = availableWidth / lineWidth;
-            } else if (lineWidth < availableWidth * 0.8) {
-                // Scale up if too narrow (but not too much)
-                scaleX = Math.min(1.1, availableWidth / lineWidth);
+            } else if (lineWidth < availableWidth * 0.9) {
+                // Scale up if too narrow (but be more aggressive)
+                scaleX = Math.min(1.2, availableWidth / lineWidth);
             }
             
             // Apply scale with transform instead of CSS var for better browser compatibility
@@ -196,8 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalText = textElement.textContent;
         const singleLineWidth = getTextWidth(textElement);
         
-        // Trigger line breaking earlier for portrait mode
-        if (singleLineWidth > containerWidth * 0.9) {
+        // Trigger line breaking earlier for portrait mode - use dynamic threshold based on text length
+        const breakThreshold = originalText.length > 15 ? 0.8 : 0.9;
+        if (singleLineWidth > containerWidth * breakThreshold) {
             // Text needs to be split into multiple lines
             handleMultiLineText(textElement, originalText, containerHeight, containerWidth);
             return;

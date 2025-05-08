@@ -293,6 +293,7 @@ html.is-scrolling .category-text {
     padding: 1em 0;
     min-height: 100%;
     position: relative;
+    box-sizing: border-box;
 }
 
 .category-text.multi-line span {
@@ -300,12 +301,15 @@ html.is-scrolling .category-text {
     white-space: nowrap;
     transform-origin: center;
     transform: scale(var(--line-scale-x, 1), var(--line-scale-y, 1));
-    margin: 0.5em 0;
+    margin: 0.8em 0;
     padding: 0.2em 0;
     overflow: visible;
     height: 1.2em;
     position: relative;
     max-height: 1.5em;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
@@ -319,40 +323,53 @@ html.is-scrolling .category-text {
     }
     
     .category-text.multi-line {
-        padding: 1vh 0;
+        padding: 2vh 0;
+        justify-content: space-around;
     }
     
     .category-text.multi-line span {
-        margin: 0.5em 0;
+        margin: 1em 0;
         height: 1em;
         max-height: 1em;
+        width: 100%;
     }
 }
 
 /* Portrait orientation adjustments for text breaking */
 @media (orientation: portrait) {
     .category-text {
-        white-space: normal !important;
+        white-space: normal;
         word-break: break-word;
         text-align: center;
         line-height: 1.2;
     }
     
     .category-inner {
-            padding: 2vh 8vw;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            overflow: visible;
-        }
+        padding: 3vh 8vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        overflow: visible;
+    }
     
-        .category-text.multi-line span {
-            margin: 0.6em 0;
-            line-height: 1.5;
-            height: 1.2em;
-            position: relative;
-        }
+    .category-text.multi-line {
+        justify-content: space-around;
+        height: auto;
+        padding: 3vh 0;
+    }
+    
+    .category-text.multi-line span {
+        margin: 1.5em 0;
+        line-height: 1.5;
+        height: 1.2em;
+        position: relative;
+        width: 100%;
+    }
+    
+    .category {
+        padding: 3vh 0;
+    }
 }
 
 /* Ensure full viewport height utilization */
