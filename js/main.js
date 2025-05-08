@@ -1,355 +1,246 @@
-// DOM Elements
 document.addEventListener('DOMContentLoaded', () => {
-  // Navigation elements
-  const navbar = document.querySelector('.navbar');
-  const hamburger = document.querySelector('.hamburger');
-  const navMenu = document.querySelector('.nav-menu');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const backToTop = document.querySelector('.back-to-top');
-
-  // Project filter elements
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('.project-card');
-
-  // Contact form
-  const contactForm = document.getElementById('contactForm');
-
-  // Sections for animation
-  const sections = document.querySelectorAll('.section');
-  const revealElements = document.querySelectorAll('.reveal');
-  const skillBars = document.querySelectorAll('.skill-progress');
-
-  // Typed animation elements
-  const typedElement = document.querySelector('.typed-element');
-
-  // Cursor elements
-  const cursor = document.querySelector('.cursor');
-  
-  // Initialize animation library
-  AOS.init({
-    duration: 800,
-    easing: 'ease-in-out',
-    once: false,
-    mirror: true
-  });
-
-  // Mouse cursor effect
-  if (cursor) {
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-    });
-  }
-
-  // Navbar scroll effect
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-
-    // Back to top button
-    if (window.scrollY > 500) {
-      backToTop.classList.add('active');
-    } else {
-      backToTop.classList.remove('active');
-    }
-
-    // Update active nav link based on scroll position
-    updateActiveNavLink();
-
-    // Reveal animations on scroll
-    revealOnScroll();
-  });
-
-  // Hamburger menu toggle
-  if (hamburger) {
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navMenu.classList.toggle('active');
-      document.body.classList.toggle('no-scroll');
-    });
-  }
-
-  // Close mobile menu when clicking on a link
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      hamburger.classList.remove('active');
-      navMenu.classList.remove('active');
-      document.body.classList.remove('no-scroll');
-    });
-  });
-
-  // Smooth scrolling for all anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      const target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        window.scrollTo({
-          top: target.offsetTop - 80,
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
-
-  // Function to update active nav link
-  function updateActiveNavLink() {
-    let scrollPosition = window.scrollY + 150;
-
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-      const sectionId = section.getAttribute('id');
-
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === `#${sectionId}`) {
-            link.classList.add('active');
-          }
-        });
-      }
-    });
-  }
-
-  // Back to top functionality
-  if (backToTop) {
-    backToTop.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    });
-  }
-
-  // Project filtering
-  if (filterButtons.length > 0) {
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Remove active class from all buttons
-        filterButtons.forEach(btn => btn.classList.remove('active'));
+    // Get all category elements
+    const categories = document.querySelectorAll('.category');
+    const projectGrid = document.getElementById('project-grid');
+    const projectDetails = document.getElementById('project-details');
+    
+    // Create text elements inside categories
+    categories.forEach(category => {
+        const text = document.createElement('div');
+        text.classList.add('category-text');
+        text.textContent = category.textContent;
+        category.textContent = ''; // Clear the original content
+        category.appendChild(text);
         
-        // Add active class to clicked button
-        btn.classList.add('active');
+        // Create the projects container for this category
+        const projectsContainer = document.createElement('div');
+        projectsContainer.classList.add('projects-container');
+        projectsContainer.setAttribute('data-for', category.getAttribute('data-category'));
+        document.body.appendChild(projectsContainer);
         
-        const filterValue = btn.getAttribute('data-filter');
-        
-        // Animate out all cards first
-        projectCards.forEach(card => {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.8)';
-        });
-        
-        // Short delay before filtering
-        setTimeout(() => {
-          projectCards.forEach(card => {
-            if (filterValue === 'all') {
-              card.style.display = 'block';
-              setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1)';
-              }, 100);
-            } else if (card.getAttribute('data-category') === filterValue) {
-              card.style.display = 'block';
-              setTimeout(() => {
-                card.style.opacity = '1';
-                card.style.transform = 'scale(1)';
-              }, 100);
-            } else {
-              card.style.display = 'none';
+        // Add placeholder projects (to be replaced with real data later)
+        for (let i = 1; i <= 6; i++) {
+            const projectItem = document.createElement('div');
+            projectItem.classList.add('project-item');
+            projectItem.textContent = `${category.getAttribute('data-category')} Project ${i}`;
+            projectItem.setAttribute('data-project-id', `${category.getAttribute('data-category')}-${i}`);
+            projectsContainer.appendChild(projectItem);
+            
+            projectItem.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openProjectDetails(projectItem.getAttribute('data-project-id'));
+            });
+        }
+    });
+    
+    // Function to adjust text size to fill container - hyper responsive
+    function adjustTextSize() {
+        categories.forEach(category => {
+            const textElement = category.querySelector('.category-text');
+            const containerHeight = category.offsetHeight;
+            const containerWidth = category.offsetWidth;
+            
+            // Start with a base size based on container height
+            let fontSize = Math.floor(containerHeight * 0.85); // 85% of container height
+            textElement.style.fontSize = `${fontSize}px`;
+            
+            // Adjust font weight based on available width
+            let weight = 100; // Start with lightest weight
+            textElement.style.fontVariationSettings = `'wght' ${weight}`;
+            
+            // Measure and adjust
+            let textWidth = textElement.offsetWidth;
+            const targetWidth = containerWidth * 0.95; // Target 95% of container width
+            
+            // Increase weight until optimal filling
+            while (textWidth < targetWidth && weight < 900) {
+                weight += 25;
+                textElement.style.fontVariationSettings = `'wght' ${weight}`;
+                textWidth = textElement.offsetWidth;
+                
+                if (weight >= 900) break;
+                if (textWidth > targetWidth) {
+                    // We went too far, step back
+                    weight -= 25;
+                    textElement.style.fontVariationSettings = `'wght' ${weight}`;
+                    break;
+                }
             }
-          });
-        }, 300);
-      });
-    });
-  }
-
-  // Contact form submission handling
-  if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form values
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('message').value;
-      
-      // Simple validation (can be expanded)
-      if (!name || !email || !message) {
-        showFormAlert('Please fill in all fields', 'error');
-        return;
-      }
-      
-      // Simulated form submission - replace with actual backend call
-      const submitBtn = contactForm.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      
-      submitBtn.textContent = 'Sending...';
-      submitBtn.disabled = true;
-      
-      // Simulate backend delay
-      setTimeout(() => {
-        showFormAlert(`Thanks ${name}! Your message has been sent.`, 'success');
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        contactForm.reset();
-      }, 1500);
-    });
-  }
-
-  // Form alert message
-  function showFormAlert(message, type) {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = `form-alert ${type}`;
-    alertDiv.textContent = message;
-    
-    // Find or create alert container
-    let alertContainer = document.querySelector('.form-alert-container');
-    if (!alertContainer) {
-      alertContainer = document.createElement('div');
-      alertContainer.className = 'form-alert-container';
-      contactForm.insertAdjacentElement('afterend', alertContainer);
+            
+            // Fine-tune letter spacing if needed
+            if (textWidth < targetWidth * 0.9) {
+                // Text is too small, add letter spacing
+                let letterSpacing = 0;
+                while (textWidth < targetWidth * 0.95 && letterSpacing < 0.2) {
+                    letterSpacing += 0.01;
+                    textElement.style.letterSpacing = `${letterSpacing}em`;
+                    textWidth = textElement.offsetWidth;
+                }
+            } else if (textWidth > targetWidth) {
+                // Text is too large, reduce letter spacing
+                let letterSpacing = 0;
+                while (textWidth > targetWidth && letterSpacing > -0.05) {
+                    letterSpacing -= 0.01;
+                    textElement.style.letterSpacing = `${letterSpacing}em`;
+                    textWidth = textElement.offsetWidth;
+                }
+            }
+            
+            // Add a slight scale effect for perfect fitting
+            if (textWidth > targetWidth) {
+                const scale = targetWidth / textWidth;
+                textElement.style.transform = `scaleX(${scale.toFixed(3)})`;
+            } else {
+                textElement.style.transform = 'scaleX(1)';
+            }
+        });
     }
     
-    alertContainer.appendChild(alertDiv);
+    // Track active elements
+    let activeCategory = null;
+    let activeProjectsContainer = null;
     
-    // Remove alert after 5 seconds
-    setTimeout(() => {
-      alertDiv.style.opacity = '0';
-      setTimeout(() => alertDiv.remove(), 300);
-    }, 5000);
-  }
-
-  // Reveal elements on scroll
-  function revealOnScroll() {
-    revealElements.forEach(element => {
-      const elementTop = element.getBoundingClientRect().top;
-      const windowHeight = window.innerHeight;
-      
-      if (elementTop < windowHeight - 100) {
-        element.classList.add('active');
-      }
+    // Handle click on category
+    categories.forEach(category => {
+        category.addEventListener('click', () => {
+            const categoryId = category.getAttribute('data-category');
+            const projectsContainer = document.querySelector(`.projects-container[data-for="${categoryId}"]`);
+            
+            // If another category is active, deactivate it
+            if (activeCategory && activeCategory !== category) {
+                activeCategory.classList.remove('active');
+                activeProjectsContainer.classList.remove('active');
+            }
+            
+            // Toggle active state
+            category.classList.toggle('active');
+            projectsContainer.classList.toggle('active');
+            
+            // Update active elements
+            if (category.classList.contains('active')) {
+                activeCategory = category;
+                activeProjectsContainer = projectsContainer;
+                
+                // Add subtle motion effect
+                categories.forEach(cat => {
+                    if (cat !== category) {
+                        const offset = Math.random() * 5 - 2.5;
+                        cat.style.transform = `translateY(${offset}px)`;
+                        setTimeout(() => {
+                            cat.style.transform = '';
+                        }, 500);
+                    }
+                });
+            } else {
+                activeCategory = null;
+                activeProjectsContainer = null;
+            }
+        });
     });
-  }
-
-  // Initial call to reveal elements in view on page load
-  revealOnScroll();
-
-  // Animate skill bars when in view
-  function animateSkillBars() {
-    skillBars.forEach(bar => {
-      const percentage = bar.getAttribute('data-percentage');
-      bar.style.width = percentage;
-    });
-  }
-
-  // Use Intersection Observer for skill bars
-  if (skillBars.length > 0) {
-    const skillsSection = document.querySelector('.skills');
     
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateSkillBars();
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    
-    observer.observe(skillsSection);
-  }
-
-  // Typing animation effect
-  function runTypingEffect() {
-    if (!typedElement) return;
-    
-    const options = {
-      strings: JSON.parse(typedElement.getAttribute('data-typed-items')),
-      typeSpeed: 100,
-      backSpeed: 50,
-      backDelay: 2000,
-      loop: true
-    };
-    
-    new Typed(typedElement, options);
-  }
-
-  // Initialize typed animation if the element exists
-  if (typedElement) {
-    // Load Typed.js from CDN if not already available
-    if (typeof Typed !== 'function') {
-      const script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/typed.js@2.0.12';
-      script.onload = runTypingEffect;
-      document.head.appendChild(script);
-    } else {
-      runTypingEffect();
+    // Function to open project details
+    function openProjectDetails(projectId) {
+        projectDetails.classList.remove('hidden');
+        projectDetails.classList.add('active');
+        
+        // Create content for project details
+        projectDetails.innerHTML = `
+            <div class="project-header">
+                <h2>${projectId.replace(/-/g, ' ')}</h2>
+                <button class="close-button">×</button>
+            </div>
+            <div class="project-content">
+                <div class="project-images">
+                    <div class="image-placeholder" style="background-color: hsl(${Math.random() * 360}, 80%, 70%)"></div>
+                    <div class="image-placeholder" style="background-color: hsl(${Math.random() * 360}, 80%, 70%)"></div>
+                </div>
+                <div class="project-description">
+                    <p>This is an experimental project by Nicholas Tate Park. Super dynamic responsive layout demonstration.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+                </div>
+            </div>
+        `;
+        
+        // Add close button functionality
+        const closeButton = projectDetails.querySelector('.close-button');
+        closeButton.addEventListener('click', () => {
+            projectDetails.classList.remove('active');
+            setTimeout(() => {
+                projectDetails.classList.add('hidden');
+            }, 500);
+        });
+        
+        // Styling for new elements
+        const imagePlaceholders = projectDetails.querySelectorAll('.image-placeholder');
+        imagePlaceholders.forEach(placeholder => {
+            placeholder.style.height = '200px';
+            placeholder.style.marginBottom = '20px';
+            placeholder.style.borderRadius = '4px';
+        });
     }
-  }
-
-  // Parallax effect for hero section
-  const heroSection = document.querySelector('.hero');
-  if (heroSection) {
-    window.addEventListener('scroll', () => {
-      const scrollPosition = window.scrollY;
-      heroSection.style.backgroundPositionY = scrollPosition * 0.5 + 'px';
-    });
-  }
-
-  // Animate count up effect for stat numbers
-  function animateCounters() {
-    const counters = document.querySelectorAll('.count-up');
     
-    counters.forEach(counter => {
-      const target = parseInt(counter.getAttribute('data-count'));
-      const duration = 2000; // 2 seconds
-      const step = Math.ceil(target / (duration / 16)); // 60fps
-      
-      let current = 0;
-      const timer = setInterval(() => {
-        current += step;
-        if (current >= target) {
-          counter.textContent = target;
-          clearInterval(timer);
-        } else {
-          counter.textContent = current;
+    // Add additional experimental interaction - mouse movement affects typography
+    document.addEventListener('mousemove', (e) => {
+        if (!activeCategory) {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            
+            categories.forEach((category, index) => {
+                const textElement = category.querySelector('.category-text');
+                
+                // Calculate distance from mouse to this category (simplified)
+                const rect = category.getBoundingClientRect();
+                const centerY = rect.top + rect.height / 2;
+                const distanceY = Math.abs(e.clientY - centerY) / window.innerHeight;
+                
+                // Apply subtle typographic effects based on mouse position
+                const weightVariation = Math.max(100, Math.min(900, 400 + (1 - distanceY) * 300));
+                textElement.style.fontVariationSettings = `'wght' ${Math.round(weightVariation)}`;
+                
+                // Add subtle movement
+                const offsetX = (mouseX - 0.5) * 10;
+                textElement.style.transform = `translateX(${offsetX}px) scaleX(${textElement.style.transform ? textElement.style.transform.split('(')[1].split(')')[0] : '1'})`;
+            });
         }
-      }, 16);
     });
-  }
-
-  // Use Intersection Observer for counter animation
-  const statsSection = document.querySelector('.about-stats');
-  if (statsSection) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounters();
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
     
-    observer.observe(statsSection);
-  }
-
-  // Initialize project cards with animation
-  function animateProjectCards() {
-    projectCards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      
-      setTimeout(() => {
-        card.style.opacity = '1';
-        card.style.transform = 'translateY(0)';
-        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      }, 100 * index);
+    // Double-click anywhere to go back to main view
+    document.addEventListener('dblclick', () => {
+        if (activeCategory) {
+            activeCategory.classList.remove('active');
+            activeProjectsContainer.classList.remove('active');
+            activeCategory = null;
+            activeProjectsContainer = null;
+        }
+        
+        projectDetails.classList.remove('active');
+        setTimeout(() => {
+            projectDetails.classList.add('hidden');
+        }, 500);
     });
-  }
-  
-  // Run initial animations
-  animateProjectCards();
+    
+    // Call adjustTextSize on load and resize
+    window.addEventListener('resize', () => {
+        adjustTextSize();
+        
+        // Add resize animation transition temporarily
+        categories.forEach(category => {
+            const textElement = category.querySelector('.category-text');
+            textElement.style.transition = 'all 0.3s ease';
+            
+            setTimeout(() => {
+                textElement.style.transition = '';
+            }, 300);
+        });
+    });
+    
+    // Initial adjustment
+    adjustTextSize();
+    
+    // Get super dynamic with setInterval to constantly check and adjust text
+    setInterval(() => {
+        if (document.visibilityState === 'visible') {
+            adjustTextSize();
+        }
+    }, 2000);
 });
