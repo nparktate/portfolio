@@ -4,6 +4,95 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectGrid = document.getElementById('project-grid');
     const projectDetails = document.getElementById('project-details');
     
+    // Helper function to get text width without wrapping
+    function getTextWidth(element) {
+        // Get current display and white-space settings
+        const originalDisplay = element.style.display;
+        const originalWhiteSpace = element.style.whiteSpace;
+        const originalVisibility = element.style.visibility;
+        
+        // Set to measure width without wrapping
+        element.style.display = 'inline-block';
+        element.style.whiteSpace = 'nowrap';
+        element.style.visibility = 'hidden';
+        
+        // Force layout calculation
+        document.body.appendChild(element.cloneNode(true));
+        const width = element.offsetWidth;
+        
+        // Reset to original settings
+        element.style.display = originalDisplay;
+        element.style.whiteSpace = originalWhiteSpace;
+        element.style.visibility = originalVisibility;
+        
+        return width;
+    }
+    
+    // Function to handle multi-line text with individual line scaling
+    function handleMultiLineText(textElement, originalText, containerHeight, containerWidth) {
+        // Mark as multi-line
+        textElement.classList.add('multi-line');
+        
+        // Clear current content
+        textElement.innerHTML = '';
+        
+        // Calculate approximately how many characters can fit per line
+        const testSpan = document.createElement('span');
+        testSpan.textContent = originalText.substring(0, 5); // Test with first few characters
+        textSpan.style.fontSize = textElement.style.fontSize;
+        document.body.appendChild(testSpan);
+        const charWidth = testSpan.offsetWidth / 5;
+        document.body.removeChild(testSpan);
+        
+        // Approximate chars per line
+        const charsPerLine = Math.floor(containerWidth / charWidth);
+        
+        // Split text into reasonable chunks for lines
+        const words = originalText.split(' ');
+        let lines = [];
+        let currentLine = '';
+        
+        words.forEach(word => {
+            if ((currentLine + ' ' + word).length <= charsPerLine) {
+                currentLine += (currentLine ? ' ' : '') + word;
+            } else {
+                if (currentLine) lines.push(currentLine);
+                currentLine = word;
+            }
+        });
+        if (currentLine) lines.push(currentLine);
+        
+        // Calculate line height based on available space
+        const lineHeight = Math.floor(containerHeight / lines.length) * 0.9; // 90% of available height per line
+        
+        // Create spans for each line and apply optimal scaling
+        lines.forEach((line, index) => {
+            const lineSpan = document.createElement('span');
+            lineSpan.textContent = line;
+            lineSpan.style.fontSize = `${lineHeight}px`;
+            
+            // Apply substantial weight for readability
+            lineSpan.style.fontVariationSettings = `'wght' 500`;
+            
+            textElement.appendChild(lineSpan);
+            
+            // Calculate optimal scaling for this line
+            const lineWidth = lineSpan.offsetWidth;
+            if (lineWidth > containerWidth) {
+                // Line too wide, scale it down
+                const scaleX = containerWidth / lineWidth;
+                lineSpan.style.setProperty('--line-scale-x', scaleX.toFixed(3));
+            } else {
+                // Line has room to expand
+                const scaleX = Math.min(1.1, containerWidth / lineWidth);
+                lineSpan.style.setProperty('--line-scale-x', scaleX.toFixed(3));
+            }
+            
+            // Set vertical scale to ensure consistent height
+            lineSpan.style.setProperty('--line-scale-y', 1);
+        });
+    }
+    
     // Create projects container for each category
     categories.forEach(category => {
         // Text elements are now in HTML for better structure control
@@ -57,6 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
             textElement.style.letterSpacing = '';
             textElement.style.wordSpacing = '';
             textElement.style.transform = '';
+            textElement.classList.remove('multi-line');
+            
+            // Clear any previously created line spans
+            while (textElement.querySelector('span')) {
+                const span = textElement.querySelector('span');
+                textElement.textContent = span.textContent;
+            }
             
             // Set category height to target height
             category.style.height = `${targetHeight}px`;
@@ -82,6 +178,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlePortraitText(textElement, containerHeight, containerWidth) {
         // Enable line breaks for narrow screens
         textElement.style.whiteSpace = 'normal';
+        
+        // Check if text needs to be split into multiple lines
+        const originalText = textElement.textContent;
+        const singleLineWidth = getTextWidth(textElement);
+        
+        if (singleLineWidth > containerWidth * 1.2) {
+            // Text needs to be split into multiple lines
+            handleMultiLineText(textElement, originalText, containerHeight, containerWidth);
+            return;
+        }
         
         // Start with a substantial weight that works for line breaks
         let weight = 500;

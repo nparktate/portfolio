@@ -49,7 +49,7 @@ body, html {
 /* Dynamic text sizing */
 .category-text {
     width: 100%;
-    height: 100%;
+    height: auto;
     transform-origin: center;
     font-variation-settings: 'wght' 400;
     text-transform: uppercase;
@@ -58,7 +58,7 @@ body, html {
     color: rgba(255, 255, 255, 0.8);
     transition: color 0.3s ease, font-variation-settings 0.5s ease;
     will-change: transform, font-variation-settings;
-    line-height: 0.85;
+    line-height: 1;
     display: block;
     text-align: center;
     padding: 0;
@@ -232,7 +232,11 @@ html.is-scrolling .category-text {
         hyphens: auto;
         overflow-wrap: break-word;
         font-variation-settings: 'wght' 500 !important;
-        line-height: 0.85;
+        line-height: 1.1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 100%;
     }
     
     .category {
@@ -243,6 +247,9 @@ html.is-scrolling .category-text {
     
     .category-inner {
         padding: 2vh 8vw;
+        height: 100%;
+        display: flex;
+        align-items: center;
     }
     
     .categories-container {
@@ -270,6 +277,23 @@ html.is-scrolling .category-text {
     max-height: none;
 }
 
+/* Special handling for multi-line text */
+.category-text.multi-line {
+    display: block;
+    white-space: normal;
+    line-height: 1.2;
+    transform: none !important;
+    width: 100%;
+}
+
+.category-text.multi-line span {
+    display: block;
+    white-space: nowrap;
+    transform-origin: center;
+    transform: scale(var(--line-scale-x, 1), var(--line-scale-y, 1));
+    margin: 0.05em 0;
+}
+
 /* Add more space in smaller viewports to prevent overflow */
 @media (max-height: 600px) {
     .category-inner {
@@ -287,11 +311,19 @@ html.is-scrolling .category-text {
         white-space: normal !important;
         word-break: break-word;
         text-align: center;
-        line-height: 0.9;
+        line-height: 1.2;
     }
     
     .category-inner {
         padding: 2vh 8vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+    
+    .category-text.multi-line span {
+        margin: 0.1em 0;
     }
 }
 
