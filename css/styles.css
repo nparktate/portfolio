@@ -243,6 +243,8 @@ html.is-scrolling .category-text {
         min-height: 16vh;
         justify-content: center;
         align-items: center;
+        overflow: visible;
+        padding: 1vh 0;
     }
     
     .category-inner {
@@ -279,11 +281,15 @@ html.is-scrolling .category-text {
 
 /* Special handling for multi-line text */
 .category-text.multi-line {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     white-space: normal;
-    line-height: 1.2;
+    line-height: 1.5;
     transform: none !important;
     width: 100%;
+    padding: 0.5em 0;
+    min-height: 100%;
 }
 
 .category-text.multi-line span {
@@ -291,17 +297,27 @@ html.is-scrolling .category-text {
     white-space: nowrap;
     transform-origin: center;
     transform: scale(var(--line-scale-x, 1), var(--line-scale-y, 1));
-    margin: 0.05em 0;
+    margin: 0.2em 0;
+    overflow: visible;
+    height: auto;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
 @media (max-height: 600px) {
     .category-inner {
-        padding: 1vh 3vw;
+        padding: 1.5vh 3vw;
     }
     
     .category-text {
-        line-height: 0.7;
+        line-height: 1;
+    }
+    
+    .category-text.multi-line {
+        padding: 1vh 0;
+    }
+    
+    .category-text.multi-line span {
+        margin: 0.15em 0;
     }
 }
 
@@ -315,16 +331,18 @@ html.is-scrolling .category-text {
     }
     
     .category-inner {
-        padding: 2vh 8vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-    }
+            padding: 2vh 8vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            overflow: visible;
+        }
     
-    .category-text.multi-line span {
-        margin: 0.1em 0;
-    }
+        .category-text.multi-line span {
+            margin: 0.25em 0;
+            line-height: 1.2;
+        }
 }
 
 /* Ensure full viewport height utilization */

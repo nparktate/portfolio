@@ -28,8 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return width;
     }
     
-    // Function to handle multi-line text with individual line scaling
+    // Function to handle multi-line text with individual line scaling and prevent clipping
     function handleMultiLineText(textElement, originalText, containerHeight, containerWidth) {
+        // Add extra padding to the container for multi-line text
+        const parentCategory = textElement.closest('.category');
+        if (parentCategory) {
+            parentCategory.style.paddingTop = '1.5vh';
+            parentCategory.style.paddingBottom = '1.5vh';
+        }
         // Mark as multi-line
         textElement.classList.add('multi-line');
         
@@ -52,18 +58,34 @@ document.addEventListener('DOMContentLoaded', () => {
         let lines = [];
         let currentLine = '';
         
+        // Limit number of lines to prevent extreme clipping
+        const maxLines = Math.min(5, Math.floor(containerHeight / 40));
+        
         words.forEach(word => {
             if ((currentLine + ' ' + word).length <= charsPerLine) {
                 currentLine += (currentLine ? ' ' : '') + word;
             } else {
                 if (currentLine) lines.push(currentLine);
+        
+                // If we have too many lines, consolidate them
+                if (lines.length > maxLines) {
+                    // Compress to max lines
+                    const compressedLines = [];
+                    const linesPerGroup = Math.ceil(lines.length / maxLines);
+            
+                    for (let i = 0; i < lines.length; i += linesPerGroup) {
+                        compressedLines.push(lines.slice(i, i + linesPerGroup).join(' '));
+                    }
+            
+                    lines = compressedLines;
+                }
                 currentLine = word;
             }
         });
         if (currentLine) lines.push(currentLine);
         
-        // Calculate line height based on available space
-        const lineHeight = Math.floor(containerHeight / lines.length) * 0.9; // 90% of available height per line
+        // Calculate line height based on available space with more conservative sizing
+        const lineHeight = Math.floor(containerHeight / (lines.length * 1.5)) * 0.9; // Added extra space between lines
         
         // Create spans for each line and apply optimal scaling
         lines.forEach((line, index) => {
@@ -76,20 +98,20 @@ document.addEventListener('DOMContentLoaded', () => {
             
             textElement.appendChild(lineSpan);
             
-            // Calculate optimal scaling for this line
+            // Calculate optimal scaling for this line with safety margin
             const lineWidth = lineSpan.offsetWidth;
-            if (lineWidth > containerWidth) {
-                // Line too wide, scale it down
-                const scaleX = containerWidth / lineWidth;
+            if (lineWidth > containerWidth * 0.95) { // Added 5% safety margin
+                // Line too wide, scale it down more aggressively
+                const scaleX = (containerWidth * 0.95) / lineWidth;
                 lineSpan.style.setProperty('--line-scale-x', scaleX.toFixed(3));
             } else {
-                // Line has room to expand
-                const scaleX = Math.min(1.1, containerWidth / lineWidth);
+                // Line has room to expand but with more restraint
+                const scaleX = Math.min(1.05, (containerWidth * 0.95) / lineWidth); // Reduced from 1.1 to 1.05
                 lineSpan.style.setProperty('--line-scale-x', scaleX.toFixed(3));
             }
             
-            // Set vertical scale to ensure consistent height
-            lineSpan.style.setProperty('--line-scale-y', 1);
+            // Set vertical scale to ensure consistent height with slight reduction to prevent clipping
+            lineSpan.style.setProperty('--line-scale-y', 0.85);
         });
     }
     
@@ -183,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const originalText = textElement.textContent;
         const singleLineWidth = getTextWidth(textElement);
         
-        if (singleLineWidth > containerWidth * 1.2) {
+        if (singleLineWidth > containerWidth * 1.1) { // More aggressive line breaking at 1.1 instead of 1.2
             // Text needs to be split into multiple lines
             handleMultiLineText(textElement, originalText, containerHeight, containerWidth);
             return;
