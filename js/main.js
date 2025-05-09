@@ -11,10 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         minCategoryHeight: 80,  // Minimum category height in pixels
         transitionDuration: 300, // Transition duration in ms for smooth text changes
         abbreviationLevels: 5,   // Number of abbreviation levels (excluding full text)
-        abbreviationBuffer: 0.15, // Buffer to prevent rapid switching between levels (15%)
-        transitionClass: 'transitioning', // Class applied during abbreviation transitions
+        abbreviationBuffer: 0.25, // Large buffer to prevent flickering between states (25%)
+        hysteresisBuffer: 0.1, // Additional buffer when growing vs shrinking (10%)
         standardScreenWidth: 1024, // Minimum width considered a "standard" screen
-        throttleDelay: 100 // Delay for throttling resize events
+        throttleDelay: 200, // Longer delay for throttling resize events
+        resizeThreshold: 20 // Minimum px change before recalculating abbreviations
     };
     
     // Helper function to get text width without wrapping
@@ -295,61 +296,58 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check if we're on a standard or large screen
         const isStandardScreen = window.innerWidth >= CONFIG.standardScreenWidth;
         
-        // Add buffer to prevent rapid switching between states
-        const fitThreshold = isStandardScreen ? 0.85 : 0.9; // Lower threshold for standard screens
+        // Large buffer to prevent rapid switching, asymmetric for growing vs shrinking
+        const fitThreshold = isStandardScreen ? 0.8 : 0.85; // Base threshold
         const bufferSize = CONFIG.abbreviationBuffer;
-        const growBuffer = currentAbbr !== 'full-text' ? bufferSize : 0; // Buffer for growing text
-        const shrinkBuffer = currentAbbr !== `abbr-${CONFIG.abbreviationLevels}` ? bufferSize : 0; // Buffer for shrinking text
+        
+        // Apply different buffers depending on whether we're growing or shrinking text
+        // Larger buffer when growing (harder to grow) vs shrinking (harder to shrink)
+        // This creates a hysteresis effect to prevent flickering at boundary points
+        const growingText = i => currentAbbr !== 'full-text' && (
+            (currentAbbr === 'full-text' && i > 0) || 
+            (currentAbbr.startsWith('abbr-') && parseInt(currentAbbr.split('-')[1]) > i)
+        );
+        const shrinkingText = i => currentAbbr !== `abbr-${CONFIG.abbreviationLevels}` && (
+            (currentAbbr === 'full-text' && i > 0) ||
+            (currentAbbr.startsWith('abbr-') && parseInt(currentAbbr.split('-')[1]) < i)
+        );
+        
+        // Store current level for hysteresis calculation
+        const currentLevel = currentAbbr === 'full-text' ? 0 : 
+                            parseInt(currentAbbr.split('-')[1]);
         
         // Measure full text width
         tempElement.textContent = fullText;
         let textWidth = tempElement.offsetWidth;
         
-        // Special handling for large screens - prefer full text
-        if (isStandardScreen && (currentAbbr === 'full-text' || currentAbbr === 'abbr-1')) {
+        // Special handling for large screens - prefer full text with large buffer
+        if (isStandardScreen && currentLevel <= 1) {
             // On standard screens, give full text extra room
-            if (textWidth <= containerWidth * (fitThreshold + 0.15)) {
+            if (textWidth <= containerWidth * (fitThreshold + 0.2)) {
                 document.body.removeChild(tempElement);
                 
                 // Only change if not already at full text
                 if (currentAbbr !== 'full-text') {
-                    // Update text without animation first
+                    // Set full text without transitions
                     textElement.textContent = fullText;
-                
-                    // Set the new abbreviation level
                     textElement.removeAttribute('data-current-abbr');
                     textElement.setAttribute('data-current-abbr', 'full-text');
-                
-                    // Apply transition class briefly
-                    requestAnimationFrame(() => {
-                        textElement.classList.add(CONFIG.transitionClass);
-                        setTimeout(() => {
-                            textElement.classList.remove(CONFIG.transitionClass);
-                        }, 50);
-                    });
                 }
                 
                 return fullText;
             }
         }
-        // Regular check if full text fits (with buffer)
-        else if (textWidth <= containerWidth * (fitThreshold + growBuffer)) {
+        // Regular check if full text fits (with large growing buffer)
+        else if (textWidth <= containerWidth * (fitThreshold + bufferSize + CONFIG.hysteresisBuffer)) {
             // Full text fits, use it
             document.body.removeChild(tempElement);
             
             // Only change if not already at full text
             if (currentAbbr !== 'full-text') {
-                // Add transition class
-                textElement.classList.add(CONFIG.transitionClass);
-                
-                // Set the new abbreviation level
+                // Set full text without transitions
+                textElement.textContent = fullText;
                 textElement.removeAttribute('data-current-abbr');
                 textElement.setAttribute('data-current-abbr', 'full-text');
-                
-                // Remove transition class after animation completes
-                setTimeout(() => {
-                    textElement.classList.remove(CONFIG.transitionClass);
-                }, CONFIG.transitionDuration);
             }
             
             return fullText;
@@ -363,14 +361,21 @@ document.addEventListener('DOMContentLoaded', () => {
             tempElement.textContent = abbrText;
             textWidth = tempElement.offsetWidth;
             
-            // Apply buffer based on current level vs new level
+            // Apply strong hysteresis to prevent flickering
+            // Make it much harder to change states when near boundaries
             let effectiveThreshold = fitThreshold;
-            if (currentAbbr === `abbr-${i-1}`) effectiveThreshold += growBuffer; // Growing text
-            if (currentAbbr === `abbr-${i+1}`) effectiveThreshold += shrinkBuffer; // Shrinking text
             
-            // Special case for standard screens - avoid abbreviation level 1-2 for "3D ANIMATION & DESIGN"
+            // Apply hysteresis - create a dead zone at boundaries
+            if (currentLevel < i) { // Growing
+                effectiveThreshold += bufferSize + CONFIG.hysteresisBuffer;
+            } else if (currentLevel > i) { // Shrinking
+                effectiveThreshold += bufferSize - CONFIG.hysteresisBuffer;
+            } else { // Staying the same
+                effectiveThreshold += bufferSize;
+            }
+            
+            // Special case for standard screens - avoid early abbreviations for "3D ANIMATION & DESIGN"
             if (isStandardScreen && fullText.includes("3D ANIMATION") && (i <= 2) && textWidth <= containerWidth) {
-                // Skip early abbreviations on standard screens for this text
                 continue;
             }
             
@@ -380,20 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Only change if not already at this level
                 if (currentAbbr !== `abbr-${i}`) {
-                    // Update text without animation first
+                    // Set abbreviation without transitions
                     textElement.textContent = abbrText;
-                    
-                    // Set the new abbreviation level
                     textElement.removeAttribute('data-current-abbr');
                     textElement.setAttribute('data-current-abbr', `abbr-${i}`);
-                    
-                    // Apply transition class briefly
-                    requestAnimationFrame(() => {
-                        textElement.classList.add(CONFIG.transitionClass);
-                        setTimeout(() => {
-                            textElement.classList.remove(CONFIG.transitionClass);
-                        }, 50);
-                    });
                 }
                 
                 return abbrText;
@@ -406,20 +401,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Only change if not already at shortest level
         if (currentAbbr !== `abbr-${CONFIG.abbreviationLevels}`) {
-            // Update text without animation first
+            // Set shortest abbreviation without transitions
             textElement.textContent = shortestAbbr;
-            
-            // Set the new abbreviation level
             textElement.removeAttribute('data-current-abbr');
             textElement.setAttribute('data-current-abbr', `abbr-${CONFIG.abbreviationLevels}`);
-            
-            // Apply transition class briefly
-            requestAnimationFrame(() => {
-                textElement.classList.add(CONFIG.transitionClass);
-                setTimeout(() => {
-                    textElement.classList.remove(CONFIG.transitionClass);
-                }, 50);
-            });
         }
         
         return shortestAbbr;
@@ -750,26 +735,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentWidth = window.innerWidth;
         const currentHeight = window.innerHeight;
         
-        // Perform adjustment without animation first
+        // Perform adjustment without any transitions
+        categories.forEach(category => {
+            const textElement = category.querySelector('.category-text');
+            if (textElement) {
+                // Remove any transition classes
+                textElement.classList.remove(CONFIG.transitionClass);
+            }
+        });
+        
+        // Adjust text sizing
         adjustTextSize();
         lastWidth = currentWidth;
         lastHeight = currentHeight;
         
-        // Set a timeout to release the adjustment lock
+        // Set a timeout to release the adjustment lock with longer delay
         resizeTimeout = setTimeout(() => {
             isAdjusting = false;
-        }, 50);
+        }, 200);
     }
     
-    // Throttled resize handler
+    // Throttled resize handler with width threshold to prevent micro-adjustments
+    let lastRecordedWidth = window.innerWidth;
+    
     window.addEventListener('resize', () => {
+        // Only recalculate if width changed by significant amount
+        const currentWidth = window.innerWidth;
+        const widthDiff = Math.abs(currentWidth - lastRecordedWidth);
+        
+        if (widthDiff < CONFIG.resizeThreshold) {
+            return; // Skip if change is too small
+        }
+        
         if (throttleTimer === null) {
+            lastRecordedWidth = currentWidth;
             handleResize();
             
             throttleTimer = setTimeout(() => {
                 throttleTimer = null;
                 // Final adjustment after throttle
                 if (!isAdjusting) {
+                    lastRecordedWidth = window.innerWidth;
                     adjustTextSize();
                 }
             }, CONFIG.throttleDelay);
@@ -787,20 +793,23 @@ document.addEventListener('DOMContentLoaded', () => {
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
             if (textElement) {
-                const originalText = textElement.innerText.trim();
-                textElement.classList.remove('multi-line');
-                textElement.innerHTML = originalText;
+                // Reset to full text from data attribute
+                const fullText = textElement.getAttribute('data-full-text');
+                if (fullText) {
+                    textElement.textContent = fullText;
+                }
+                // Remove any transition markers
+                textElement.removeAttribute('data-current-abbr');
             }
         });
         
-        // Wait for orientation change to complete
+        // Wait for orientation change to fully complete before adjusting
         setTimeout(() => {
+            // Record new width for threshold checks
+            lastRecordedWidth = window.innerWidth;
+            // Single adjustment with longer delay to ensure layout is settled
             adjustTextSize();
-            // Force a second adjustment after browser has settled
-            setTimeout(adjustTextSize, 200);
-            // And a third adjustment after everything is really settled
-            setTimeout(adjustTextSize, 500);
-        }, 100);
+        }, 300);
     });
     
     // Final sanity check - make sure all categories are visible after everything else

@@ -92,7 +92,7 @@ body, html {
 
 .category:hover .category-text {
     color: #ffffff;
-    font-variation-settings: 'wght' 700;
+    /* Removed font weight change on hover to prevent layout shifts */
 }
 
 /* Prevent jittering during scroll */
@@ -305,24 +305,22 @@ html.is-scrolling .category-text {
 
 /* Dynamic text abbreviation system */
 .category-text {
-    transition: all 0.3s ease-out;
-    will-change: contents, transform;
+    /* Remove transitions to prevent flickering */
+    transition: color 0.3s ease-out;
+    will-change: transform;
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .category-text.transitioning {
-    /* No typing effect, just opacity transition */
-    opacity: 0.98;
+    /* No transition effect */
 }
 
 .category-text[data-current-abbr] {
-    transition: font-variation-settings 0.3s ease-out, 
-                transform 0.3s ease-out,
-                opacity 0.3s ease-out;
+    /* No transitions between abbreviation states to prevent flickering */
 }
 
-/* Text states based on abbreviation level */
+/* Text states based on abbreviation level - using static values without transitions */
 .category-text[data-current-abbr="full-text"] {
     /* Full text styling */
     font-variation-settings: 'wght' 400;
@@ -350,7 +348,7 @@ html.is-scrolling .category-text {
 
 .category-text[data-current-abbr="abbr-5"] {
     /* Most extreme abbreviation */
-    font-variation-settings: 'wght' 900 !important;
+    font-variation-settings: 'wght' 900;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
@@ -448,7 +446,7 @@ html.is-scrolling .category-text {
 .category, .category-text, .category-inner {
     visibility: visible !important;
     opacity: 1 !important;
-    transition: transform 0.3s ease-out;
+    /* Remove transform transition to prevent flickering */
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
 }
