@@ -9,11 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
         horizontalFill: 0.95,   // Fill 95% of available width
         minFontSize: 20,        // Minimum font size in pixels
         minCategoryHeight: 80,  // Minimum category height in pixels
-        transitionDuration: 400, // Transition duration in ms for smooth text changes
+        transitionDuration: 300, // Transition duration in ms for smooth text changes
         abbreviationLevels: 5,   // Number of abbreviation levels (excluding full text)
-        abbreviationBuffer: 0.1, // Buffer to prevent rapid switching between levels (10%)
+        abbreviationBuffer: 0.15, // Buffer to prevent rapid switching between levels (15%)
         transitionClass: 'transitioning', // Class applied during abbreviation transitions
-        standardScreenWidth: 1024 // Minimum width considered a "standard" screen
+        standardScreenWidth: 1024, // Minimum width considered a "standard" screen
+        throttleDelay: 100 // Delay for throttling resize events
     };
     
     // Helper function to get text width without wrapping
@@ -312,17 +313,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Only change if not already at full text
                 if (currentAbbr !== 'full-text') {
-                    // Add typewriter-like transition class
-                    textElement.classList.add(CONFIG.transitionClass);
-                    
+                    // Update text without animation first
+                    textElement.textContent = fullText;
+                
                     // Set the new abbreviation level
                     textElement.removeAttribute('data-current-abbr');
                     textElement.setAttribute('data-current-abbr', 'full-text');
-                    
-                    // Remove transition class after animation completes
-                    setTimeout(() => {
-                        textElement.classList.remove(CONFIG.transitionClass);
-                    }, CONFIG.transitionDuration);
+                
+                    // Apply transition class briefly
+                    requestAnimationFrame(() => {
+                        textElement.classList.add(CONFIG.transitionClass);
+                        setTimeout(() => {
+                            textElement.classList.remove(CONFIG.transitionClass);
+                        }, 50);
+                    });
                 }
                 
                 return fullText;
@@ -376,17 +380,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Only change if not already at this level
                 if (currentAbbr !== `abbr-${i}`) {
-                    // Add transition class
-                    textElement.classList.add(CONFIG.transitionClass);
+                    // Update text without animation first
+                    textElement.textContent = abbrText;
                     
                     // Set the new abbreviation level
                     textElement.removeAttribute('data-current-abbr');
                     textElement.setAttribute('data-current-abbr', `abbr-${i}`);
                     
-                    // Remove transition class after animation completes
-                    setTimeout(() => {
-                        textElement.classList.remove(CONFIG.transitionClass);
-                    }, CONFIG.transitionDuration);
+                    // Apply transition class briefly
+                    requestAnimationFrame(() => {
+                        textElement.classList.add(CONFIG.transitionClass);
+                        setTimeout(() => {
+                            textElement.classList.remove(CONFIG.transitionClass);
+                        }, 50);
+                    });
                 }
                 
                 return abbrText;
@@ -399,17 +406,20 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Only change if not already at shortest level
         if (currentAbbr !== `abbr-${CONFIG.abbreviationLevels}`) {
-            // Add transition class
-            textElement.classList.add(CONFIG.transitionClass);
+            // Update text without animation first
+            textElement.textContent = shortestAbbr;
             
             // Set the new abbreviation level
             textElement.removeAttribute('data-current-abbr');
             textElement.setAttribute('data-current-abbr', `abbr-${CONFIG.abbreviationLevels}`);
             
-            // Remove transition class after animation completes
-            setTimeout(() => {
-                textElement.classList.remove(CONFIG.transitionClass);
-            }, CONFIG.transitionDuration);
+            // Apply transition class briefly
+            requestAnimationFrame(() => {
+                textElement.classList.add(CONFIG.transitionClass);
+                setTimeout(() => {
+                    textElement.classList.remove(CONFIG.transitionClass);
+                }, 50);
+            });
         }
         
         return shortestAbbr;
@@ -724,58 +734,46 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastHeight = window.innerHeight;
     let isAdjusting = false;
     
-    // Debounce and throttle resize handling for smoother abbreviation transitions
-    // Improved resize handler with typewriter-like effect
+    // Improved resize handler with throttling to prevent jank
     let resizeTimeout;
-    window.addEventListener('resize', () => {
+    let throttleTimer = null;
+    
+    function handleResize() {
         if (isAdjusting) return;
         
         isAdjusting = true;
         
-        // Cancel previous timeout to prevent rapid changes
+        // Cancel previous timeout
         clearTimeout(resizeTimeout);
         
-        // Prepare elements for transition
-        categories.forEach(category => {
-            const textElement = category.querySelector('.category-text');
-            if (textElement) {
-                // Remove any previous transition class
-                textElement.classList.remove(CONFIG.transitionClass);
-                
-                // Create typewriter-like transition effect
-                setTimeout(() => {
-                    textElement.classList.add(CONFIG.transitionClass);
-                }, 10);
-            }
-        });
+        // Get current dimensions
+        const currentWidth = window.innerWidth;
+        const currentHeight = window.innerHeight;
         
-        // Use double RAF for smoother transition
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                const currentWidth = window.innerWidth;
-                const currentHeight = window.innerHeight;
-                
-                // First adjustment immediately
-                adjustTextSize();
-                lastWidth = currentWidth;
-                lastHeight = currentHeight;
-                
-                // Second adjustment after transition to clean up
-                resizeTimeout = setTimeout(() => {
-                    // Remove transition classes
-                    categories.forEach(category => {
-                        const textElement = category.querySelector('.category-text');
-                        if (textElement) {
-                            textElement.classList.remove(CONFIG.transitionClass);
-                        }
-                    });
-                    
-                    // Final adjustment
+        // Perform adjustment without animation first
+        adjustTextSize();
+        lastWidth = currentWidth;
+        lastHeight = currentHeight;
+        
+        // Set a timeout to release the adjustment lock
+        resizeTimeout = setTimeout(() => {
+            isAdjusting = false;
+        }, 50);
+    }
+    
+    // Throttled resize handler
+    window.addEventListener('resize', () => {
+        if (throttleTimer === null) {
+            handleResize();
+            
+            throttleTimer = setTimeout(() => {
+                throttleTimer = null;
+                // Final adjustment after throttle
+                if (!isAdjusting) {
                     adjustTextSize();
-                    isAdjusting = false;
-                }, CONFIG.transitionDuration + 100); // Add buffer to transition time
-            });
-        });
+                }
+            }, CONFIG.throttleDelay);
+        }
     });
     
     // Clean up observer on page unload
