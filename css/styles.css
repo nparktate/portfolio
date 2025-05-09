@@ -22,12 +22,14 @@ body, html {
     flex-direction: column;
     position: relative;
     align-items: stretch;
-    justify-content: space-between;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 /* Individual category styling */
 .category {
-    flex: 1;
+    flex: 0 0 auto;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -39,7 +41,8 @@ body, html {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     margin: 0;
     box-sizing: border-box;
-    min-height: 20vh;
+    min-height: 16.66vh;
+    height: 16.66vh;
 }
 
 .category:last-child {
@@ -284,18 +287,17 @@ html.is-scrolling .category-text {
 .category-text.multi-line {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     white-space: normal;
-    line-height: 1.5;
+    line-height: 1.2;
     transform: none !important;
     width: 100%;
-    padding: 1em 0;
-    min-height: 100%;
+    padding: 0;
+    height: 100%;
     position: relative;
     box-sizing: border-box;
     visibility: visible !important;
     overflow: visible !important;
-    min-height: 20vh;
 }
 
 .category-text.multi-line span {
@@ -303,18 +305,18 @@ html.is-scrolling .category-text {
     white-space: nowrap;
     transform-origin: center;
     transform: scale(var(--line-scale-x, 1), var(--line-scale-y, 1));
-    margin: 0.3em 0;
-    padding: 0.2em 0;
+    margin: 0.1em 0;
+    padding: 0;
     overflow: visible;
-    height: 1.2em;
+    height: auto;
     position: relative;
-    max-height: 1.5em;
     width: 100%;
     text-align: center;
     box-sizing: border-box;
     visibility: visible !important;
     opacity: 1 !important;
     min-width: 100%;
+    line-height: 1;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
@@ -357,7 +359,7 @@ html.is-scrolling .category-text {
     }
     
     .category-inner {
-        padding: 3vh 8vw;
+        padding: 0 8vw;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -366,29 +368,30 @@ html.is-scrolling .category-text {
     }
     
     .category-text.multi-line {
-        justify-content: space-between;
-        height: auto;
-        min-height: 20vh;
-        padding: 3vh 0;
+        justify-content: center;
+        height: 100%;
+        padding: 0;
         visibility: visible !important;
         display: flex;
         flex-direction: column;
     }
     
     .category-text.multi-line span {
-        margin: 0.6em 0;
-        line-height: 1.5;
-        height: 1.5em;
+        margin: 0.1em 0;
+        line-height: 1.2;
+        height: auto;
         position: relative;
         width: 100%;
         visibility: visible !important;
         transform-origin: center;
-        min-width: 98vw;
+        min-width: 100%;
     }
     
     .category {
-        padding: 3vh 0;
-        min-height: 20vh;
+        padding: 0;
+        height: 16.66vh;
+        min-height: 80px;
+        flex: 0 0 auto;
     }
 }
 
@@ -398,8 +401,9 @@ html.is-scrolling .category-text {
     flex-direction: column;
     height: 100vh;
     min-height: -webkit-fill-available;
-    justify-content: space-between;
-    overflow: visible;
+    justify-content: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
     width: 100%;
 }
 
