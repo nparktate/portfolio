@@ -46,6 +46,20 @@ body, html {
     height: 16.66vh;
 }
 
+/* Fallback category name that always shows full text */
+.category::after {
+    content: attr(data-category);
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    font-size: 8px;
+    opacity: 0.5;
+    text-transform: uppercase;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 1;
+}
+
 .category:last-child {
     border-bottom: none;
 }
@@ -282,26 +296,51 @@ html.is-scrolling .category-text {
     display: inline-block;
     max-width: none;
     max-height: none;
-    transition: font-variation-settings 0.3s ease, transform 0.3s ease, color 0.3s ease;
-    transition: font-variation-settings 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    transition: font-variation-settings 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                color 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Dynamic text abbreviation system */
 .category-text {
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.category-text.transitioning {
+    /* Typewriter-like transition effect */
+    letter-spacing: 0.01em;
 }
 
 .category-text[data-current-abbr] {
-    transition: font-variation-settings 0.3s ease, transform 0.3s ease;
+    transition: font-variation-settings 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                letter-spacing 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Text states based on abbreviation level */
 .category-text[data-current-abbr="full-text"] {
     /* Full text styling */
+    font-variation-settings: 'wght' 400;
 }
 
 .category-text[data-current-abbr="abbr-1"] {
     /* First abbreviation level */
+    font-variation-settings: 'wght' 500;
+}
+
+.category-text[data-current-abbr="abbr-2"] {
+    /* Second abbreviation level */
+    font-variation-settings: 'wght' 600;
+}
+
+.category-text[data-current-abbr="abbr-3"] {
+    /* Third abbreviation level */
+    font-variation-settings: 'wght' 700;
+}
+
+.category-text[data-current-abbr="abbr-4"] {
+    /* Fourth abbreviation level */
+    font-variation-settings: 'wght' 800;
 }
 
 .category-text[data-current-abbr="abbr-5"] {
@@ -404,7 +443,15 @@ html.is-scrolling .category-text {
 .category, .category-text, .category-inner {
     visibility: visible !important;
     opacity: 1 !important;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Prevent abbreviation on larger screens */
+@media (min-width: 1200px) {
+    .category-text[data-current-abbr="abbr-1"],
+    .category-text[data-current-abbr="abbr-2"] {
+        font-variation-settings: 'wght' 400;
+    }
 }
 
 /* Scrollbar styling for the experimental feel */
