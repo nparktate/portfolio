@@ -33,6 +33,7 @@ body, html {
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
     cursor: pointer;
     overflow: visible;
@@ -59,8 +60,8 @@ body, html {
     white-space: nowrap;
     letter-spacing: -0.02em;
     color: rgba(255, 255, 255, 0.8);
-    transition: color 0.3s ease, font-variation-settings 0.5s ease;
-    will-change: transform, font-variation-settings;
+    transition: color 0.3s ease, font-variation-settings 0.3s ease, transform 0.3s ease;
+    will-change: transform, font-variation-settings, contents;
     line-height: 1;
     display: block;
     text-align: center;
@@ -281,42 +282,31 @@ html.is-scrolling .category-text {
     display: inline-block;
     max-width: none;
     max-height: none;
+    transition: font-variation-settings 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    transition: font-variation-settings 0.3s ease, transform 0.3s ease, color 0.3s ease;
 }
 
-/* Special handling for multi-line text */
-.category-text.multi-line {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    white-space: normal;
-    line-height: 1.2;
-    transform: none !important;
-    width: 100%;
-    padding: 0;
-    height: 100%;
-    position: relative;
-    box-sizing: border-box;
-    visibility: visible !important;
-    overflow: visible !important;
+/* Dynamic text abbreviation system */
+.category-text {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.category-text.multi-line span {
-    display: block;
-    white-space: nowrap;
-    transform-origin: center;
-    transform: scale(var(--line-scale-x, 1), var(--line-scale-y, 1));
-    margin: 0.1em 0;
-    padding: 0;
-    overflow: visible;
-    height: auto;
-    position: relative;
-    width: 100%;
-    text-align: center;
-    box-sizing: border-box;
-    visibility: visible !important;
-    opacity: 1 !important;
-    min-width: 100%;
-    line-height: 1;
+.category-text[data-current-abbr] {
+    transition: font-variation-settings 0.3s ease, transform 0.3s ease;
+}
+
+/* Text states based on abbreviation level */
+.category-text[data-current-abbr="full-text"] {
+    /* Full text styling */
+}
+
+.category-text[data-current-abbr="abbr-1"] {
+    /* First abbreviation level */
+}
+
+.category-text[data-current-abbr="abbr-5"] {
+    /* Most extreme abbreviation */
+    font-variation-settings: 'wght' 900 !important;
 }
 
 /* Add more space in smaller viewports to prevent overflow */
@@ -405,12 +395,16 @@ html.is-scrolling .category-text {
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
 }
 
 /* Ensure text is always visible regardless of resize state */
-.category, .category-text, .category-inner, .category-text span {
+.category, .category-text, .category-inner {
     visibility: visible !important;
     opacity: 1 !important;
+    transition: transform 0.3s ease;
 }
 
 /* Scrollbar styling for the experimental feel */

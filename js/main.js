@@ -6,14 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Configuration
     const CONFIG = {
-        multiLineSpacing: 0.2, // 20% of height for spacing between lines
-        lineScaleMargin: 0.98, // Scale lines to 98% of container width for better fill
-        maxLines: 2,           // Maximum number of lines to break text into
-        earlyBreakThreshold: 0.85, // Break lines when text exceeds 85% of width
-        minLineMargin: 10,     // Minimum pixels between lines
-        minFontSize: 20,       // Minimum font size in pixels
+        horizontalFill: 0.95,   // Fill 95% of available width
+        minFontSize: 20,        // Minimum font size in pixels
         minCategoryHeight: 80,  // Minimum category height in pixels
-        horizontalFill: 0.95   // How much of the horizontal space to fill (95%)
+        transitionDuration: 300, // Transition duration in ms for smooth text changes
+        abbreviationLevels: 5,   // Number of abbreviation levels (excluding full text)
+        abbreviationBuffer: 0.05, // Buffer to prevent rapid switching between levels (5%)
+        transitionClass: 'transitioning' // Class applied during abbreviation transitions
     };
     
     // Helper function to get text width without wrapping
@@ -232,24 +231,14 @@ document.addEventListener('DOMContentLoaded', () => {
             textElement.style.wordSpacing = '';
             textElement.style.transform = '';
             
-            // Remove multi-line class and clear spans
-            textElement.classList.remove('multi-line');
-            while (textElement.querySelector('span')) {
-                const span = textElement.querySelector('span');
-                if (span && span.textContent) {
-                    textElement.textContent = span.textContent;
-                } else {
-                    textElement.innerHTML = '';
-                    break;
-                }
+            // Store original full text if not already saved
+            if (!textElement.getAttribute('data-full-text')) {
+                textElement.setAttribute('data-full-text', textElement.textContent);
             }
             
-            // Make sure we have original text
-            if (!textElement.textContent && textElement.getAttribute('data-original-text')) {
-                textElement.textContent = textElement.getAttribute('data-original-text');
-            } else if (textElement.textContent) {
-                // Save original text for future resets
-                textElement.setAttribute('data-original-text', textElement.textContent);
+            // Reset to full text for measurement
+            if (textElement.getAttribute('data-full-text')) {
+                textElement.textContent = textElement.getAttribute('data-full-text');
             }
             
             // Set category height and ensure visibility
@@ -283,29 +272,126 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Handle text for portrait orientation
-    function handlePortraitText(textElement, containerHeight, containerWidth) {
-        // Always enable line breaks in portrait mode
-        textElement.style.whiteSpace = 'normal';
+    // Function to select the appropriate text abbreviation based on available width
+    function selectTextAbbreviation(textElement, containerWidth) {
+        // Get the full text as baseline
+        const fullText = textElement.getAttribute('data-full-text') || textElement.textContent;
         
-        // Get original text
-        const originalText = textElement.textContent;
+        // Create a temporary element to measure text widths
+        const tempElement = document.createElement('div');
+        tempElement.style.fontFamily = getComputedStyle(textElement).fontFamily;
+        tempElement.style.fontSize = getComputedStyle(textElement).fontSize;
+        tempElement.style.fontWeight = getComputedStyle(textElement).fontWeight;
+        tempElement.style.position = 'absolute';
+        tempElement.style.visibility = 'hidden';
+        tempElement.style.whiteSpace = 'nowrap';
+        document.body.appendChild(tempElement);
         
-        // Measure single-line width
-        const singleLineWidth = getTextWidth(textElement);
+        // Get current abbreviation level if any
+        const currentAbbr = textElement.getAttribute('data-current-abbr') || 'full-text';
         
-        // ALWAYS break these specific texts or any text that's too long
-        if (originalText.includes("3D ANIMATION") || 
-            originalText.includes("&") || 
-            originalText.length > 12 ||
-            singleLineWidth > containerWidth * 0.7) {
-            // Handle multi-line text with guaranteed spacing
-            handleMultiLineText(textElement, originalText, containerHeight, containerWidth);
-            return;
+        // Add buffer to prevent rapid switching between states
+        const fitThreshold = 0.9; // Base threshold
+        const bufferSize = CONFIG.abbreviationBuffer;
+        const growBuffer = currentAbbr !== 'full-text' ? bufferSize : 0; // Buffer for growing text
+        const shrinkBuffer = currentAbbr !== `abbr-${CONFIG.abbreviationLevels}` ? bufferSize : 0; // Buffer for shrinking text
+        
+        // Measure full text width
+        tempElement.textContent = fullText;
+        let textWidth = tempElement.offsetWidth;
+        
+        // Check if full text fits (with buffer)
+        if (textWidth <= containerWidth * (fitThreshold + growBuffer)) {
+            // Full text fits, use it
+            document.body.removeChild(tempElement);
+            
+            // Only change if not already at full text
+            if (currentAbbr !== 'full-text') {
+                // Add transition class
+                textElement.classList.add(CONFIG.transitionClass);
+                
+                // Set the new abbreviation level
+                textElement.removeAttribute('data-current-abbr');
+                textElement.setAttribute('data-current-abbr', 'full-text');
+                
+                // Remove transition class after animation completes
+                setTimeout(() => {
+                    textElement.classList.remove(CONFIG.transitionClass);
+                }, CONFIG.transitionDuration);
+            }
+            
+            return fullText;
         }
         
-        // For short text, use standard variable font approach
-        let weight = 500; // Start with medium weight
+        // Try each abbreviation level
+        for (let i = 1; i <= CONFIG.abbreviationLevels; i++) {
+            const abbrText = textElement.getAttribute(`data-abbr-${i}`);
+            if (!abbrText) continue;
+            
+            tempElement.textContent = abbrText;
+            textWidth = tempElement.offsetWidth;
+            
+            // Apply buffer based on current level vs new level
+            let effectiveThreshold = fitThreshold;
+            if (currentAbbr === `abbr-${i-1}`) effectiveThreshold += growBuffer; // Growing text
+            if (currentAbbr === `abbr-${i+1}`) effectiveThreshold += shrinkBuffer; // Shrinking text
+            
+            // If this abbreviation fits, use it
+            if (textWidth <= containerWidth * effectiveThreshold) {
+                document.body.removeChild(tempElement);
+                
+                // Only change if not already at this level
+                if (currentAbbr !== `abbr-${i}`) {
+                    // Add transition class
+                    textElement.classList.add(CONFIG.transitionClass);
+                    
+                    // Set the new abbreviation level
+                    textElement.removeAttribute('data-current-abbr');
+                    textElement.setAttribute('data-current-abbr', `abbr-${i}`);
+                    
+                    // Remove transition class after animation completes
+                    setTimeout(() => {
+                        textElement.classList.remove(CONFIG.transitionClass);
+                    }, CONFIG.transitionDuration);
+                }
+                
+                return abbrText;
+            }
+        }
+        
+        // If nothing fits, use the shortest abbreviation
+        const shortestAbbr = textElement.getAttribute(`data-abbr-${CONFIG.abbreviationLevels}`) || fullText;
+        document.body.removeChild(tempElement);
+        
+        // Only change if not already at shortest level
+        if (currentAbbr !== `abbr-${CONFIG.abbreviationLevels}`) {
+            // Add transition class
+            textElement.classList.add(CONFIG.transitionClass);
+            
+            // Set the new abbreviation level
+            textElement.removeAttribute('data-current-abbr');
+            textElement.setAttribute('data-current-abbr', `abbr-${CONFIG.abbreviationLevels}`);
+            
+            // Remove transition class after animation completes
+            setTimeout(() => {
+                textElement.classList.remove(CONFIG.transitionClass);
+            }, CONFIG.transitionDuration);
+        }
+        
+        return shortestAbbr;
+    }
+    
+    // Handle text for portrait orientation
+    function handlePortraitText(textElement, containerHeight, containerWidth) {
+        // Always keep text on a single line
+        textElement.style.whiteSpace = 'nowrap';
+        
+        // Select appropriate abbreviation based on available width
+        const selectedText = selectTextAbbreviation(textElement, containerWidth);
+        textElement.textContent = selectedText;
+        
+        // Start with a substantial weight
+        let weight = 500; // Medium weight
         textElement.style.fontVariationSettings = `'wght' ${weight}`;
         textElement.style.setProperty('--calculated-weight', weight);
         
@@ -328,14 +414,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Handle text for landscape orientation (prioritize filling width)
     function handleLandscapeText(textElement, containerHeight, containerWidth) {
-        // Keep text on a single line in landscape
+        // Always keep text on a single line
         textElement.style.whiteSpace = 'nowrap';
         
-        // Save original text for reference
-        const originalText = textElement.textContent;
-        
-        // Check if this is a long text that might need to be broken on narrow screens
-        const isLongText = originalText.length > 15 || originalText.includes("&");
+        // Select appropriate abbreviation based on available width
+        const selectedText = selectTextAbbreviation(textElement, containerWidth);
+        textElement.textContent = selectedText;
         
         // Use 80% of container height for font size
         let fontSize = Math.floor(containerHeight * 0.85);
@@ -348,12 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Get initial text width
         let textWidth = textElement.offsetWidth;
-        
-        // Check if we need to break to multiple lines even in landscape
-        if (isLongText && textWidth > containerWidth * 1.2) {
-            handleMultiLineText(textElement, originalText, containerHeight, containerWidth);
-            return;
-        }
         
         // Binary search for optimal weight
         let minWeight = 100;
@@ -612,39 +690,39 @@ document.addEventListener('DOMContentLoaded', () => {
     let lastHeight = window.innerHeight;
     let isAdjusting = false;
     
-    // Throttled resize handler for better performance
+    // Debounce and throttle resize handling for smoother abbreviation transitions
+    let resizeTimeout;
     window.addEventListener('resize', () => {
         if (isAdjusting) return;
         
         isAdjusting = true;
         
-        // Clear any existing line breaks during resize
+        // Cancel previous timeout to prevent rapid changes
+        clearTimeout(resizeTimeout);
+        
+        // Reset any existing transitions
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
-            if (textElement && textElement.classList.contains('multi-line')) {
-                // Store the original text
-                const originalText = textElement.textContent.trim();
-                
-                // Reset to single line temporarily
-                textElement.classList.remove('multi-line');
-                textElement.innerHTML = originalText;
-                textElement.style.whiteSpace = 'nowrap';
+            if (textElement) {
+                textElement.classList.remove(CONFIG.transitionClass);
             }
         });
         
-        // Use double RAF for better rendering
+        // Use RAF for immediate response
         requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                const currentWidth = window.innerWidth;
-                const currentHeight = window.innerHeight;
-                
-                // Always adjust on resize to handle orientation changes properly
+            const currentWidth = window.innerWidth;
+            const currentHeight = window.innerHeight;
+            
+            // Update sizes but save another adjustment for after transition
+            adjustTextSize();
+            lastWidth = currentWidth;
+            lastHeight = currentHeight;
+            
+            // Set a timeout to do a final adjustment after transitions complete
+            resizeTimeout = setTimeout(() => {
                 adjustTextSize();
-                lastWidth = currentWidth;
-                lastHeight = currentHeight;
-                
                 isAdjusting = false;
-            });
+            }, CONFIG.transitionDuration + 50); // Add small buffer to transition time
         });
     });
     
