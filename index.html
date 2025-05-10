@@ -2,18 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Nicholas Tate Park - Experimental responsive typography portfolio">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Portfolio of Nicholas Tate Park - Motion Designer, Developer and Artist specializing in responsive typography and experimental design">
     <title>Nicholas Tate Park | Portfolio</title>
-    <meta name="description" content="Portfolio of Nicholas Tate Park - Motion Designer, Developer and Artist">
+    <meta name="theme-color" content="#0f0f0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Social sharing metadata -->
+    <meta property="og:title" content="Nicholas Tate Park | Portfolio">
+    <meta property="og:description" content="Experimental responsive typography and motion design portfolio">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nicholastatepark.com">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/project.css">
+    <link rel="stylesheet" href="css/mobile-fixes.css">
     <!-- Using more expressive variable fonts for dynamic typography -->
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
 </head>
-<body>
-    <main class="categories-container">
+<body ontouchstart="" class="loading">
+    <main class="categories-container" id="categories-container">
         <div class="category" data-category="MOTION DESIGN" style="display:block; visibility:visible;">
             <div class="category-inner">
                 <div class="category-text" 
@@ -82,8 +90,49 @@
         </div>
     </main>
     <div id="project-grid" class="hidden"></div>
-    <div id="project-details" class="hidden"></div>
+    <div id="project-details" class="hidden">
+        <!-- Project content will be dynamically loaded here -->
+        <div class="project-loader">
+            <div class="loader-spinner"></div>
+        </div>
+    </div>
     <script src="js/main.js"></script>
     <script src="js/cursor.js"></script>
+    <script src="js/project.js"></script>
+    <script src="js/coordinator.js"></script>
+    
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        document.documentElement.classList.add('js-loaded');
+        // Fix iOS height calculation issues
+        function setVH() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', () => {
+            // Small delay to ensure correct calculation after orientation change
+            setTimeout(setVH, 100);
+        });
+        
+        // Remove loading class after initial load
+        window.addEventListener('load', function() {
+            document.body.classList.remove('loading');
+        });
+        
+        // Fix iOS touch issues
+        document.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.categories-container')) {
+                return;
+            }
+            e.preventDefault();
+        }, { passive: false });
+        
+        // Detect touch devices and add class
+        if (('ontouchstart' in window) || navigator.maxTouchPoints > 0) {
+            document.documentElement.classList.add('touch-device');
+        }
+    </script>
 </body>
 </html>

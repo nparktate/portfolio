@@ -4,18 +4,124 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectGrid = document.getElementById('project-grid');
     const projectDetails = document.getElementById('project-details');
     
+    // Check URL for direct project link
+    function checkUrlForProject() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('project');
+        
+        if (projectId) {
+            // Open the project directly if specified in URL
+            setTimeout(() => openProjectDetails(projectId, true), 500);
+        }
+    }
+    
+    // Handle browser back/forward navigation
+    window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.projectId) {
+            // Open the project without adding to history
+            openProjectDetails(event.state.projectId, true);
+        } else {
+            // Close any open category first
+            if (activeCategory && activeProjectsContainer) {
+                activeCategory.classList.remove('active');
+                activeProjectsContainer.classList.remove('active');
+                
+                // Reset category appearance
+                activeCategory.style.width = '';
+                const textElement = activeCategory.querySelector('.category-text');
+                if (textElement) {
+                    textElement.textContent = textElement.getAttribute('data-full-text');
+                    textElement.setAttribute('data-current-abbr', 'full-text');
+                }
+                
+                activeCategory = null;
+                activeProjectsContainer = null;
+            }
+            
+            // Go back to main view
+            projectDetails.classList.remove('active');
+            setTimeout(() => {
+                projectDetails.classList.add('hidden');
+            }, 400);
+            
+            // Reset title
+            document.title = "Nicholas Tate Park | Portfolio";
+        }
+    });
+    
+    // Check for direct links on page load
+    checkUrlForProject();
+    
+    // Check URL for direct project link
+    function checkUrlForProject() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const projectId = urlParams.get('project');
+        
+        if (projectId) {
+            // Open the project directly if specified in URL
+            setTimeout(() => openProjectDetails(projectId, true), 500);
+        }
+    }
+    
+    // Function to detect touch devices
+    function isTouchDevice() {
+        return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0));
+    }
+    
+    // Store touch capability
+    const IS_TOUCH_DEVICE = isTouchDevice();
+    
+    // Handle browser back/forward navigation
+    window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.projectId) {
+            // Open the project without adding to history
+            openProjectDetails(event.state.projectId, true);
+        } else {
+            // Close any open category first
+            if (activeCategory && activeProjectsContainer) {
+                activeCategory.classList.remove('active');
+                activeProjectsContainer.classList.remove('active');
+                
+                // Reset category appearance
+                activeCategory.style.width = '';
+                const textElement = activeCategory.querySelector('.category-text');
+                if (textElement) {
+                    textElement.textContent = textElement.getAttribute('data-full-text');
+                    textElement.setAttribute('data-current-abbr', 'full-text');
+                }
+                
+                activeCategory = null;
+                activeProjectsContainer = null;
+            }
+            
+            // Go back to main view
+            projectDetails.classList.remove('active');
+            setTimeout(() => {
+                projectDetails.classList.add('hidden');
+            }, 400);
+            
+            // Reset title
+            document.title = "Nicholas Tate Park | Portfolio";
+        }
+    });
+    
+    // Check for direct links on page load
+    checkUrlForProject();
+    
     // Configuration
     const CONFIG = {
         horizontalFill: 0.95,   // Fill 95% of available width
         minFontSize: 20,        // Minimum font size in pixels
         minCategoryHeight: 80,  // Minimum category height in pixels
-        transitionDuration: 300, // Transition duration in ms for smooth text changes
+        transitionDuration: 200, // Faster transition for smoother changes
         abbreviationLevels: 5,   // Number of abbreviation levels (excluding full text)
-        abbreviationBuffer: 0.35, // Even larger buffer to prevent flickering between states (35%)
-        hysteresisBuffer: 0.2, // Much larger buffer when growing vs shrinking (20%)
+        abbreviationBuffer: 0.15, // Reduced buffer size (15%)
+        hysteresisBuffer: 0.1,   // Smaller hysteresis buffer (10%) for more responsive changes
         standardScreenWidth: 1024, // Minimum width considered a "standard" screen
-        throttleDelay: 200, // Longer delay for throttling resize events
-        resizeThreshold: 40 // Much larger minimum px change before recalculating abbreviations
+        throttleDelay: 100,      // Faster throttling for better response
+        resizeThreshold: 20      // Smaller threshold for more responsive recalculation
     };
     
     // Helper function to get text width without wrapping
@@ -40,6 +146,15 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.visibility = originalVisibility;
         
         return width;
+    }
+    
+    // Function to detect touch devices
+    function isTouchDevice() {
+        return (('ontouchstart' in window) ||
+                (navigator.maxTouchPoints > 0) ||
+                (navigator.msMaxTouchPoints > 0) ||
+                window.matchMedia('(pointer: coarse)').matches ||
+                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     }
     
     // Function to handle multi-line text with guaranteed spacing
@@ -280,134 +395,90 @@ document.addEventListener('DOMContentLoaded', () => {
         // Get the full text as baseline
         const fullText = textElement.getAttribute('data-full-text') || textElement.textContent;
         
-        // Create a temporary element to measure text widths
-        const tempElement = document.createElement('div');
-        tempElement.style.fontFamily = getComputedStyle(textElement).fontFamily;
+        // Use cached temp element if it exists or create a new one
+        let tempElement = document.getElementById('text-measure-temp');
+        if (!tempElement) {
+            tempElement = document.createElement('div');
+            tempElement.id = 'text-measure-temp';
+            tempElement.style.fontFamily = getComputedStyle(textElement).fontFamily;
+            tempElement.style.position = 'absolute';
+            tempElement.style.visibility = 'hidden';
+            tempElement.style.whiteSpace = 'nowrap';
+            tempElement.style.pointerEvents = 'none';
+            document.body.appendChild(tempElement);
+        }
+        
+        // Update dynamic styles
         tempElement.style.fontSize = getComputedStyle(textElement).fontSize;
         tempElement.style.fontWeight = getComputedStyle(textElement).fontWeight;
-        tempElement.style.position = 'absolute';
-        tempElement.style.visibility = 'hidden';
-        tempElement.style.whiteSpace = 'nowrap';
-        document.body.appendChild(tempElement);
         
         // Get current abbreviation level if any
         const currentAbbr = textElement.getAttribute('data-current-abbr') || 'full-text';
+        const currentLevel = currentAbbr === 'full-text' ? 0 : parseInt(currentAbbr.split('-')[1]);
         
         // Check if we're on a standard or large screen
         const isStandardScreen = window.innerWidth >= CONFIG.standardScreenWidth;
-        
-        // Large buffer to prevent rapid switching, asymmetric for growing vs shrinking
-        const fitThreshold = isStandardScreen ? 0.8 : 0.85; // Base threshold
+        const fitThreshold = isStandardScreen ? 0.85 : 0.9;
         const bufferSize = CONFIG.abbreviationBuffer;
         
-        // Apply different buffers depending on whether we're growing or shrinking text
-        // Larger buffer when growing (harder to grow) vs shrinking (harder to shrink)
-        // This creates a hysteresis effect to prevent flickering at boundary points
-        const growingText = i => currentAbbr !== 'full-text' && (
-            (currentAbbr === 'full-text' && i > 0) || 
-            (currentAbbr.startsWith('abbr-') && parseInt(currentAbbr.split('-')[1]) > i)
-        );
-        const shrinkingText = i => currentAbbr !== `abbr-${CONFIG.abbreviationLevels}` && (
-            (currentAbbr === 'full-text' && i > 0) ||
-            (currentAbbr.startsWith('abbr-') && parseInt(currentAbbr.split('-')[1]) < i)
-        );
-        
-        // Store current level for hysteresis calculation
-        const currentLevel = currentAbbr === 'full-text' ? 0 : 
-                            parseInt(currentAbbr.split('-')[1]);
-        
-        // Measure full text width
-        tempElement.textContent = fullText;
-        let textWidth = tempElement.offsetWidth;
-        
-        // Special handling for large screens - prefer full text with much larger buffer
-        if (isStandardScreen && currentLevel <= 1) {
-            // On standard screens, give full text extra room
-            if (textWidth <= containerWidth * (fitThreshold + 0.4)) {
-                document.body.removeChild(tempElement);
-                
-                // Only change if not already at full text
-                if (currentAbbr !== 'full-text') {
-                    // Set full text without transitions
-                    textElement.textContent = fullText;
-                    textElement.removeAttribute('data-current-abbr');
-                    textElement.setAttribute('data-current-abbr', 'full-text');
-                }
-                
-                return fullText;
-            }
-        }
-        // Regular check if full text fits (with large growing buffer)
-        else if (textWidth <= containerWidth * (fitThreshold + bufferSize + CONFIG.hysteresisBuffer)) {
-            // Full text fits, use it
-            document.body.removeChild(tempElement);
+        // Simple function to check if text fits
+        const doesTextFit = (text, level) => {
+            tempElement.textContent = text;
+            const width = tempElement.offsetWidth;
             
-            // Only change if not already at full text
+            // Apply different threshold based on current vs target level
+            let threshold = fitThreshold;
+            if (currentLevel < level) { // Going to more abbreviated
+                threshold += bufferSize;
+            } else if (currentLevel > level) { // Going to less abbreviated
+                threshold += CONFIG.hysteresisBuffer;
+            }
+            
+            return width <= containerWidth * threshold;
+        };
+        
+        // Optimize by caching abbreviation texts
+        const textOptions = [fullText];
+        for (let i = 1; i <= CONFIG.abbreviationLevels; i++) {
+            textOptions.push(textElement.getAttribute(`data-abbr-${i}`) || fullText);
+        }
+        
+        // Check if we can use full text (level 0)
+        if (doesTextFit(textOptions[0], 0)) {
             if (currentAbbr !== 'full-text') {
-                // Set full text without transitions
-                textElement.textContent = fullText;
-                textElement.removeAttribute('data-current-abbr');
+                textElement.textContent = textOptions[0];
                 textElement.setAttribute('data-current-abbr', 'full-text');
             }
-            
-            return fullText;
+            return textOptions[0];
         }
         
-        // Try each abbreviation level
+        // Try each abbreviation level efficiently
         for (let i = 1; i <= CONFIG.abbreviationLevels; i++) {
-            const abbrText = textElement.getAttribute(`data-abbr-${i}`);
-            if (!abbrText) continue;
+            if (!textOptions[i]) continue;
             
-            tempElement.textContent = abbrText;
-            textWidth = tempElement.offsetWidth;
-            
-            // Apply strong hysteresis to prevent flickering
-            // Make it much harder to change states when near boundaries
-            let effectiveThreshold = fitThreshold;
-            
-            // Apply extreme hysteresis - create a massive dead zone at boundaries to prevent flickering
-                if (currentLevel < i) { // Growing - make it much harder to grow
-                    effectiveThreshold += bufferSize + (CONFIG.hysteresisBuffer * 2);
-                } else if (currentLevel > i) { // Shrinking - make it much harder to shrink
-                    effectiveThreshold += bufferSize - (CONFIG.hysteresisBuffer / 2);
-                } else { // Staying the same - huge buffer
-                    effectiveThreshold += bufferSize * 1.5;
-                }
-            
-            // Special case for standard screens - avoid early abbreviations for "3D ANIMATION & DESIGN"
-            if (isStandardScreen && fullText.includes("3D ANIMATION") && (i <= 2) && textWidth <= containerWidth) {
+            // Skip early abbreviations for "3D ANIMATION & DESIGN" on larger screens
+            if (isStandardScreen && fullText.includes("3D ANIMATION") && (i <= 2) && 
+                doesTextFit(textOptions[i], i)) {
                 continue;
             }
             
-            // If this abbreviation fits, use it
-            if (textWidth <= containerWidth * effectiveThreshold) {
-                document.body.removeChild(tempElement);
-                
-                // Only change if not already at this level
+            if (doesTextFit(textOptions[i], i)) {
                 if (currentAbbr !== `abbr-${i}`) {
-                    // Set abbreviation without transitions
-                    textElement.textContent = abbrText;
-                    textElement.removeAttribute('data-current-abbr');
+                    textElement.textContent = textOptions[i];
                     textElement.setAttribute('data-current-abbr', `abbr-${i}`);
                 }
-                
-                return abbrText;
+                return textOptions[i];
             }
         }
         
         // If nothing fits, use the shortest abbreviation
-        const shortestAbbr = textElement.getAttribute(`data-abbr-${CONFIG.abbreviationLevels}`) || fullText;
-        document.body.removeChild(tempElement);
-        
-        // Only change if not already at shortest level
-        if (currentAbbr !== `abbr-${CONFIG.abbreviationLevels}`) {
-            // Set shortest abbreviation without transitions
-            textElement.textContent = shortestAbbr;
-            textElement.removeAttribute('data-current-abbr');
-            textElement.setAttribute('data-current-abbr', `abbr-${CONFIG.abbreviationLevels}`);
+        const shortestLevel = CONFIG.abbreviationLevels;
+        if (currentAbbr !== `abbr-${shortestLevel}`) {
+            textElement.textContent = textOptions[shortestLevel];
+            textElement.setAttribute('data-current-abbr', `abbr-${shortestLevel}`);
         }
         
-        return shortestAbbr;
+        return textOptions[shortestLevel];
     }
     
     // Handle text for portrait orientation
@@ -520,112 +591,131 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeCategory.classList.remove('active');
                 activeProjectsContainer.classList.remove('active');
                 
-                // Reset previous category appearance
+                // Reset previous category appearance with animation
+                activeCategory.style.transition = 'width 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
                 activeCategory.style.width = '';
-                const prevText = activeCategory.querySelector('.category-text');
-                if (prevText && prevText.getAttribute('data-full-text')) {
-                    prevText.textContent = prevText.getAttribute('data-full-text');
-                    prevText.setAttribute('data-current-abbr', 'full-text');
-                }
+                
+                // Use requestAnimationFrame for better performance
+                requestAnimationFrame(() => {
+                    const prevText = activeCategory.querySelector('.category-text');
+                    if (prevText && prevText.getAttribute('data-full-text')) {
+                        prevText.style.transition = 'font-variation-settings 0.3s ease';
+                        prevText.textContent = prevText.getAttribute('data-full-text');
+                        prevText.setAttribute('data-current-abbr', 'full-text');
+                    }
+                });
+            }
+            
+            // Handle mobile differently for better experience
+            const isMobile = window.innerWidth <= 768;
+            
+            // Add immediate transition for responsive feel
+            category.style.transition = 'width 0.25s cubic-bezier(0.16, 1, 0.3, 1)';
+            
+            // Don't toggle on touch if we already clicked - prevents double-tap issues
+            if (IS_TOUCH_DEVICE && category.classList.contains('active')) {
+                return;
             }
             
             // Toggle active state
             category.classList.toggle('active');
-            projectsContainer.classList.toggle('active');
             
             // Update active elements and adjust appearance
             if (category.classList.contains('active')) {
+                // Activate projects container with slight delay for smoother sequence
+                setTimeout(() => {
+                    projectsContainer.classList.add('active');
+                    
+                    // Apply variable font styling to projects
+                    styleProjectsWithVariableFont(projectsContainer);
+                }, isMobile ? 50 : 20);
+                
                 activeCategory = category;
                 activeProjectsContainer = projectsContainer;
                 
-                // Set category width (instead of transform)
-                const isMobile = window.innerWidth <= 768;
+                // Set category width immediately
                 category.style.width = isMobile ? '40%' : '50%';
                 
                 // Use a more abbreviated form and bolder weight for the active category
                 const textElement = category.querySelector('.category-text');
                 if (textElement) {
+                    textElement.style.transition = 'font-variation-settings 0.25s ease';
                     const abbrText = textElement.getAttribute('data-abbr-1') || textElement.textContent;
                     textElement.textContent = abbrText;
                     textElement.setAttribute('data-current-abbr', 'abbr-1');
                     textElement.style.fontVariationSettings = `'wght' 700`;
                 }
-                
-                // Apply variable font styling to projects
-                styleProjectsWithVariableFont(projectsContainer);
             } else {
+                // Deactivate projects container immediately
+                projectsContainer.classList.remove('active');
+                
                 // Reset category appearance
                 category.style.width = '';
+                
                 const textElement = category.querySelector('.category-text');
                 if (textElement && textElement.getAttribute('data-full-text')) {
+                    textElement.style.transition = 'font-variation-settings 0.25s ease';
                     textElement.textContent = textElement.getAttribute('data-full-text');
                     textElement.setAttribute('data-current-abbr', 'full-text');
+                    textElement.style.fontVariationSettings = `'wght' 400`;
                 }
                 
                 activeCategory = null;
                 activeProjectsContainer = null;
+                
+                // Re-adjust text size to ensure correct display
+                requestAnimationFrame(adjustTextSize);
             }
         });
     });
     
-    // Apply variable font styling to projects
+    // Apply variable font styling to projects - optimized for performance
     function styleProjectsWithVariableFont(container) {
         if (!container) return;
         
         const projects = container.querySelectorAll('.project-item');
         const containerWidth = container.offsetWidth - 40; // Account for padding
         
-        // Stagger animation for projects
-        projects.forEach((project, index) => {
-            // Reset style first
-            project.style.opacity = '0';
-            project.style.transform = 'translateX(20px)';
-            
-            // Calculate available height
-            const projectHeight = Math.floor(container.offsetHeight / projects.length) - 20;
-            project.style.height = `${projectHeight}px`;
-            
-            // Set font size based on height
-            const fontSize = Math.floor(projectHeight * 0.4);
-            project.style.fontSize = `${fontSize}px`;
-            
-            // Get text width
-            const textWidth = project.offsetWidth;
-            
-            // Apply scaling to fill width
-            if (textWidth > 0) {
-                const scaleX = (containerWidth * 0.9) / textWidth;
-                const scale = scaleX < 1 ? scaleX : 1;
-                project.style.transform = `translateX(20px) scaleX(${scale})`;
-                project.style.transformOrigin = 'left center';
-            }
-            
-            // Apply variable weight - slightly more variation
-            const weight = 300 + (index * 75) % 400; // Vary weights between projects
-            project.style.fontVariationSettings = `'wght' ${weight}`;
-            
-            // Staggered entrance animation
-            setTimeout(() => {
-                project.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                project.style.opacity = '1';
+        // Pre-calculate common values
+        const totalProjects = projects.length;
+        const baseDelay = 50; // Shorter base delay for more responsive feel
+        
+        // Use requestAnimationFrame for smoother animation
+        requestAnimationFrame(() => {
+            // Stagger animation for projects
+            projects.forEach((project, index) => {
+                // Reset style
+                project.style.opacity = '0';
+                project.style.transform = 'translateX(10px)'; // Smaller initial offset
                 
-                // Extract current scale if it exists
-                const currentTransform = project.style.transform;
-                let scale = '1';
-                if (currentTransform && currentTransform.includes('scaleX')) {
-                    const match = currentTransform.match(/scaleX\(([0-9.]+)\)/);
-                    if (match && match[1]) {
-                        scale = match[1];
-                    }
-                }
+                // Set consistent height without complex calculation
+                project.style.height = 'auto'; // Let content determine height
                 
-                project.style.transform = `translateX(0) scaleX(${scale})`;
-            }, 100 + (index * 50)); // Stagger by 50ms per item
+                // Set consistent font size
+                project.style.fontSize = 'clamp(0.9rem, 1.5vw, 1.2rem)'; // Responsive font size using CSS
+                
+                // Simplified weight variation
+                const weight = 400 + (index * 20) % 200; // Lighter weight variation
+                project.style.fontVariationSettings = `'wght' ${weight}`;
+                
+                // Queue entrance animation with staggered delay
+                setTimeout(() => {
+                    project.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+                    project.style.opacity = '1';
+                    project.style.transform = 'translateX(0)';
+                }, baseDelay + (index * 30)); // Faster, shorter staggered delay
+            });
         });
     }
     
     // Function to open project details
-    function openProjectDetails(projectId) {
+    function openProjectDetails(projectId, skipHistory = false) {
+        // Update URL for direct linking
+        if (!skipHistory) {
+            const newUrl = `${window.location.pathname}?project=${encodeURIComponent(projectId)}`;
+            history.pushState({ projectId }, '', newUrl);
+        }
+    
         // Create portal effect when navigating to project
         const portalEffect = () => {
             // First hide any active category panels with animation
@@ -633,12 +723,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Animate category width back to full first
                 activeCategory.style.transition = 'width 0.3s ease-out';
                 activeCategory.style.width = '';
-                
+            
                 // After width animation, remove active class
                 setTimeout(() => {
                     activeCategory.classList.remove('active');
                     activeProjectsContainer.classList.remove('active');
-                    
+                
                     // Reset category text
                     const textElement = activeCategory.querySelector('.category-text');
                     if (textElement && textElement.getAttribute('data-full-text')) {
@@ -647,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }, 300);
             }
-            
+        
             // Show loading effect before project details
             const loaderElement = document.createElement('div');
             loaderElement.style.cssText = `
@@ -664,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 opacity: 0;
                 transition: opacity 0.3s ease;
             `;
-            
+        
             const loaderInner = document.createElement('div');
             loaderInner.style.cssText = `
                 width: 40px;
@@ -674,7 +764,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 border-radius: 50%;
                 animation: spin 1s ease-in-out infinite;
             `;
-            
+        
             // Add keyframes for loader animation
             const styleElement = document.createElement('style');
             styleElement.textContent = `
@@ -683,17 +773,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             `;
             document.head.appendChild(styleElement);
-            
+        
             loaderElement.appendChild(loaderInner);
             document.body.appendChild(loaderElement);
-            
+        
             // Fade in loader
             setTimeout(() => {
                 loaderElement.style.opacity = '1';
-                
+            
                 // Show project details with animation after short delay
                 setTimeout(() => {
                     loaderElement.style.opacity = '0';
+                    document.title = `${projectId.replace(/-/g, ' ')} | Nicholas Tate Park`;
                     projectDetails.classList.remove('hidden');
                     projectDetails.classList.add('active');
                     
@@ -704,7 +795,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 400);
             }, 10);
         };
-        
+    
         // Start portal transition
         portalEffect();
         
@@ -836,6 +927,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         backButton.addEventListener('click', () => {
+            // Update URL to remove project parameter
+            history.pushState({}, '', window.location.pathname);
+            document.title = "Nicholas Tate Park | Portfolio";
+            
             // Create transition effect for going back
             const transitionOut = document.createElement('div');
             transitionOut.style.cssText = `
@@ -894,18 +989,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Debounce function to prevent excessive calculations
-    function debounce(func, wait) {
+    // Debounce function with immediate flag for more responsive UI
+    function debounce(func, wait, immediate) {
         let timeout;
         return function() {
             const context = this, args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
             clearTimeout(timeout);
-            timeout = setTimeout(() => func.apply(context, args), wait);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
         };
     }
     
-    // Completely removed interactive typography effects that cause stuttering
-    // Only keep simple hover states managed by CSS
+    // Throttle function for smooth performance during continuous events
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
+    }
     
     // Double-click anywhere to go back to main view
     document.addEventListener('dblclick', () => {
@@ -922,38 +1034,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
     
-    // Handle scroll events - add class to prevent jittering
+    // Handle scroll events with throttling for smoother performance
+    const throttledScroll = throttle(() => {
+        document.documentElement.classList.add('is-scrolling');
+    }, 50);
+    
     let scrollTimeout;
     window.addEventListener('scroll', () => {
-        document.documentElement.classList.add('is-scrolling');
+        throttledScroll();
         
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
             document.documentElement.classList.remove('is-scrolling');
             // Recalculate after scrolling stops
-            adjustTextSize();
-        }, 150);
+            requestAnimationFrame(adjustTextSize);
+        }, 100);
     });
     
-    // Call adjustTextSize on load and resize - but debounced
+    // Handle resize with both immediate response and cleanup
     const debouncedResize = debounce(() => {
-        // Add resize animation transition temporarily
+        requestAnimationFrame(() => {
+            adjustTextSize();
+            
+            // Remove transitions after adjustment
+            setTimeout(() => {
+                categories.forEach(category => {
+                    const textElement = category.querySelector('.category-text');
+                    textElement.style.transition = '';
+                });
+            }, CONFIG.transitionDuration);
+        });
+    }, 60, true); // Execute immediately for responsive feel
+    
+    window.addEventListener('resize', () => {
+        // Add transition temporarily for smooth resizing
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
-            textElement.style.transition = 'all 0.3s ease';
+            textElement.style.transition = `all ${CONFIG.transitionDuration/1000}s ease`;
         });
         
-        adjustTextSize();
-        
-        setTimeout(() => {
-            categories.forEach(category => {
-                const textElement = category.querySelector('.category-text');
-                textElement.style.transition = '';
-            });
-        }, 300);
-    }, 100);
-    
-    window.addEventListener('resize', debouncedResize);
+        debouncedResize();
+    });
     
     // Create a ResizeObserver for precise size tracking
     const resizeObserver = new ResizeObserver(entries => {
@@ -999,7 +1120,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Get current dimensions
         const currentWidth = window.innerWidth;
         const currentHeight = window.innerHeight;
-        
+            
+        // Prevent text selection on mobile
+        if (IS_TOUCH_DEVICE) {
+            document.body.style.userSelect = 'none';
+            document.body.style.webkitUserSelect = 'none';
+            document.body.style.msUserSelect = 'none';
+            document.body.style.webkitTapHighlightColor = 'rgba(0,0,0,0)';
+        }
+            
         // Perform adjustment without any transitions
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
@@ -1020,42 +1149,68 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
     
-    // Heavily throttled resize handler with large width threshold to prevent micro-adjustments
-    let lastRecordedWidth = window.innerWidth;
-    let resizeCounter = 0;
-    
-    window.addEventListener('resize', () => {
-        // Only recalculate if width changed by significant amount
-        const currentWidth = window.innerWidth;
-        const widthDiff = Math.abs(currentWidth - lastRecordedWidth);
+    // Use ResizeObserver instead of multiple resize handlers for better performance
+    if (window.ResizeObserver) {
+        const resizeObserver = new ResizeObserver(throttle(() => {
+            if (!document.documentElement.classList.contains('is-scrolling')) {
+                requestAnimationFrame(adjustTextSize);
+            }
+        }, 100));
         
-        // Skip more aggressively during rapid resizing
-        resizeCounter++;
-        if (widthDiff < CONFIG.resizeThreshold || (resizeCounter % 3 !== 0 && widthDiff < 100)) {
-            return; // Skip if change is too small or during rapid resize
-        }
+        // Observe the categories container only
+        resizeObserver.observe(document.querySelector('.categories-container'));
         
-        if (throttleTimer === null) {
-            lastRecordedWidth = currentWidth;
-            handleResize();
-            
-            // Reset throttle timer with longer delay
-            throttleTimer = setTimeout(() => {
-                throttleTimer = null;
-                resizeCounter = 0;
-                // Final adjustment after throttle
-                if (!isAdjusting) {
-                    lastRecordedWidth = window.innerWidth;
-                    adjustTextSize();
-                }
-            }, CONFIG.throttleDelay * 2);
-        }
-    });
+        // Clean up observer on page unload
+        window.addEventListener('beforeunload', () => {
+            resizeObserver.disconnect();
+        });
+    }
     
     // Clean up observer on page unload
     window.addEventListener('beforeunload', () => {
         resizeObserver.disconnect();
     });
+    
+    // Fix mobile overflow issues
+    function fixMobileOverflow() {
+        if (window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            document.body.style.height = '100%';
+            
+            const container = document.querySelector('.categories-container');
+            container.style.position = 'absolute';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.right = '0';
+            container.style.bottom = '0';
+            container.style.width = '100%';
+            container.style.maxWidth = '100%';
+            container.style.height = '100%';
+            container.style.overflow = 'auto';
+            
+            // Ensure projects containers don't overflow
+            document.querySelectorAll('.projects-container').forEach(container => {
+                container.style.maxWidth = '60%';
+                container.style.width = '60%';
+            });
+            
+            // Prevent text selection on mobile
+            document.querySelectorAll('.category-text').forEach(text => {
+                text.style.userSelect = 'none';
+                text.style.webkitUserSelect = 'none';
+                text.style.msUserSelect = 'none';
+                text.style.cursor = 'pointer';
+            });
+        }
+    }
+    
+    // Run fix on load and resize
+    if (IS_TOUCH_DEVICE) {
+        fixMobileOverflow();
+        window.addEventListener('resize', fixMobileOverflow);
+    }
     
     // Add orientation change listener for mobile devices
     window.addEventListener('orientationchange', () => {
@@ -1165,7 +1320,81 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
     });
     
+    // Register touch events for better mobile interaction
+    if (IS_TOUCH_DEVICE) {
+        categories.forEach(category => {
+            // Prevent default touch behaviors
+            category.addEventListener('touchstart', (e) => {
+                // Allow scrolling but prevent other behaviors
+                if (e.touches.length === 1) {
+                    e.stopPropagation();
+                }
+            }, { passive: true });
+            
+            // Use touchend instead of click for more responsive feel on touch devices
+            category.addEventListener('touchend', (e) => {
+                if (!category.classList.contains('active')) {
+                    // Only prevent default if we're activating (allow scrolling otherwise)
+                    e.preventDefault();
+                    // Trigger click programmatically
+                    category.click();
+                }
+            });
+        });
+        
+        // Disable text selection on mobile
+        document.addEventListener('selectstart', (e) => {
+            const target = e.target;
+            // Don't prevent selection in input fields
+            if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+    
     // Final sanity check - make sure all categories are visible after everything else
+    // Fix mobile overflow issues
+    function fixMobileOverflow() {
+        if (window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            document.body.style.height = '100%';
+            
+            const container = document.querySelector('.categories-container');
+            container.style.position = 'absolute';
+            container.style.top = '0';
+            container.style.left = '0';
+            container.style.right = '0';
+            container.style.bottom = '0';
+            container.style.width = '100%';
+            container.style.maxWidth = '100%';
+            container.style.height = '100%';
+            container.style.overflow = 'auto';
+            
+            // Ensure projects containers don't overflow
+            document.querySelectorAll('.projects-container').forEach(container => {
+                container.style.maxWidth = '60%';
+                container.style.width = '60%';
+            });
+            
+            // Prevent text selection on mobile
+            document.querySelectorAll('.category-text').forEach(text => {
+                text.style.userSelect = 'none';
+                text.style.webkitUserSelect = 'none';
+                text.style.msUserSelect = 'none';
+                text.style.cursor = 'pointer';
+            });
+        }
+    }
+    
+    // Run fix on load and resize
+    if (isTouchDevice()) {
+        fixMobileOverflow();
+        window.addEventListener('resize', fixMobileOverflow);
+    }
+    
     setTimeout(() => {
         // Ensure container is scrollable
         const container = document.querySelector('.categories-container');
@@ -1225,12 +1454,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Fix mobile specific issues
         if (window.innerWidth <= 768) {
-            // Ensure no horizontal scrolling
-            document.body.style.overflowX = 'hidden';
-            document.documentElement.style.overflowX = 'hidden';
-            container.style.width = '100%';
-            container.style.maxWidth = '100vw';
-            container.style.overflowX = 'hidden';
+            // Apply comprehensive mobile fixes
+            fixMobileOverflow();
             
             // Ensure all projects containers are closed on mobile load
             document.querySelectorAll('.projects-container').forEach(container => {
@@ -1243,15 +1468,52 @@ document.addEventListener('DOMContentLoaded', () => {
             const style = document.createElement('style');
             style.textContent = `
                 @media (max-width: 768px) {
-                    body, html { max-width: 100vw; overflow-x: hidden; }
-                    .categories-container { max-width: 100vw; overflow-x: hidden; }
-                    .projects-container { max-width: 60vw; }
+                    body, html {
+                        max-width: 100%;
+                        width: 100%;
+                        overflow-x: hidden;
+                        position: fixed;
+                        touch-action: pan-y;
+                        -webkit-overflow-scrolling: touch;
+                    }
+                    .categories-container {
+                        max-width: 100%;
+                        width: 100%;
+                        overflow-x: hidden;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                    }
+                    .projects-container {
+                        max-width: 60%;
+                        width: 60%;
+                    }
+                    .category, .category-text {
+                        user-select: none;
+                        -webkit-user-select: none;
+                        -ms-user-select: none;
+                        -webkit-tap-highlight-color: rgba(0,0,0,0);
+                    }
                 }
             `;
             document.head.appendChild(style);
+            
+            // Fix for devices with notches and safe areas
+            const viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (viewportMeta) {
+                viewportMeta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+            }
         }
         
-        // One last adjustment
+        // One last adjustment with a slight delay for better initial rendering
         adjustTextSize();
-    }, 1500);
+        
+        // Additional adjustment for mobile after everything has settled
+        if (IS_TOUCH_DEVICE) {
+            setTimeout(adjustTextSize, 300);
+            setTimeout(fixMobileOverflow, 500);
+        }
+    }, 1000);
 });
