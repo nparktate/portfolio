@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
         minCategoryHeight: 80,  // Minimum category height in pixels
         transitionDuration: 300, // Transition duration in ms for smooth text changes
         abbreviationLevels: 5,   // Number of abbreviation levels (excluding full text)
-        abbreviationBuffer: 0.25, // Large buffer to prevent flickering between states (25%)
-        hysteresisBuffer: 0.1, // Additional buffer when growing vs shrinking (10%)
+        abbreviationBuffer: 0.35, // Even larger buffer to prevent flickering between states (35%)
+        hysteresisBuffer: 0.2, // Much larger buffer when growing vs shrinking (20%)
         standardScreenWidth: 1024, // Minimum width considered a "standard" screen
         throttleDelay: 200, // Longer delay for throttling resize events
-        resizeThreshold: 20 // Minimum px change before recalculating abbreviations
+        resizeThreshold: 40 // Much larger minimum px change before recalculating abbreviations
     };
     
     // Helper function to get text width without wrapping
@@ -320,10 +320,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tempElement.textContent = fullText;
         let textWidth = tempElement.offsetWidth;
         
-        // Special handling for large screens - prefer full text with large buffer
+        // Special handling for large screens - prefer full text with much larger buffer
         if (isStandardScreen && currentLevel <= 1) {
             // On standard screens, give full text extra room
-            if (textWidth <= containerWidth * (fitThreshold + 0.2)) {
+            if (textWidth <= containerWidth * (fitThreshold + 0.4)) {
                 document.body.removeChild(tempElement);
                 
                 // Only change if not already at full text
@@ -365,14 +365,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Make it much harder to change states when near boundaries
             let effectiveThreshold = fitThreshold;
             
-            // Apply hysteresis - create a dead zone at boundaries
-            if (currentLevel < i) { // Growing
-                effectiveThreshold += bufferSize + CONFIG.hysteresisBuffer;
-            } else if (currentLevel > i) { // Shrinking
-                effectiveThreshold += bufferSize - CONFIG.hysteresisBuffer;
-            } else { // Staying the same
-                effectiveThreshold += bufferSize;
-            }
+            // Apply extreme hysteresis - create a massive dead zone at boundaries to prevent flickering
+                if (currentLevel < i) { // Growing - make it much harder to grow
+                    effectiveThreshold += bufferSize + (CONFIG.hysteresisBuffer * 2);
+                } else if (currentLevel > i) { // Shrinking - make it much harder to shrink
+                    effectiveThreshold += bufferSize - (CONFIG.hysteresisBuffer / 2);
+                } else { // Staying the same - huge buffer
+                    effectiveThreshold += bufferSize * 1.5;
+                }
             
             // Special case for standard screens - avoid early abbreviations for "3D ANIMATION & DESIGN"
             if (isStandardScreen && fullText.includes("3D ANIMATION") && (i <= 2) && textWidth <= containerWidth) {
@@ -598,49 +598,8 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
-    // Add subtle interactive typography effects
-    document.addEventListener('mousemove', debounce((e) => {
-        if (!activeCategory) {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            
-            categories.forEach((category) => {
-                const textElement = category.querySelector('.category-text');
-                
-                // Get category position
-                const rect = category.getBoundingClientRect();
-                const centerY = rect.top + rect.height / 2;
-                
-                // Calculate normalized distance (0-1)
-                const distanceY = Math.abs(e.clientY - centerY) / (window.innerHeight / 2);
-                const normalizedDistance = Math.min(1, distanceY);
-                
-                // Get stored weight and scales
-                const baseWeight = parseInt(textElement.style.getPropertyValue('--calculated-weight') || 400);
-                const scaleX = parseFloat(textElement.style.getPropertyValue('--text-scale-x') || 1);
-                const scaleY = parseFloat(textElement.style.getPropertyValue('--text-scale-y') || 1);
-                
-                // Calculate hover effect - increase weight for nearby text
-                // This achieves a subtle "magnetic" effect
-                let hoverWeight = baseWeight;
-                if (normalizedDistance < 0.5) {
-                    // Boost weight for categories close to cursor (max +200 weight)
-                    const boost = 200 * (1 - normalizedDistance * 2);
-                    hoverWeight = Math.min(900, Math.round(baseWeight + boost));
-                }
-                
-                // Set the hover-influenced weight
-                textElement.style.fontVariationSettings = `'wght' ${hoverWeight}`;
-                
-                // Subtle horizontal shift based on mouse position
-                const maxShift = 2; // max pixels to shift
-                const shiftX = (mouseX - 0.5) * maxShift;
-                
-                // Apply transform with original scaling preserved
-                textElement.style.transform = `translateX(${shiftX}px) scale(${scaleX}, ${scaleY})`;
-            });
-        }
-    }, 50)); // Increased debounce for smoother performance
+    // Completely removed interactive typography effects that cause stuttering
+    // Only keep simple hover states managed by CSS
     
     // Double-click anywhere to go back to main view
     document.addEventListener('dblclick', () => {
@@ -755,30 +714,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 200);
     }
     
-    // Throttled resize handler with width threshold to prevent micro-adjustments
+    // Heavily throttled resize handler with large width threshold to prevent micro-adjustments
     let lastRecordedWidth = window.innerWidth;
+    let resizeCounter = 0;
     
     window.addEventListener('resize', () => {
         // Only recalculate if width changed by significant amount
         const currentWidth = window.innerWidth;
         const widthDiff = Math.abs(currentWidth - lastRecordedWidth);
         
-        if (widthDiff < CONFIG.resizeThreshold) {
-            return; // Skip if change is too small
+        // Skip more aggressively during rapid resizing
+        resizeCounter++;
+        if (widthDiff < CONFIG.resizeThreshold || (resizeCounter % 3 !== 0 && widthDiff < 100)) {
+            return; // Skip if change is too small or during rapid resize
         }
         
         if (throttleTimer === null) {
             lastRecordedWidth = currentWidth;
             handleResize();
             
+            // Reset throttle timer with longer delay
             throttleTimer = setTimeout(() => {
                 throttleTimer = null;
+                resizeCounter = 0;
                 // Final adjustment after throttle
                 if (!isAdjusting) {
                     lastRecordedWidth = window.innerWidth;
                     adjustTextSize();
                 }
-            }, CONFIG.throttleDelay);
+            }, CONFIG.throttleDelay * 2);
         }
     });
     

@@ -77,8 +77,8 @@ body, html {
     white-space: nowrap;
     letter-spacing: -0.02em;
     color: rgba(255, 255, 255, 0.8);
-    transition: color 0.3s ease, opacity 0.3s ease, font-variation-settings 0.5s ease;
-    will-change: opacity, font-variation-settings;
+    transition: color 0.2s ease;
+    will-change: color;
     line-height: 1;
     display: block;
     text-align: center;
@@ -99,14 +99,11 @@ body, html {
 
 .category:hover .category-text {
     color: rgba(255, 255, 255, 1);
-    opacity: 0.9;
-    /* No transform or animation that would cause layout shifts */
 }
 
 /* Prevent jittering during scroll */
 html.is-scrolling .category-text {
     transition: none !important;
-    font-variation-settings: 'wght' 500 !important;
     transform: none !important;
 }
 
@@ -304,32 +301,22 @@ html.is-scrolling .category-text {
     display: inline-block;
     max-width: none;
     max-height: none;
-    transition: font-variation-settings 0.3s ease-out, 
-                transform 0.3s ease-out, 
-                color 0.3s ease-out,
-                opacity 0.3s ease-out;
-    will-change: transform, font-variation-settings, contents, opacity;
+    transition: transform 0.2s ease-out, 
+                color 0.2s ease-out;
+    will-change: transform;
     backface-visibility: hidden;
 }
 
 /* Dynamic text abbreviation system */
 .category-text {
-    /* Remove transitions to prevent flickering */
-    transition: color 0.3s ease-out;
-    will-change: transform;
+    /* Simplified transitions */
+        transition: color 0.2s ease-out;
     backface-visibility: hidden;
     -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .category-text.transitioning {
     /* No transition effect */
-    animation: flash 0.3s;
-}
-
-@keyframes flash {
-    0% { opacity: 0.9; }
-    50% { opacity: 0.95; }
-    100% { opacity: 1; }
 }
 
 .category-text[data-current-abbr] {
@@ -463,9 +450,10 @@ html.is-scrolling .category-text {
 .category, .category-text, .category-inner {
     visibility: visible !important;
     opacity: 1 !important;
-    /* Remove transform transition to prevent flickering */
+    /* GPU acceleration without transitions */
     backface-visibility: hidden;
-    -webkit-font-smoothing: subpixel-antialiased;
+    -webkit-font-smoothing: antialiased;
+    transform-style: preserve-3d;
 }
 
 /* Prevent abbreviation on larger screens */
