@@ -1,0 +1,178 @@
+/* 
+ * folder.css
+ * Styles for folder-based navigation between categories and projects
+ */
+
+/* Projects container when shown as a separate view */
+.projects-view {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: stretch;
+  justify-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #0f0f0f;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
+  transition: opacity 0.4s ease;
+  will-change: opacity;
+}
+
+/* Back navigation button */
+.navigation-back-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1000;
+  background: rgba(15, 15, 15, 0.75);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 4px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  animation: fadeIn 0.4s forwards;
+  animation-delay: 0.2s;
+}
+
+.navigation-back-button:hover {
+  background: rgba(30, 30, 30, 0.85);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Style for project items that match category styling */
+.project {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+  transition: background-color 0.3s ease;
+  padding: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 16.66vh;
+  height: 16.66vh;
+  opacity: 0;
+  animation: fadeSlideIn 0.4s forwards;
+  animation-fill-mode: both;
+}
+
+.project:last-child {
+  border-bottom: none;
+}
+
+/* Staggered entrance animation for projects */
+.project:nth-child(1) { animation-delay: 0.05s; }
+.project:nth-child(2) { animation-delay: 0.1s; }
+.project:nth-child(3) { animation-delay: 0.15s; }
+.project:nth-child(4) { animation-delay: 0.2s; }
+.project:nth-child(5) { animation-delay: 0.25s; }
+.project:nth-child(6) { animation-delay: 0.3s; }
+
+/* Hover effects */
+.project:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.project:hover .category-text {
+  opacity: 1;
+}
+
+/* Projects text colors by category */
+.projects-view[data-category="MOTION DESIGN"] .category-text {
+  color: rgba(255, 99, 71, 0.8); /* Tomato red */
+}
+
+.projects-view[data-category="STATIC DESIGN"] .category-text {
+  color: rgba(65, 105, 225, 0.8); /* Royal blue */
+}
+
+.projects-view[data-category="3D ANIMATION & DESIGN"] .category-text {
+  color: rgba(50, 205, 50, 0.8); /* Lime green */
+}
+
+.projects-view[data-category="WEB DEVELOPMENT"] .category-text {
+  color: rgba(255, 165, 0, 0.8); /* Orange */
+}
+
+.projects-view[data-category="MISC DEVELOPMENT"] .category-text {
+  color: rgba(186, 85, 211, 0.8); /* Medium orchid */
+}
+
+.projects-view[data-category="TRASH / TESTING"] .category-text {
+  color: rgba(178, 34, 34, 0.8); /* Firebrick */
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeSlideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+  .navigation-back-button {
+    top: max(1rem, env(safe-area-inset-top));
+    left: max(1rem, env(safe-area-inset-left));
+  }
+  
+  .projects-view {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .navigation-back-button {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    top: max(1rem, env(safe-area-inset-top));
+    left: max(1rem, env(safe-area-inset-left));
+  }
+  
+  .project {
+    min-height: 16.66vh;
+  }
+}
+
+/* Fix iOS and mobile issues */
+@media (pointer: coarse) {
+  .navigation-back-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .project {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+}
