@@ -519,72 +519,378 @@ document.addEventListener('DOMContentLoaded', () => {
             if (activeCategory && activeCategory !== category) {
                 activeCategory.classList.remove('active');
                 activeProjectsContainer.classList.remove('active');
+                
+                // Reset previous category appearance
+                activeCategory.style.width = '';
+                const prevText = activeCategory.querySelector('.category-text');
+                if (prevText && prevText.getAttribute('data-full-text')) {
+                    prevText.textContent = prevText.getAttribute('data-full-text');
+                    prevText.setAttribute('data-current-abbr', 'full-text');
+                }
             }
             
             // Toggle active state
             category.classList.toggle('active');
             projectsContainer.classList.toggle('active');
             
-            // Update active elements
+            // Update active elements and adjust appearance
             if (category.classList.contains('active')) {
                 activeCategory = category;
                 activeProjectsContainer = projectsContainer;
                 
-                // Add subtle motion effect
-                categories.forEach(cat => {
-                    if (cat !== category) {
-                        const offset = Math.random() * 5 - 2.5;
-                        cat.style.transform = `translateY(${offset}px)`;
-                        setTimeout(() => {
-                            cat.style.transform = '';
-                        }, 500);
-                    }
-                });
+                // Set category width (instead of transform)
+                const isMobile = window.innerWidth <= 768;
+                category.style.width = isMobile ? '40%' : '50%';
+                
+                // Use a more abbreviated form and bolder weight for the active category
+                const textElement = category.querySelector('.category-text');
+                if (textElement) {
+                    const abbrText = textElement.getAttribute('data-abbr-1') || textElement.textContent;
+                    textElement.textContent = abbrText;
+                    textElement.setAttribute('data-current-abbr', 'abbr-1');
+                    textElement.style.fontVariationSettings = `'wght' 700`;
+                }
+                
+                // Apply variable font styling to projects
+                styleProjectsWithVariableFont(projectsContainer);
             } else {
+                // Reset category appearance
+                category.style.width = '';
+                const textElement = category.querySelector('.category-text');
+                if (textElement && textElement.getAttribute('data-full-text')) {
+                    textElement.textContent = textElement.getAttribute('data-full-text');
+                    textElement.setAttribute('data-current-abbr', 'full-text');
+                }
+                
                 activeCategory = null;
                 activeProjectsContainer = null;
             }
         });
     });
     
+    // Apply variable font styling to projects
+    function styleProjectsWithVariableFont(container) {
+        if (!container) return;
+        
+        const projects = container.querySelectorAll('.project-item');
+        const containerWidth = container.offsetWidth - 40; // Account for padding
+        
+        // Stagger animation for projects
+        projects.forEach((project, index) => {
+            // Reset style first
+            project.style.opacity = '0';
+            project.style.transform = 'translateX(20px)';
+            
+            // Calculate available height
+            const projectHeight = Math.floor(container.offsetHeight / projects.length) - 20;
+            project.style.height = `${projectHeight}px`;
+            
+            // Set font size based on height
+            const fontSize = Math.floor(projectHeight * 0.4);
+            project.style.fontSize = `${fontSize}px`;
+            
+            // Get text width
+            const textWidth = project.offsetWidth;
+            
+            // Apply scaling to fill width
+            if (textWidth > 0) {
+                const scaleX = (containerWidth * 0.9) / textWidth;
+                const scale = scaleX < 1 ? scaleX : 1;
+                project.style.transform = `translateX(20px) scaleX(${scale})`;
+                project.style.transformOrigin = 'left center';
+            }
+            
+            // Apply variable weight - slightly more variation
+            const weight = 300 + (index * 75) % 400; // Vary weights between projects
+            project.style.fontVariationSettings = `'wght' ${weight}`;
+            
+            // Staggered entrance animation
+            setTimeout(() => {
+                project.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                project.style.opacity = '1';
+                
+                // Extract current scale if it exists
+                const currentTransform = project.style.transform;
+                let scale = '1';
+                if (currentTransform && currentTransform.includes('scaleX')) {
+                    const match = currentTransform.match(/scaleX\(([0-9.]+)\)/);
+                    if (match && match[1]) {
+                        scale = match[1];
+                    }
+                }
+                
+                project.style.transform = `translateX(0) scaleX(${scale})`;
+            }, 100 + (index * 50)); // Stagger by 50ms per item
+        });
+    }
+    
     // Function to open project details
     function openProjectDetails(projectId) {
-        projectDetails.classList.remove('hidden');
-        projectDetails.classList.add('active');
+        // Create portal effect when navigating to project
+        const portalEffect = () => {
+            // First hide any active category panels with animation
+            if (activeCategory && activeProjectsContainer) {
+                // Animate category width back to full first
+                activeCategory.style.transition = 'width 0.3s ease-out';
+                activeCategory.style.width = '';
+                
+                // After width animation, remove active class
+                setTimeout(() => {
+                    activeCategory.classList.remove('active');
+                    activeProjectsContainer.classList.remove('active');
+                    
+                    // Reset category text
+                    const textElement = activeCategory.querySelector('.category-text');
+                    if (textElement && textElement.getAttribute('data-full-text')) {
+                        textElement.textContent = textElement.getAttribute('data-full-text');
+                        textElement.setAttribute('data-current-abbr', 'full-text');
+                    }
+                }, 300);
+            }
+            
+            // Show loading effect before project details
+            const loaderElement = document.createElement('div');
+            loaderElement.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.9);
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            
+            const loaderInner = document.createElement('div');
+            loaderInner.style.cssText = `
+                width: 40px;
+                height: 40px;
+                border: 3px solid rgba(255,255,255,0.2);
+                border-top-color: white;
+                border-radius: 50%;
+                animation: spin 1s ease-in-out infinite;
+            `;
+            
+            // Add keyframes for loader animation
+            const styleElement = document.createElement('style');
+            styleElement.textContent = `
+                @keyframes spin {
+                    to { transform: rotate(360deg); }
+                }
+            `;
+            document.head.appendChild(styleElement);
+            
+            loaderElement.appendChild(loaderInner);
+            document.body.appendChild(loaderElement);
+            
+            // Fade in loader
+            setTimeout(() => {
+                loaderElement.style.opacity = '1';
+                
+                // Show project details with animation after short delay
+                setTimeout(() => {
+                    loaderElement.style.opacity = '0';
+                    projectDetails.classList.remove('hidden');
+                    projectDetails.classList.add('active');
+                    
+                    // Remove loader after transition
+                    setTimeout(() => {
+                        document.body.removeChild(loaderElement);
+                    }, 300);
+                }, 400);
+            }, 10);
+        };
+        
+        // Start portal transition
+        portalEffect();
+        
+        // Generate dynamic color based on project ID
+        const projectHue = (projectId.charCodeAt(0) * projectId.length) % 360;
+        const secondaryHue = (projectHue + 180) % 360;
         
         // Create content for project details
         projectDetails.innerHTML = `
             <div class="project-header">
+                <button class="back-button">← Back</button>
                 <h2>${projectId.replace(/-/g, ' ')}</h2>
-                <button class="close-button">×</button>
             </div>
             <div class="project-content">
-                <div class="project-images">
-                    <div class="image-placeholder" style="background-color: hsl(${Math.random() * 360}, 80%, 70%)"></div>
-                    <div class="image-placeholder" style="background-color: hsl(${Math.random() * 360}, 80%, 70%)"></div>
+                <div class="project-hero" style="background-color: hsl(${projectHue}, 70%, 10%)">
+                    <div class="hero-content">
+                        <h1>${projectId.split('-').pop()}</h1>
+                        <div class="hero-image" style="background-color: hsl(${projectHue}, 80%, 70%)"></div>
+                    </div>
                 </div>
                 <div class="project-description">
+                    <h3>About this project</h3>
                     <p>This is an experimental project by Nicholas Tate Park. Super dynamic responsive layout demonstration.</p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+                    
+                    <div class="project-details-grid">
+                        <div class="detail-item" style="background-color: hsl(${projectHue}, 40%, 20%)">
+                            <h4>Role</h4>
+                            <p>Motion Design</p>
+                        </div>
+                        <div class="detail-item" style="background-color: hsl(${secondaryHue}, 40%, 20%)">
+                            <h4>Year</h4>
+                            <p>2024</p>
+                        </div>
+                        <div class="detail-item" style="background-color: hsl(${projectHue + 60}, 40%, 20%)">
+                            <h4>Tools</h4>
+                            <p>After Effects, Blender</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
         
-        // Add close button functionality
-        const closeButton = projectDetails.querySelector('.close-button');
-        closeButton.addEventListener('click', () => {
-            projectDetails.classList.remove('active');
-            setTimeout(() => {
-                projectDetails.classList.add('hidden');
-            }, 500);
+        // Style the project page elements
+        const projectHeader = projectDetails.querySelector('.project-header');
+        projectHeader.style.cssText = `
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        `;
+        
+        const projectHero = projectDetails.querySelector('.project-hero');
+        projectHero.style.cssText = `
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            overflow: hidden;
+        `;
+        
+        const heroContent = projectDetails.querySelector('.hero-content');
+        heroContent.style.cssText = `
+            width: 80%;
+            height: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        `;
+        
+        const heroImage = projectDetails.querySelector('.hero-image');
+        heroImage.style.cssText = `
+            width: 100%;
+            height: 400px;
+            border-radius: 4px;
+            margin-top: 2rem;
+        `;
+        
+        const projectGrid = projectDetails.querySelector('.project-details-grid');
+        projectGrid.style.cssText = `
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        `;
+        
+        const detailItems = projectDetails.querySelectorAll('.detail-item');
+        detailItems.forEach(item => {
+            item.style.cssText = `
+                padding: 1.5rem;
+                border-radius: 4px;
+                transition: transform 0.3s ease;
+            `;
+            
+            item.addEventListener('mouseenter', () => {
+                item.style.transform = 'scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.transform = 'scale(1)';
+            });
         });
         
-        // Styling for new elements
-        const imagePlaceholders = projectDetails.querySelectorAll('.image-placeholder');
-        imagePlaceholders.forEach(placeholder => {
-            placeholder.style.height = '200px';
-            placeholder.style.marginBottom = '20px';
-            placeholder.style.borderRadius = '4px';
+        // Add back button functionality
+        const backButton = projectDetails.querySelector('.back-button');
+        backButton.style.cssText = `
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+        `;
+        
+        backButton.addEventListener('mouseenter', () => {
+            backButton.style.background = 'rgba(255,255,255,0.1)';
+        });
+        
+        backButton.addEventListener('mouseleave', () => {
+            backButton.style.background = 'none';
+        });
+        
+        backButton.addEventListener('click', () => {
+            // Create transition effect for going back
+            const transitionOut = document.createElement('div');
+            transitionOut.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #0a0a0a;
+                z-index: 9998;
+                transform: translateY(100%);
+                transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            `;
+            document.body.appendChild(transitionOut);
+            
+            // Start transition animation
+            setTimeout(() => {
+                transitionOut.style.transform = 'translateY(0)';
+                
+                // Hide project details during transition
+                setTimeout(() => {
+                    projectDetails.classList.remove('active');
+                    projectDetails.classList.add('hidden');
+                    
+                    // Complete transition and remove overlay
+                    setTimeout(() => {
+                        // Reactivate previous category and project container if they exist
+                        if (activeCategory && activeProjectsContainer) {
+                            activeCategory.classList.add('active');
+                            activeProjectsContainer.classList.add('active');
+                            
+                            // Set category width with animation
+                            const isMobile = window.innerWidth <= 768;
+                            activeCategory.style.width = isMobile ? '40%' : '50%';
+                            
+                            // Use abbreviation for active category
+                            const textElement = activeCategory.querySelector('.category-text');
+                            if (textElement) {
+                                const abbrText = textElement.getAttribute('data-abbr-1') || textElement.textContent;
+                                textElement.textContent = abbrText;
+                                textElement.setAttribute('data-current-abbr', 'abbr-1');
+                            }
+                            
+                            // Apply variable font styling to projects again
+                            styleProjectsWithVariableFont(activeProjectsContainer);
+                        }
+                        
+                        // Complete transition
+                        transitionOut.style.transform = 'translateY(-100%)';
+                        setTimeout(() => {
+                            document.body.removeChild(transitionOut);
+                        }, 500);
+                    }, 300);
+                }, 250);
+            }, 10);
         });
     }
     
@@ -753,6 +1059,47 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Add orientation change listener for mobile devices
     window.addEventListener('orientationchange', () => {
+        // Show orientation change animation
+        const orientationTransition = document.createElement('div');
+        orientationTransition.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        
+        const transitionText = document.createElement('div');
+        transitionText.textContent = 'Adjusting layout...';
+        transitionText.style.cssText = `
+            color: white;
+            font-family: 'Archivo', sans-serif;
+            font-size: 18px;
+            font-variation-settings: 'wght' 400;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        `;
+        
+        orientationTransition.appendChild(transitionText);
+        document.body.appendChild(orientationTransition);
+        
+        // Show transition
+        setTimeout(() => {
+            orientationTransition.style.opacity = '1';
+            setTimeout(() => {
+                transitionText.style.opacity = '1';
+                transitionText.style.transform = 'translateY(0)';
+            }, 100);
+        }, 10);
+        
         // Reset all text elements
         categories.forEach(category => {
             const textElement = category.querySelector('.category-text');
@@ -765,15 +1112,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Remove any transition markers
                 textElement.removeAttribute('data-current-abbr');
             }
+            
+            // Close any open categories on orientation change to prevent layout issues
+            if (category.classList.contains('active')) {
+                category.classList.remove('active');
+                category.style.width = '';
+                
+                // Find and close the related projects container
+                const categoryId = category.getAttribute('data-category');
+                const projectsContainer = document.querySelector(`.projects-container[data-for="${categoryId}"]`);
+                if (projectsContainer) {
+                    projectsContainer.classList.remove('active');
+                }
+            }
         });
+        
+        // Reset active state tracking
+        activeCategory = null;
+        activeProjectsContainer = null;
+        
+        // Hide project details if visible
+        if (projectDetails && !projectDetails.classList.contains('hidden')) {
+            projectDetails.classList.remove('active');
+            projectDetails.classList.add('hidden');
+        }
         
         // Wait for orientation change to fully complete before adjusting
         setTimeout(() => {
             // Record new width for threshold checks
             lastRecordedWidth = window.innerWidth;
+            
+            // Apply specific fixes for mobile
+            if (window.innerWidth <= 768) {
+                document.body.style.overflowX = 'hidden';
+                document.documentElement.style.overflowX = 'hidden';
+                const container = document.querySelector('.categories-container');
+                container.style.width = '100%';
+                container.style.maxWidth = '100vw';
+                container.style.overflowX = 'hidden';
+            }
+            
             // Single adjustment with longer delay to ensure layout is settled
             adjustTextSize();
-        }, 300);
+            
+            // Hide transition with delay
+            setTimeout(() => {
+                orientationTransition.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(orientationTransition);
+                }, 300);
+            }, 300);
+        }, 500);
     });
     
     // Final sanity check - make sure all categories are visible after everything else
@@ -782,12 +1171,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.querySelector('.categories-container');
         container.style.overflowY = 'auto';
         
+        // Fix for mobile - ensure NO categories are active on initial load
+        if (window.innerWidth <= 768) {
+            activeCategory = null;
+            activeProjectsContainer = null;
+        }
+        
         // Force all categories to be visible
         categories.forEach(category => {
             category.style.display = 'flex';
             category.style.visibility = 'visible';
             category.style.opacity = '1';
             category.style.minHeight = '80px';
+            
+            // Reset ALL categories on mobile to prevent accidental open state
+            if (window.innerWidth <= 768) {
+                category.classList.remove('active');
+                category.style.width = '';
+                    
+                // Find and close the related projects container
+                const categoryId = category.getAttribute('data-category');
+                const projectsContainer = document.querySelector(`.projects-container[data-for="${categoryId}"]`);
+                if (projectsContainer) {
+                    projectsContainer.classList.remove('active');
+                }
+            } else if (category.classList.contains('active')) {
+                // On desktop, only allow one active category
+                if (activeCategory && activeCategory !== category) {
+                    category.classList.remove('active');
+                    category.style.width = '';
+                    
+                    // Find and close the related projects container
+                    const categoryId = category.getAttribute('data-category');
+                    const projectsContainer = document.querySelector(`.projects-container[data-for="${categoryId}"]`);
+                    if (projectsContainer) {
+                        projectsContainer.classList.remove('active');
+                    }
+                }
+            }
             
             // Make sure we're using less abbreviation on larger screens
             if (window.innerWidth >= CONFIG.standardScreenWidth) {
@@ -801,6 +1222,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+        
+        // Fix mobile specific issues
+        if (window.innerWidth <= 768) {
+            // Ensure no horizontal scrolling
+            document.body.style.overflowX = 'hidden';
+            document.documentElement.style.overflowX = 'hidden';
+            container.style.width = '100%';
+            container.style.maxWidth = '100vw';
+            container.style.overflowX = 'hidden';
+            
+            // Ensure all projects containers are closed on mobile load
+            document.querySelectorAll('.projects-container').forEach(container => {
+                container.classList.remove('active');
+                container.style.transform = 'translateX(100%)';
+                container.style.opacity = '0';
+            });
+            
+            // Add necessary CSS to prevent horizontal overflow
+            const style = document.createElement('style');
+            style.textContent = `
+                @media (max-width: 768px) {
+                    body, html { max-width: 100vw; overflow-x: hidden; }
+                    .categories-container { max-width: 100vw; overflow-x: hidden; }
+                    .projects-container { max-width: 60vw; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
         
         // One last adjustment
         adjustTextSize();

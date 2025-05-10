@@ -109,8 +109,9 @@ html.is-scrolling .category-text {
 
 /* Active category */
 .category.active {
-    transform: translateX(-50%);
     z-index: 2;
+    width: 50%;
+    /* No more translateX to avoid overflow issues on mobile */
 }
 
 .category.active .category-text {
@@ -122,51 +123,96 @@ html.is-scrolling .category-text {
 .projects-container {
     position: absolute;
     top: 0;
-    right: -100%;
+    right: 0;
     width: 50%;
     height: 100%;
     background-color: #161616;
-    transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateX(100%);
+    opacity: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 1;
     padding: 1rem;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .projects-container.active {
-    right: 0;
+    transform: translateX(0);
+    opacity: 1;
 }
 
 /* Project items within container */
 .project-item {
-    padding: 1vh 1vw;
-    margin-bottom: 1vh;
+    padding: 2vh 1vw;
+    margin-bottom: 1.5vh;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     background-color: rgba(255, 255, 255, 0.03);
     border-radius: 2px;
+    font-family: 'Archivo', sans-serif;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-variation-settings: 'wght' 400;
+    position: relative;
+    overflow: hidden;
 }
 
 .project-item:hover {
     background-color: rgba(255, 255, 255, 0.08);
+    font-variation-settings: 'wght' 600;
+    letter-spacing: 0.01em;
     transform: translateX(5px);
+}
+
+.project-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+    transition: width 0.3s ease;
+}
+
+.project-item:hover::after {
+    width: 100%;
 }
 
 /* Project details container */
 #project-details {
-    position: absolute;
+    position: fixed;
     top: 0;
-    right: -50%;
-    width: 50%;
+    left: 0;
+    width: 100%;
     height: 100%;
     background-color: #0a0a0a;
-    transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(100%);
+    opacity: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 2em;
-    z-index: 0;
+    z-index: 10;
+    -webkit-overflow-scrolling: touch;
 }
 
 #project-details.active {
-    right: 0;
+    transform: translateY(0);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    #project-details {
+        padding: 1.5em;
+    }
+    
+    .back-button {
+        padding: 10px 15px !important;
+        margin-right: 10px !important;
+    }
 }
 
 #project-grid {
@@ -198,46 +244,55 @@ html.is-scrolling .category-text {
 /* Media queries for extreme responsiveness */
 @media (max-width: 768px) {
     .category.active {
-        transform: translateY(-40%);
+        width: 40%;
+        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .projects-container {
-        top: 60%;
+        top: 0;
         right: 0;
-        width: 100%;
-        height: 40%;
-        transform: translateY(100%);
+        width: 60%;
+        height: 100%;
+        transform: translateX(100%);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
     }
     
     .projects-container.active {
-        transform: translateY(0);
+        transform: translateX(0);
     }
     
     #project-details {
         top: 0;
-        right: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        transform: translateX(100%);
+        transform: translateY(100%);
+        overflow-x: hidden;
     }
     
     #project-details.active {
-        transform: translateX(0);
+        transform: translateY(0);
     }
     
     /* Allow line breaking in vertical/narrow layouts */
     .category-text {
         white-space: normal;
         word-break: break-word;
-        line-height: 0.85;
+        line-height: 0.9;
         text-align: center;
         margin: 0.15em 0;
         font-variation-settings: 'wght' 450 !important;
     }
     
     .category {
-        min-height: 15vh;
-        padding: 1vh 6vw;
+        min-height: 16vh;
+        padding: 2vh 6vw;
+    }
+    
+    /* Fix mobile overflow issues */
+    html, body {
+        max-width: 100vw;
+        overflow-x: hidden;
     }
 }
 
@@ -263,23 +318,50 @@ html.is-scrolling .category-text {
     }
     
     .category {
-        min-height: 20vh;
+        min-height: 16.66vh; /* Ensure equal sizing */
+        height: 16.66vh;
         justify-content: center;
         align-items: center;
         overflow: visible;
-        padding: 2vh 0;
+        padding: 0;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .category.active {
+        width: 40%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .projects-container {
+        width: 60%;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
     }
     
     .category-inner {
-        padding: 3vh 8vw;
-        height: 100%;
+        padding: 0 8vw;
         display: flex;
         align-items: center;
         justify-content: center;
+        height: 100%;
+        overflow: visible;
     }
     
     .categories-container {
-        justify-content: space-between;
+        justify-content: flex-start;
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: fixed;
+        width: 100%;
+        max-width: 100vw;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Improved project interaction for touch */
+    .project-item {
+        padding: 3vh 2vw;
+        margin-bottom: 2vh;
+        border-radius: 4px;
     }
 }
 
@@ -440,10 +522,24 @@ html.is-scrolling .category-text {
     justify-content: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 100%;
+    width: 100vw; /* Ensure it doesn't exceed viewport width */
+    max-width: 100%; /* Prevent horizontal scrolling */
     padding: 0;
     margin: 0;
     scroll-behavior: smooth;
+    position: relative;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: thin; /* Firefox */
+}
+
+@media (max-width: 768px) {
+    .categories-container {
+        scroll-snap-type: y proximity; /* Enable scroll snapping on mobile */
+    }
+    
+    .category {
+        scroll-snap-align: start; /* Snap categories to the top */
+    }
 }
 
 /* Ensure text is always visible regardless of resize state */
