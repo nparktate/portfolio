@@ -1,0 +1,97 @@
+/* project-list-fixes.css - Improves project list styling */
+
+/* Projects container refinements */
+.projects-container {
+  background-color: #0f0f0f;
+  box-shadow: -1px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Project item styling */
+.project-item {
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+  background-color: transparent;
+  border-left: 2px solid transparent;
+  font-family: 'Archivo', sans-serif;
+  text-transform: uppercase;
+  font-variation-settings: 'wght' 400;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  letter-spacing: 0.01em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover state */
+.project-item:hover {
+  color: rgba(255, 255, 255, 1);
+  font-variation-settings: 'wght' 500;
+  transform: translateX(5px);
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Reduce project item opacity for cleaner look */
+.project-item {
+  opacity: 0.85;
+}
+
+.project-item:hover {
+  opacity: 1;
+}
+
+/* Subtle underline effect */
+.project-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: width 0.3s ease;
+}
+
+.project-item:hover::after {
+  width: 100%;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .projects-container {
+    padding: 1.5rem;
+  }
+  
+  .project-item {
+    padding: 1.2rem 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Staggered entrance animation */
+.projects-container.active .project-item {
+  opacity: 0;
+  transform: translateX(10px);
+  animation: fadeSlideIn 0.5s forwards;
+}
+
+.projects-container.active .project-item:nth-child(1) { animation-delay: 0.05s; }
+.projects-container.active .project-item:nth-child(2) { animation-delay: 0.1s; }
+.projects-container.active .project-item:nth-child(3) { animation-delay: 0.15s; }
+.projects-container.active .project-item:nth-child(4) { animation-delay: 0.2s; }
+.projects-container.active .project-item:nth-child(5) { animation-delay: 0.25s; }
+.projects-container.active .project-item:nth-child(6) { animation-delay: 0.3s; }
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 0.85;
+    transform: translateX(0);
+  }
+}

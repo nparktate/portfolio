@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (projectId) {
             // Open the project directly if specified in URL
-            setTimeout(() => openProjectDetails(projectId, true), 500);
+            setTimeout(() => openProjectDetails(projectId, true), 300);
         }
     }
     
@@ -62,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => openProjectDetails(projectId, true), 500);
         }
     }
-    
     // Function to detect touch devices
     function isTouchDevice() {
         return (('ontouchstart' in window) ||
@@ -72,44 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Store touch capability
     const IS_TOUCH_DEVICE = isTouchDevice();
-    
-    // Handle browser back/forward navigation
-    window.addEventListener('popstate', (event) => {
-        if (event.state && event.state.projectId) {
-            // Open the project without adding to history
-            openProjectDetails(event.state.projectId, true);
-        } else {
-            // Close any open category first
-            if (activeCategory && activeProjectsContainer) {
-                activeCategory.classList.remove('active');
-                activeProjectsContainer.classList.remove('active');
-                
-                // Reset category appearance
-                activeCategory.style.width = '';
-                const textElement = activeCategory.querySelector('.category-text');
-                if (textElement) {
-                    textElement.textContent = textElement.getAttribute('data-full-text');
-                    textElement.setAttribute('data-current-abbr', 'full-text');
-                }
-                
-                activeCategory = null;
-                activeProjectsContainer = null;
-            }
-            
-            // Go back to main view
-            projectDetails.classList.remove('active');
-            setTimeout(() => {
-                projectDetails.classList.add('hidden');
-            }, 400);
-            
-            // Reset title
-            document.title = "Nicholas Tate Park | Portfolio";
-        }
-    });
-    
-    // Check for direct links on page load
-    checkUrlForProject();
-    
     // Configuration
     const CONFIG = {
         horizontalFill: 0.95,   // Fill 95% of available width
@@ -146,15 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.visibility = originalVisibility;
         
         return width;
-    }
-    
-    // Function to detect touch devices
-    function isTouchDevice() {
-        return (('ontouchstart' in window) ||
-                (navigator.maxTouchPoints > 0) ||
-                (navigator.msMaxTouchPoints > 0) ||
-                window.matchMedia('(pointer: coarse)').matches ||
-                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     }
     
     // Function to handle multi-line text with guaranteed spacing
@@ -714,6 +666,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!skipHistory) {
             const newUrl = `${window.location.pathname}?project=${encodeURIComponent(projectId)}`;
             history.pushState({ projectId }, '', newUrl);
+        } else if (window.UrlHandler) {
+            // Update URL without adding to history if using UrlHandler
+            window.UrlHandler.setProject(projectId);
         }
     
         // Create portal effect when navigating to project
@@ -928,7 +883,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         backButton.addEventListener('click', () => {
             // Update URL to remove project parameter
-            history.pushState({}, '', window.location.pathname);
+            if (window.UrlHandler) {
+                window.UrlHandler.clearProject();
+            } else {
+                history.pushState({}, '', window.location.pathname);
+            }
             document.title = "Nicholas Tate Park | Portfolio";
             
             // Create transition effect for going back
