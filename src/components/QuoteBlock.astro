@@ -1,0 +1,31 @@
+---
+interface Props {
+  author?: string;
+  source?: string;
+  align?: 'left' | 'center' | 'right';
+}
+
+const { author, source, align = 'center' } = Astro.props;
+
+const alignClass = {
+  left: 'text-left',
+  center: 'text-center mx-auto',
+  right: 'text-right ml-auto'
+};
+---
+
+<blockquote class={`relative max-w-4xl my-16 ${alignClass[align]} border-l-4 border-primary-500 bg-gray-50 px-8 md:px-12 py-10 js-fade`}>
+  <!-- Quote content -->
+  <div class="relative font-serif text-2xl md:text-3xl lg:text-4xl font-light leading-tight text-gray-800">
+    <slot></slot>
+  </div>
+  
+  <!-- Attribution if provided -->
+  {(author || source) && (
+    <footer class="mt-8 text-gray-600">
+      {author && <cite class="font-medium not-italic text-primary-700">{author}</cite>}
+      {author && source && <span class="mx-2">|</span>}
+      {source && <span class="not-italic">{source}</span>}
+    </footer>
+  )}
+</blockquote>

@@ -1,0 +1,33 @@
+---
+interface Props {
+  title: string;
+  company: string;
+  period: string;
+  position?: "left" | "right";
+}
+
+const { title, company, period, position = "left" } = Astro.props;
+const isLeft = position === "left";
+---
+
+<div class="relative pb-20 js-fade">
+  <!-- Timeline stem -->
+  <div class="absolute top-0 bottom-0 w-[2px] bg-gray-200 left-6 md:left-1/2 md:-ml-px"></div>
+  
+  <!-- Content container -->
+  <div class={`relative ${isLeft ? 'md:ml-0' : 'md:ml-1/2'} ${isLeft ? 'md:mr-1/2' : 'md:mr-0'} md:pl-12 md:pr-4 ${isLeft ? 'text-left' : 'md:text-right'}`}>
+    <!-- Dot -->
+    <div class="absolute w-5 h-5 rounded-full bg-primary-500 border-3 border-white shadow-md left-4 top-6 md:left-1/2 md:-ml-2.5"></div>
+    
+    <!-- Content -->
+    <div class="ml-14 md:ml-0 pt-1">
+      <span class="inline-block text-sm font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-700 mb-3">{period}</span>
+      <h3 class="text-xl md:text-2xl font-serif font-bold tracking-tight">{title}</h3>
+      <p class="text-primary-600 font-semibold text-lg">{company}</p>
+      
+      <div class="mt-4 text-gray-700">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>
