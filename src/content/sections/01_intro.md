@@ -3,11 +3,11 @@ title: "About Me"
 order: 1
 ---
 
-Nicholas Park
+<h1>Nicholas Park</h1>
 
-I'm a Motion Designer & Creative Technologist with over 5 years of experience crafting dynamic visual content for major entertainment brands. Specializing in motion graphics, VFX, and interactive design, I transform concepts into compelling visual narratives that capture audience attention and drive engagement.
+<p>I'm a Motion Designer & Creative Technologist with over 5 years of experience crafting dynamic visual content for major entertainment brands. Specializing in motion graphics, VFX, and interactive design, I transform concepts into compelling visual narratives that capture audience attention and drive engagement.</p>
 
-My work combines artistic vision with technical precision—merging creativity with strategic execution to deliver results that exceed expectations. Throughout my career at HBO Max, Nike, and Universal Music Group, I've created content garnering millions of views and establishing new benchmarks for digital engagement.
+<p>My work combines artistic vision with technical precision—merging creativity with strategic execution to deliver results that exceed expectations. Throughout my career at HBO Max, Nike, and Universal Music Group, I've created content garnering millions of views and establishing new benchmarks for digital engagement.</p>
 
 <div class="bg-gradient-to-r from-primary-50 to-white border-l-4 border-primary-500 pl-6 pr-4 py-8 my-12">
   <p class="text-xl md:text-2xl font-medium text-gray-800 max-w-2xl">
@@ -15,7 +15,7 @@ My work combines artistic vision with technical precision—merging creativity w
   </p>
 </div>
 
-Core Expertise
+<h2>Core Expertise</h2>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
@@ -41,4 +41,4 @@ Core Expertise
   </div>
 </div>
 
-Beyond my professional work, I actively explore emerging technologies and collaborate with artists across disciplines. This cross-pollination of ideas consistently enhances my approach to visual problem-solving and keeps my creative perspective fresh and innovative.
+<p>Beyond my professional work, I actively explore emerging technologies and collaborate with artists across disciplines. This cross-pollination of ideas consistently enhances my approach to visual problem-solving and keeps my creative perspective fresh and innovative.</p>

@@ -7,8 +7,6 @@ order: 4
 
 I'm available for select freelance projects, collaborations, and consultations in motion design and creative technology.
 
-
-
 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16">
   <div class="bg-white p-10 rounded-xl shadow-md border-t-4 border-primary-500">
     <h3 class="text-2xl font-serif font-bold mb-6 text-gray-900">Contact Details</h3>

@@ -7,5 +7,15 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: []
+  integrations: [],
+  markdown: {
+    render: [
+      '@astrojs/markdown-remark',
+      {
+        remarkPlugins: [],
+        rehypePlugins: [],
+        remarkRehype: { allowDangerousHtml: true }
+      }
+    ]
+  }
 });
