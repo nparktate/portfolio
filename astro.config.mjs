@@ -9,13 +9,8 @@ export default defineConfig({
   },
   integrations: [],
   markdown: {
-    render: [
-      '@astrojs/markdown-remark',
-      {
-        remarkPlugins: [],
-        rehypePlugins: [],
-        remarkRehype: { allowDangerousHtml: true }
-      }
-    ]
+    remarkPlugins: [],
+    rehypePlugins: [],
+    remarkRehype: { allowDangerousHtml: true }
   }
 });

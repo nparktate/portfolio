@@ -3,39 +3,18 @@ import { getCollection } from 'astro:content';
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import Navigation from "../components/Navigation.astro";
-import { marked } from 'marked';
 
 // Get all section content, sorted by order
 const sections = await getCollection('sections');
 const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
 
-// Configure marked to only process headings
-const renderer = new marked.Renderer();
-const originalHeadingRenderer = renderer.heading;
-renderer.heading = function(text, level) {
-  return originalHeadingRenderer.call(this, text, level);
-};
-
-// Process only the headings in Markdown
-marked.setOptions({
-  renderer: renderer,
-  headerIds: false,
-});
-
-// Process each section's content
-sortedSections.forEach(section => {
-  // Find Markdown headings and convert only those
-  let processedBody = section.body;
-  
-  // Process ## headings (h2) but preserve HTML
-  processedBody = processedBody.replace(/^## (.*)$/gm, '<h2>$1</h2>');
-  
-  // Process ### headings (h3) but preserve HTML
-  processedBody = processedBody.replace(/^### (.*)$/gm, '<h3>$1</h3>');
-  
-  // Assign the processed content back
-  section.processedBody = processedBody;
-});
+// Process content to handle Markdown headers
+function processMarkdownHeaders(content: string): string {
+  // Convert Markdown headers to HTML
+  return content
+    .replace(/^## (.*)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.*)$/gm, '<h3>$1</h3>');
+}
 ---
 
 <Base>
@@ -63,7 +42,7 @@ sortedSections.forEach(section => {
                     <div class="prose prose-xl prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight 
                         prose-p:text-gray-700 prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-800 
                         hover:prose-a:underline prose-img:rounded-lg prose-strong:text-gray-900 prose-strong:font-semibold max-w-none">
-                        <Fragment set:html={section.processedBody || section.body} />
+                        <Fragment set:html={processMarkdownHeaders(section.body)} />
                     </div>
                 </div>
             </section>

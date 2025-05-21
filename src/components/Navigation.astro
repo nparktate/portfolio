@@ -16,7 +16,7 @@ const { sections } = Astro.props;
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="flex justify-between items-center py-4 md:py-5">
       <!-- Logo/home -->
-      <a href="#" class="text-xl font-serif font-bold tracking-tight text-gray-900 hover:text-primary-600 transition relative group">
+      <a href="/" class="text-xl font-serif font-bold tracking-tight text-gray-900 hover:text-primary-600 transition relative group">
         <span class="relative z-10">NP</span>
         <span class="absolute bottom-0 left-0 w-0 h-1 bg-primary-500 transition-all duration-300 group-hover:w-full"></span>
       </a>
@@ -59,7 +59,7 @@ const { sections } = Astro.props;
   </div>
 </nav>
 
-<script>
+<script is:inline>
   // Handle mobile menu toggle
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');

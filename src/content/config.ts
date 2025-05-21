@@ -7,11 +7,6 @@ const sections = defineCollection({
     title: z.string(),
     order: z.number(),
   }),
-  // Allow using components in Markdown through MDX
-  render: async (entry) => {
-    const { Content } = await entry.render();
-    return { Content };
-  },
 });
 
 // Export the collections

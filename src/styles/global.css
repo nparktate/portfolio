@@ -109,14 +109,28 @@ a:focus, button:focus {
   padding-top: 1.5rem;
 }
 
-/* Reset any indentation caused by headings */
-.relative.pb-20,
-.relative.pb-12 {
+/* Timeline container styling */
+.timeline-item .relative.pb-20,
+.timeline-item .relative.pb-12 {
   clear: both;
   margin-left: 0;
   margin-right: 0;
   position: relative;
   width: 100%;
+  z-index: 1;
+}
+
+/* Make timeline stem continuous */
+.timeline-item .absolute.top-0.bottom-0.w-\[2px\] {
+  top: -20px;
+  bottom: -20px;
+  z-index: 0;
+}
+.timeline-item .relative.pb-20:first-of-type .absolute.top-0.bottom-0.w-\[2px\] {
+  top: 0;
+}
+.timeline-item .relative.pb-12:last-of-type .absolute.top-0.bottom-0.w-\[2px\] {
+  bottom: 0;
 }
 
 /* Ensure content containers align properly */
@@ -141,9 +155,27 @@ a:focus, button:focus {
   .timeline-item .ml-14.md\:ml-0 {
     margin-left: 0;
   }
+  
+  /* Improve timeline appearance on desktop */
+  .timeline-item .absolute.w-5.h-5.rounded-full {
+    z-index: 2;
+    border: 3px solid white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  
+  /* Ensure timeline stem is continuous on desktop */
+  .timeline-section .absolute.top-0.bottom-0.w-\[2px\] {
+    left: 50% !important;
+    margin-left: -1px !important;
+  }
 }
 
 /* Fix spacing issues for section headers */
 h2 + .relative {
   margin-top: 2rem;
+}
+
+/* Fix timeline dot positioning */
+.timeline-item .absolute.w-5.h-5.rounded-full {
+  z-index: 3;
 }
