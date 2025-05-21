@@ -256,25 +256,7 @@
         // Apply appropriate fear class based on level
         eyeball.classList.remove('nervous', 'anxious', 'scared', 'terrified');
         
-        // Add fear status message
-        const showStatusMessage = (text, color) => {
-          const statusText = document.createElement('div');
-          statusText.innerText = text;
-          statusText.style.position = 'absolute';
-          statusText.style.color = color;
-          statusText.style.fontWeight = 'bold';
-          statusText.style.fontSize = '16px';
-          statusText.style.textShadow = '0 0 3px white';
-          statusText.style.zIndex = '1000';
-          statusText.style.top = (currentY - 30) + 'px';
-          statusText.style.left = (currentX) + 'px';
-          statusText.style.animation = 'fadeOutUp 1.5s forwards';
-          document.body.appendChild(statusText);
-          
-          setTimeout(() => {
-            document.body.removeChild(statusText);
-          }, 1500);
-        };
+        // Fear response gets more dramatic with each click
         
         // Check for agony easter egg
         if (clickCount === 5) {
@@ -339,25 +321,51 @@
         } else if (clickCount === 1) {
           // First click - becoming nervous
           eyeball.classList.add('nervous');
-          showStatusMessage('Nervous...', '#FFA500');
           
           // Play subtle nervous sound
           const nervousAudio = new Audio();
           nervousAudio.volume = 0.1;
           nervousAudio.src = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAkJCQkJCQkJCQkJCQkJCQwMDAwMDAwMDAwMDAwMDAwMD/////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQCkAAAAAAAAAGwuTR9zgAAAAAAAAAAAAAAAAAAAAAA";
           nervousAudio.play().catch(e => console.log("Audio play prevented: ", e));
+          
+          // Subtle color change
+          eyeball.style.backgroundColor = '#fffbe8';
         } else if (clickCount === 2) {
           // Second click - becoming anxious
           eyeball.classList.add('anxious');
-          showStatusMessage('Anxious!', '#FFA500');
+          
+          // Slightly yellowish tint
+          eyeball.style.backgroundColor = '#fff8d9';
+          
+          // Increase veins visibility
+          const veins = eyeball.querySelector('.veins');
+          if (veins) veins.style.opacity = '0.25';
         } else if (clickCount === 3) {
           // Third click - becoming scared
           eyeball.classList.add('scared');
-          showStatusMessage('Scared!', '#FF6347');
+          
+          // More pronounced color change
+          eyeball.style.backgroundColor = '#fff5cc';
+          
+          // Further increase veins
+          const veins = eyeball.querySelector('.veins');
+          if (veins) {
+            veins.style.opacity = '0.35';
+            veins.style.background = 'radial-gradient(circle, transparent 60%, #ff4500 100%)';
+          }
         } else if (clickCount === 4) {
           // Fourth click - becoming terrified
           eyeball.classList.add('terrified');
-          showStatusMessage('Terrified!', '#FF0000');
+          
+          // Bloodshot look
+          eyeball.style.backgroundColor = '#fff0bf';
+          
+          // Dramatic veins
+          const veins = eyeball.querySelector('.veins');
+          if (veins) {
+            veins.style.opacity = '0.5';
+            veins.style.background = 'radial-gradient(circle, transparent 55%, #ff0000 100%)';
+          }
           
           // Play terrified sound
           const scaredAudio = new Audio();
@@ -420,21 +428,28 @@
     100% { transform: translate(4px, 4px) rotate(4deg); }
   }
   
-  /* Fear state animations */
+  /* Fear state animations - each stage more distinct */
   .eyeball.nervous {
     animation: nervousJitter 2s infinite;
+    transition: all 0.3s ease;
   }
   
   .eyeball.anxious {
     animation: anxiousShake 1s infinite;
+    box-shadow: 0 0 8px rgba(255, 200, 0, 0.2);
+    transition: all 0.3s ease;
   }
   
   .eyeball.scared {
     animation: scaredPulse 0.7s infinite alternate;
+    box-shadow: 0 0 12px rgba(255, 150, 0, 0.3);
+    transition: all 0.3s ease;
   }
   
   .eyeball.terrified {
     animation: terrifiedShake 0.3s infinite;
+    box-shadow: 0 0 15px rgba(255, 80, 0, 0.4);
+    transition: all 0.3s ease;
   }
   
   @keyframes nervousJitter {
@@ -452,16 +467,16 @@
   }
   
   @keyframes scaredPulse {
-    0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 150, 0, 0.2); }
-    100% { transform: scale(1.05); box-shadow: 0 0 10px rgba(255, 100, 0, 0.4); }
+    0% { transform: scale(1); filter: brightness(1.01); }
+    100% { transform: scale(1.05); filter: brightness(1.05); }
   }
   
   @keyframes terrifiedShake {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(-3px, 2px) rotate(-2deg); }
-    50% { transform: translate(3px, -2px) rotate(2deg); }
-    75% { transform: translate(-3px, -2px) rotate(-2deg); }
-    100% { transform: translate(3px, 2px) rotate(2deg); }
+    0% { transform: translate(0, 0) rotate(0deg) scale(1.02); }
+    25% { transform: translate(-3px, 2px) rotate(-2deg) scale(0.98); }
+    50% { transform: translate(3px, -2px) rotate(2deg) scale(1.03); }
+    75% { transform: translate(-3px, -2px) rotate(-2deg) scale(0.97); }
+    100% { transform: translate(3px, 2px) rotate(2deg) scale(1.02); }
   }
   
   /* Agony animation */
@@ -558,36 +573,48 @@
     --jiggle-intensity: 1;
   }
   
-  /* Pupil states for different fear levels */
+  /* Pupil states for different fear levels - more distinct */
   .eyeball.nervous .pupil {
     transition: transform 0.1s ease-out, scale 0.15s ease-out;
+    background-color: #111; /* Slightly lighter than default */
   }
   
   .eyeball.anxious .pupil {
     transition: transform 0.08s ease-out, scale 0.1s ease-out;
+    background-color: #000;
+    animation: pupilDilate 1.5s infinite;
   }
   
   .eyeball.scared .pupil {
     transition: transform 0.05s ease-out, scale 0.08s ease-out;
+    background-color: #000;
     animation: pupilPulse 0.5s infinite alternate;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3) inset;
   }
   
   .eyeball.terrified .pupil {
     transition: transform 0.03s linear, scale 0.05s linear;
+    background-color: #000;
     animation: pupilTwitch 0.3s infinite alternate;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.5) inset;
+  }
+  
+  @keyframes pupilDilate {
+    0%, 100% { transform: translate(-50%, -50%) scale(0.9); }
+    50% { transform: translate(-50%, -50%) scale(1.05); }
   }
   
   @keyframes pupilPulse {
-    0% { transform: translate(-50%, -50%) scale(0.8); }
-    100% { transform: translate(-50%, -50%) scale(1.1); }
+    0% { transform: translate(-50%, -50%) scale(0.7); }
+    100% { transform: translate(-50%, -50%) scale(1.2); }
   }
   
   @keyframes pupilTwitch {
-    0% { transform: translate(calc(-50% - 2px), calc(-50% - 2px)) scale(0.7); }
-    25% { transform: translate(calc(-50% + 3px), calc(-50% - 1px)) scale(1.2); }
-    50% { transform: translate(calc(-50% - 1px), calc(-50% + 3px)) scale(0.9); }
-    75% { transform: translate(calc(-50% + 2px), calc(-50% + 1px)) scale(1.3); }
-    100% { transform: translate(calc(-50% - 3px), calc(-50% - 3px)) scale(0.8); }
+    0% { transform: translate(calc(-50% - 3px), calc(-50% - 3px)) scale(0.6); }
+    25% { transform: translate(calc(-50% + 4px), calc(-50% - 2px)) scale(1.3); }
+    50% { transform: translate(calc(-50% - 2px), calc(-50% + 4px)) scale(0.8); }
+    75% { transform: translate(calc(-50% + 3px), calc(-50% + 2px)) scale(1.4); }
+    100% { transform: translate(calc(-50% - 4px), calc(-50% - 4px)) scale(0.7); }
   }
   
   .eyeball.blinking:before {
