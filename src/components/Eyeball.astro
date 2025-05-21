@@ -157,8 +157,8 @@
           // Terrified - rapidly dilating pupil
           pupilScale = 1.2 + Math.sin(Date.now() * 0.01) * 0.3;
         } else if (isMobile && Date.now() - lastMoveTime > 3000) {
-          // On mobile when idle, have a much larger pupil size
-        pupilScale = 1.6 + Math.sin(Date.now() * 0.001) * 0.3; // Gentle breathing effect with much larger base size
+          // On mobile when idle, have an enormously larger pupil size
+        pupilScale = 2.2 + Math.sin(Date.now() * 0.001) * 0.4; // Gentle breathing effect with enormous base size
         }
         
         // Move pupil based on pointer position - allowing more extreme positions
@@ -170,6 +170,27 @@
         
         // Apply pupil position and scale
         pupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px)) scale(${pupilScale})`;
+        
+        // Add redness effect when looking at extreme angles
+        const extremeThreshold = 0.5; // How far from center (as a fraction of max) to start showing redness
+        const extremeRatio = Math.max(0, (Math.abs(pupilRadius) / pupilMaxRadius) - extremeThreshold) / (1 - extremeThreshold);
+        
+        if (extremeRatio > 0) {
+          // Calculate opposite direction from pupil position
+          const oppositeAngle = angle + Math.PI;
+          const redX = Math.cos(oppositeAngle);
+          const redY = Math.sin(oppositeAngle);
+          
+          // Create gradient from transparent to red on the opposite side
+          const gradientIntensity = Math.min(1, extremeRatio * 1.5);
+          const redColor = `rgba(255, 0, 0, ${gradientIntensity * 0.5})`;
+          
+          // Apply the gradient to show "back of eye" redness
+          eyeball.style.background = `radial-gradient(circle at calc(50% + ${redX * 40}%) calc(50% + ${redY * 40}%), ${redColor} 0%, transparent 70%), #fffdf0`;
+        } else {
+          // Reset background when not at extreme angle
+          eyeball.style.background = "";
+        }
         
         // Randomly reposition the eyeball occasionally - less likely when afraid
         const fearAdjustedChance = Math.max(0, repositionChance - (fearLevel * 0.001));
@@ -238,8 +259,8 @@
         idlePupilInterval = setInterval(() => {
           // Only adjust pupil if not recently interacted with
           if (Date.now() - lastMoveTime > 4000) {
-            // Randomly adjust pupil size for more natural appearance - much larger on mobile
-            const basePupilSize = 1.6 + (Math.random() * 0.4); // Between 1.6 and 2.0 - dramatically larger
+            // Randomly adjust pupil size for more natural appearance - enormously larger on mobile
+            const basePupilSize = 2.2 + (Math.random() * 0.6); // Between 2.2 and 2.8 - over 2x larger
             pupil.style.transform = pupil.style.transform.replace(/scale\([^)]+\)/, `scale(${basePupilSize})`);
             
             // Move pupil around randomly with much more dramatic movement (closer to edges)
@@ -666,7 +687,7 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     transform-origin: center;
-    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease, background 0.2s ease-out;
   }
   
   .eyeball.jiggling {
@@ -733,13 +754,13 @@
   
   .pupil {
   position: absolute;
-  width: 45%;
-  height: 45%;
+  width: 50%;
+  height: 50%;
   background-color: #000;
   border-radius: 50%;
   top: 50%;
   left: 50%;
-    transform: translate(-50%, -50%) scale(1.5); /* Much larger pupil */
+    transform: translate(-50%, -50%) scale(2.0); /* Enormously larger pupil */
     transition: transform 0.08s ease-out, scale 0.15s ease-out;
     z-index: 3;
     will-change: transform;
