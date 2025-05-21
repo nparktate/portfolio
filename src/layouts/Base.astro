@@ -14,12 +14,34 @@ import "../styles/global.css";
         <meta name="generator" content={Astro.generator} />
 
         <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+        
+        <!-- Override Tailwind classes with stronger specificity -->
+        <style is:global>
+            /* Ensure fonts load properly with higher specificity */
+            body {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            }
+            
+            .font-sans {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+            }
+            
+            .font-serif, h1, h2, h3, h4, h5, h6 {
+                font-family: 'Playfair Display', Georgia, serif !important;
+            }
+            
+            /* Font weight classes need stronger specificity */
+            .font-light { font-weight: 300 !important; }
+            .font-normal { font-weight: 400 !important; }
+            .font-medium { font-weight: 500 !important; }
+            .font-semibold { font-weight: 600 !important; }
+            .font-bold { font-weight: 700 !important; }
+            .italic { font-style: italic !important; }
+        </style>
 
         <!-- Favicon -->
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -38,7 +60,7 @@ import "../styles/global.css";
 
         <slot name="head" />
     </head>
-    <body class="font-sans bg-white text-gray-900 min-h-screen">
+    <body class="font-sans bg-white text-gray-900 min-h-screen antialiased">
         <slot />
 
         <footer class="text-center text-sm text-gray-500 py-8 mt-16">
