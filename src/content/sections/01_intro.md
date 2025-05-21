@@ -3,9 +3,9 @@ title: "About Me"
 order: 1
 ---
 
-# Nicholas Park
+Nicholas Park
 
-I'm a **Motion Designer & Creative Technologist** with over 5 years of experience crafting dynamic visual content for major entertainment brands. Specializing in motion graphics, VFX, and interactive design, I transform concepts into compelling visual narratives that capture audience attention and drive engagement.
+I'm a Motion Designer & Creative Technologist with over 5 years of experience crafting dynamic visual content for major entertainment brands. Specializing in motion graphics, VFX, and interactive design, I transform concepts into compelling visual narratives that capture audience attention and drive engagement.
 
 My work combines artistic vision with technical precision—merging creativity with strategic execution to deliver results that exceed expectations. Throughout my career at HBO Max, Nike, and Universal Music Group, I've created content garnering millions of views and establishing new benchmarks for digital engagement.
 
@@ -15,7 +15,7 @@ My work combines artistic vision with technical precision—merging creativity w
   </p>
 </div>
 
-## Core Expertise
+Core Expertise
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">

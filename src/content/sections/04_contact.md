@@ -3,16 +3,11 @@ title: "Contact"
 order: 4
 ---
 
-## Get In Touch
+## Contact Information
 
-Ready to bring your creative vision to life? I'm available for freelance projects, collaborations, and consultations. My approach combines technical precision with creative innovation to deliver impactful visual solutions.
+I'm available for select freelance projects, collaborations, and consultations in motion design and creative technology.
 
-<div class="relative py-10 px-6 my-12 overflow-hidden bg-gradient-to-r from-primary-50 to-white rounded-lg border border-primary-100">
-  <div class="relative z-10 max-w-4xl mx-auto text-center">
-    <h3 class="text-2xl md:text-3xl font-serif font-bold mb-4 text-gray-900">Let's Create Something Amazing</h3>
-    <p class="text-lg text-gray-700 max-w-2xl mx-auto">Whether you have a specific project in mind or want to explore possibilities, I'm ready to help transform your ideas into compelling visuals.</p>
-  </div>
-</div>
+
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16">
   <div class="bg-white p-10 rounded-xl shadow-md border-t-4 border-primary-500">
@@ -37,7 +32,7 @@ Ready to bring your creative vision to life? I'm available for freelance project
         </div>
         <div>
           <strong class="block text-lg text-gray-900 mb-1">LinkedIn</strong>
-          <a href="https://linkedin.com/in/nicholaspark" target="_blank" rel="noopener" class="text-primary-600 hover:text-primary-800 text-lg font-medium transition-colors">linkedin.com/in/nicholaspark</a>
+          <a href="https://www.linkedin.com/in/linkparkdesign/" target="_blank" rel="noopener" class="text-primary-600 hover:text-primary-800 text-lg font-medium transition-colors">linkedin.com/in/linkparkdesign</a>
         </div>
       </li>
       <li class="flex items-center">
@@ -104,11 +99,11 @@ Ready to bring your creative vision to life? I'm available for freelance project
     </div>
     
     <div class="mt-10 p-4 bg-gray-50 rounded border border-gray-200">
-      <p class="text-gray-700">Initial consultations are free. Please include project details when reaching out for the most productive first conversation.</p>
+      <p class="text-gray-700">For project inquiries, please include relevant details about scope, timeline, and specific needs.</p>
     </div>
   </div>
 </div>
 
 <div class="mt-16 mb-8 text-center">
-  <a href="mailto:nparktate@gmail.com" class="inline-block px-8 py-4 bg-primary-600 text-white font-bold rounded-lg text-lg shadow-md hover:bg-primary-700 transition-colors">Let's Start a Conversation</a>
+  <a href="mailto:nparktate@gmail.com" class="inline-block px-8 py-4 bg-primary-600 text-white font-bold rounded-lg text-lg shadow-md hover:bg-primary-700 transition-colors">Contact Me</a>
 </div>

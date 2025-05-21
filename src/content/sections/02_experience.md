@@ -17,12 +17,12 @@ order: 2
     <!-- Content -->
     <div class="ml-14 md:ml-0 pt-1">
       <span class="inline-block text-sm font-medium px-3 py-1 rounded-full bg-gray-100 text-gray-700 mb-3">Oct 2022 - Present</span>
-      <h3 class="text-xl md:text-2xl font-serif font-bold tracking-tight">Graphics Specialist</h3>
-      <p class="text-primary-600 font-semibold text-lg">Warner Bros. Discovery (HBO Max)</p>
+      <h3 class="text-xl md:text-2xl font-serif font-bold tracking-tight">Motion Designer</h3>
+      <p class="text-primary-600 font-semibold text-lg">Warner Bros. Discovery</p>
       
       <div class="mt-4 text-gray-700">
-        <p>Coordinate graphic deliverables for promo trailers and AV marketing campaigns on HBO Max and Max Original content. Develop modular After Effects toolkits to streamline versioning and localization across assets.</p>
-        <p>Serve as both creative designer and finishing artist for high-profile trailer graphics, building out complete toolkit files for HBO and Max originals. Ensure consistency with branding while meeting rigorous broadcast standards and deadlines.</p>
+        <p>Create motion graphics and visual content for HBO and Max Original programming. Develop modular After Effects toolkits to streamline versioning and localization across marketing assets while maintaining brand consistency.</p>
+        <p>Recent achievements include creating highly-praised podcast visuals for The Last of Us Season 2, designing White Lotus S3 visuals with custom generative ink effects, and delivering a comprehensive GFX suite for the DC Studios Showcase podcast.</p>
       </div>
     </div>
   </div>
@@ -133,8 +133,8 @@ order: 2
         <p class="text-gray-700">Views on lyric videos for major recording artists</p>
       </div>
       <div>
-        <div class="text-3xl md:text-4xl font-bold text-primary-600 mb-2">2M+</div>
-        <p class="text-gray-700">User interactions with AR filters created for campaigns</p>
+        <div class="text-3xl md:text-4xl font-bold text-primary-600 mb-2">3</div>
+        <p class="text-gray-700">Major HBO projects completed in 2025</p>
       </div>
     </div>
   </div>
