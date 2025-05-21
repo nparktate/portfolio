@@ -55,6 +55,10 @@
       };
       let currentSize = sizesRange.default;
       
+      // Click counter for easter egg
+      let clickCount = 0;
+      let agonyTimeout = null;
+      
       // Function to set a random size
       function setRandomSize() {
         // Generate random size within range
@@ -190,6 +194,71 @@
       
       // Add click event to change size and position
       eyeballContainer.addEventListener('click', () => {
+        // Increment click counter
+        clickCount++;
+        
+        // Check for agony easter egg
+        if (clickCount === 5) {
+          // Trigger agony animation
+          eyeball.classList.add('agony');
+          
+          // Play agony sound
+          const agonyAudio = new Audio();
+          agonyAudio.volume = 0.25; // Slightly louder
+          agonyAudio.src = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAEwAAAHwAVVVVVVVVVVVVVVVVVVVVgICAgICAgICAgICAgICAgICqqqqqqqqqqqqqqqqqqqqqwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV4ODg4ODg4ODg4ODg4ODg4OD/////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQEOAAAAAAAAAB8nx5ywQAAAAAAAAAAAAAAAAAAAAAA";
+          agonyAudio.play().catch(e => console.log("Audio play prevented: ", e));
+    
+          // Create text element for dramatic effect
+          const agonyText = document.createElement('div');
+          agonyText.innerText = 'AGONY!';
+          agonyText.style.position = 'absolute';
+          agonyText.style.color = 'red';
+          agonyText.style.fontWeight = 'bold';
+          agonyText.style.fontSize = '24px';
+          agonyText.style.textShadow = '0 0 5px black';
+          agonyText.style.zIndex = '1000';
+          agonyText.style.top = (currentY - 40) + 'px';
+          agonyText.style.left = (currentX) + 'px';
+          agonyText.style.animation = 'fadeOutUp 2s forwards';
+          document.body.appendChild(agonyText);
+    
+          // Remove the text element after animation
+          setTimeout(() => {
+            document.body.removeChild(agonyText);
+          }, 2000);
+          
+          // Reset after agony animation completes
+          if (agonyTimeout) {
+            clearTimeout(agonyTimeout);
+          }
+    
+          // Add intense shaking to container during agony
+          eyeballContainer.style.animation = "shake 0.1s infinite";
+    
+          // Erratic movement during agony
+          const agonyMovement = setInterval(() => {
+            const jitterX = Math.random() * 20 - 10;
+            const jitterY = Math.random() * 20 - 10;
+      
+            currentX += jitterX;
+            currentY += jitterY;
+      
+            // Keep within screen bounds
+            currentX = Math.max(50, Math.min(window.innerWidth - 50, currentX));
+            currentY = Math.max(50, Math.min(window.innerHeight - 50, currentY));
+          }, 150);
+    
+          agonyTimeout = setTimeout(() => {
+            eyeball.classList.remove('agony');
+            eyeballContainer.style.animation = "";
+            clickCount = 0;
+            clearInterval(agonyMovement);
+          }, 5000); // Longer duration for more dramatic effect
+          
+          return; // Skip normal click behavior
+        }
+        
+        // Normal click behavior (only if not triggering agony)
         // Change to a random size
         setRandomSize();
         
@@ -234,6 +303,71 @@
     75% { transform: scale(0.9); }
     100% { transform: scale(1); }
   }
+  
+  @keyframes shake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-4px, 3px) rotate(-5deg); }
+    50% { transform: translate(5px, -2px) rotate(5deg); }
+    75% { transform: translate(-3px, -5px) rotate(-3deg); }
+    100% { transform: translate(4px, 4px) rotate(4deg); }
+  }
+  
+  /* Agony animation */
+  .eyeball.agony {
+    animation: writhe 0.15s infinite alternate ease-in-out;
+    box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.7);
+  }
+
+  .eyeball.agony .pupil {
+    animation: dilate 0.1s infinite alternate ease-in-out;
+    background-color: #ff3333 !important;
+    box-shadow: 0 0 10px 3px rgba(255, 0, 0, 0.8) inset;
+  }
+
+  .eyeball.agony .veins {
+    opacity: 0.6;
+    animation: pulsate 0.3s infinite alternate;
+    background-image: 
+      radial-gradient(circle, transparent 55%, #ff0000 100%),
+      linear-gradient(30deg, transparent 45%, rgba(255,0,0,0.4) 50%, transparent 55%),
+      linear-gradient(90deg, transparent 45%, rgba(255,0,0,0.4) 50%, transparent 55%),
+      linear-gradient(150deg, transparent 45%, rgba(255,0,0,0.4) 50%, transparent 55%);
+  }
+
+  .eyeball.agony:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,0,0,0.4) 0%, transparent 70%);
+    z-index: 2;
+    animation: pulse 0.5s infinite alternate;
+  }
+
+  @keyframes writhe {
+    0% { transform: scale(1.3) rotate(-20deg); filter: hue-rotate(0deg) contrast(1.5); }
+    25% { transform: scale(0.8) rotate(25deg); filter: hue-rotate(45deg) contrast(1.2); }
+    50% { transform: scale(1.4) rotate(-15deg); filter: hue-rotate(90deg) contrast(1.7); }
+    75% { transform: scale(0.7) rotate(30deg); filter: hue-rotate(135deg) contrast(1.3); }
+    100% { transform: scale(1.35) rotate(-25deg); filter: hue-rotate(180deg) contrast(1.6); }
+  }
+
+  @keyframes dilate {
+    0% { transform: translate(-50%, -50%) scale(1.8); border-radius: 20%; }
+    33% { transform: translate(-55%, -45%) scale(0.5); border-radius: 60%; }
+    66% { transform: translate(-45%, -55%) scale(1.5); border-radius: 30%; }
+    100% { transform: translate(-50%, -50%) scale(0.6); border-radius: 40%; }
+  }
+
+  @keyframes pulse {
+    0% { opacity: 0.3; transform: scale(0.9); }
+    100% { opacity: 0.7; transform: scale(1.1); }
+  }
+
+  @keyframes pulsate {
+    0% { opacity: 0.4; }
+    100% { opacity: 0.8; }
+  }
 
   .eyeball-container {
     position: fixed;
@@ -263,7 +397,7 @@
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     transform-origin: center;
-    transition: transform 0.1s ease-out;
+    transition: transform 0.1s ease-out, box-shadow 0.3s ease;
   }
   
   .eyeball.jiggling {
@@ -353,5 +487,10 @@
   @keyframes blink {
     0%, 100% { height: 0%; top: 50%; }
     50% { height: 100%; top: 0%; }
+  }
+
+  @keyframes fadeOutUp {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-50px); }
   }
 </style>
