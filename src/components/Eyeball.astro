@@ -269,24 +269,7 @@
           agonyAudio.src = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAEwAAAHwAVVVVVVVVVVVVVVVVVVVVgICAgICAgICAgICAgICAgICqqqqqqqqqqqqqqqqqqqqqwMDAwMDAwMDAwMDAwMDAwMDV1dXV1dXV1dXV1dXV1dXV4ODg4ODg4ODg4ODg4ODg4OD/////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQEOAAAAAAAAAB8nx5ywQAAAAAAAAAAAAAAAAAAAAAA";
           agonyAudio.play().catch(e => console.log("Audio play prevented: ", e));
     
-          // Create text element for dramatic effect
-          const agonyText = document.createElement('div');
-          agonyText.innerText = 'AGONY!';
-          agonyText.style.position = 'absolute';
-          agonyText.style.color = 'red';
-          agonyText.style.fontWeight = 'bold';
-          agonyText.style.fontSize = '24px';
-          agonyText.style.textShadow = '0 0 5px black';
-          agonyText.style.zIndex = '1000';
-          agonyText.style.top = (currentY - 40) + 'px';
-          agonyText.style.left = (currentX) + 'px';
-          agonyText.style.animation = 'fadeOutUp 2s forwards';
-          document.body.appendChild(agonyText);
-    
-          // Remove the text element after animation
-          setTimeout(() => {
-            document.body.removeChild(agonyText);
-          }, 2000);
+          // No text element, just audio and visual effects
           
           // Reset after agony animation completes
           if (agonyTimeout) {
@@ -310,10 +293,28 @@
           }, 150);
     
           agonyTimeout = setTimeout(() => {
-            eyeball.classList.remove('agony');
+            // Reset all fear-related classes
+            eyeball.classList.remove('agony', 'nervous', 'anxious', 'scared', 'terrified');
+            
+            // Reset all styles
             eyeballContainer.style.animation = "";
+            eyeball.style.backgroundColor = "#fffdf0"; // Original color
+            eyeball.style.boxShadow = "";
+            
+            // Reset veins
+            const veins = eyeball.querySelector('.veins');
+            if (veins) {
+              veins.style.opacity = '0.18'; // Original opacity
+              veins.style.background = '';
+              veins.style.backgroundImage = '';
+              veins.style.animation = '';
+            }
+            
+            // Reset counters
             clickCount = 0;
             fearLevel = 0;
+            
+            // Clear intervals
             clearInterval(agonyMovement);
           }, 5000); // Longer duration for more dramatic effect
           
