@@ -37,6 +37,11 @@
       let ambientPhase = 0;
       let isMobile = false;
       
+      // Fear level tracking variables
+      let fearLevel = 0; // 0=normal, 1=nervous, 2=anxious, 3=scared, 4=terrified, 5=agony
+      let avoidanceFactor = 0; // Increases with fear level
+      let lastCursorDistance = 0;
+      
       // Check if device is mobile
       isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
@@ -46,6 +51,7 @@
       const edgeBuffer = 50;
       const ambientSpeed = 0.003; // Increased for smoother animation
       const ambientRadius = 8;
+      const fearThreshold = 300; // Distance at which fear response triggers
       
       // Size configuration for random sizing
       const sizesRange = {
@@ -83,8 +89,43 @@
         // Calculate angle and distance
         const angle = Math.atan2(deltaY, deltaX);
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        lastCursorDistance = distance;
         
-        // Determine pupil size based on distance (constrict when close)
+        // Update fear response based on cursor proximity
+        if (fearLevel > 0 && distance < fearThreshold) {
+          // Apply fear behaviors based on level
+          if (fearLevel >= 2) {
+            // Level 2+: Try to move away from cursor with increasing intensity
+            const avoidAngle = angle + Math.PI; // Opposite direction
+            const avoidFactor = (fearLevel * 0.5) * (1 - Math.min(1, distance / fearThreshold));
+            const avoidX = Math.cos(avoidAngle) * (100 * avoidFactor);
+            const avoidY = Math.sin(avoidAngle) * (100 * avoidFactor);
+            
+            targetX += avoidX;
+            targetY += avoidY;
+            
+            // Keep within screen bounds
+            targetX = Math.max(50, Math.min(window.innerWidth - 50, targetX));
+            targetY = Math.max(50, Math.min(window.innerHeight - 50, targetY));
+            
+            lastMoveTime = Date.now();
+          }
+          
+          // Visual fear response
+          if (fearLevel >= 1) {
+            // Add increasing jitter to the eyeball
+            eyeball.style.setProperty('--jitter-intensity', fearLevel);
+            
+            if (!eyeball.classList.contains('jittering')) {
+              eyeball.classList.add('jittering');
+              setTimeout(() => {
+                eyeball.classList.remove('jittering');
+              }, 300);
+            }
+          }
+        }
+        
+        // Determine pupil size based on distance and fear level
         const closeThreshold = 150; // Distance at which pupil begins to constrict
         let pupilScale = 1.0;
         
@@ -92,6 +133,15 @@
           // Pupil gets smaller as cursor gets closer
           const constrictionFactor = Math.max(0.4, distance / closeThreshold);
           pupilScale = constrictionFactor;
+          
+          // Fear level affects pupil more dramatically
+          if (fearLevel >= 3) {
+            // More extreme pupil response for higher fear levels
+            pupilScale = Math.max(0.3, pupilScale - (fearLevel * 0.05));
+          }
+        } else if (fearLevel >= 4) {
+          // Terrified - rapidly dilating pupil
+          pupilScale = 1.2 + Math.sin(Date.now() * 0.01) * 0.3;
         }
         
         // Move pupil based on pointer position
@@ -104,8 +154,9 @@
         // Apply pupil position and scale
         pupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px)) scale(${pupilScale})`;
         
-        // Randomly reposition the eyeball occasionally
-        if (Math.random() < repositionChance && Date.now() - lastMoveTime > 2000) {
+        // Randomly reposition the eyeball occasionally - less likely when afraid
+        const fearAdjustedChance = Math.max(0, repositionChance - (fearLevel * 0.001));
+        if (Math.random() < fearAdjustedChance && Date.now() - lastMoveTime > 2000) {
           // Choose a new random position
           const screenWidth = window.innerWidth;
           const screenHeight = window.innerHeight;
@@ -143,16 +194,18 @@
       
       // Animation loop to update eyeball position with ambient movement
       function updatePosition() {
-        // Add subtle ambient movement
-        ambientPhase += ambientSpeed;
-        const ambientX = Math.sin(ambientPhase) * ambientRadius;
-        const ambientY = Math.cos(ambientPhase * 1.3) * ambientRadius;
+        // Add subtle ambient movement - more erratic with higher fear
+        ambientPhase += ambientSpeed * (1 + (fearLevel * 0.5));
+        const fearFactor = Math.max(1, fearLevel);
+        const ambientX = Math.sin(ambientPhase) * ambientRadius * fearFactor;
+        const ambientY = Math.cos(ambientPhase * 1.3) * ambientRadius * fearFactor;
         
-        // Move toward target position with easing
-        currentX += (targetX - currentX) * moveSpeed;
-        currentY += (targetY - currentY) * moveSpeed;
+        // Move toward target position with easing - faster when afraid
+        const fearAdjustedSpeed = moveSpeed * (1 + (fearLevel * 0.15));
+        currentX += (targetX - currentX) * fearAdjustedSpeed;
+        currentY += (targetY - currentY) * fearAdjustedSpeed;
         
-        // Update container position with smoother ambient movement
+        // Update container position with fear-affected ambient movement
         eyeballContainer.style.left = `${currentX + ambientX}px`;
         eyeballContainer.style.top = `${currentY + ambientY}px`;
         eyeballContainer.style.transition = 'none'; // Remove transition for smoother animation
@@ -196,6 +249,32 @@
       eyeballContainer.addEventListener('click', () => {
         // Increment click counter
         clickCount++;
+        
+        // Update fear level based on click count (1-4 for fear stages, 5 for agony)
+        fearLevel = clickCount;
+        
+        // Apply appropriate fear class based on level
+        eyeball.classList.remove('nervous', 'anxious', 'scared', 'terrified');
+        
+        // Add fear status message
+        const showStatusMessage = (text, color) => {
+          const statusText = document.createElement('div');
+          statusText.innerText = text;
+          statusText.style.position = 'absolute';
+          statusText.style.color = color;
+          statusText.style.fontWeight = 'bold';
+          statusText.style.fontSize = '16px';
+          statusText.style.textShadow = '0 0 3px white';
+          statusText.style.zIndex = '1000';
+          statusText.style.top = (currentY - 30) + 'px';
+          statusText.style.left = (currentX) + 'px';
+          statusText.style.animation = 'fadeOutUp 1.5s forwards';
+          document.body.appendChild(statusText);
+          
+          setTimeout(() => {
+            document.body.removeChild(statusText);
+          }, 1500);
+        };
         
         // Check for agony easter egg
         if (clickCount === 5) {
@@ -252,14 +331,43 @@
             eyeball.classList.remove('agony');
             eyeballContainer.style.animation = "";
             clickCount = 0;
+            fearLevel = 0;
             clearInterval(agonyMovement);
           }, 5000); // Longer duration for more dramatic effect
           
           return; // Skip normal click behavior
+        } else if (clickCount === 1) {
+          // First click - becoming nervous
+          eyeball.classList.add('nervous');
+          showStatusMessage('Nervous...', '#FFA500');
+          
+          // Play subtle nervous sound
+          const nervousAudio = new Audio();
+          nervousAudio.volume = 0.1;
+          nervousAudio.src = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAAAwAAAbAAkJCQkJCQkJCQkJCQkJCQwMDAwMDAwMDAwMDAwMDAwMD/////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQCkAAAAAAAAAGwuTR9zgAAAAAAAAAAAAAAAAAAAAAA";
+          nervousAudio.play().catch(e => console.log("Audio play prevented: ", e));
+        } else if (clickCount === 2) {
+          // Second click - becoming anxious
+          eyeball.classList.add('anxious');
+          showStatusMessage('Anxious!', '#FFA500');
+        } else if (clickCount === 3) {
+          // Third click - becoming scared
+          eyeball.classList.add('scared');
+          showStatusMessage('Scared!', '#FF6347');
+        } else if (clickCount === 4) {
+          // Fourth click - becoming terrified
+          eyeball.classList.add('terrified');
+          showStatusMessage('Terrified!', '#FF0000');
+          
+          // Play terrified sound
+          const scaredAudio = new Audio();
+          scaredAudio.volume = 0.15;
+          scaredAudio.src = "data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA/+M4wAAAAAAAAAAAAEluZm8AAAAPAAAABAAAAVAAICAgICAgICAgICAgIEBAQEBAQEBAQEBAQEBAYGBgYGBgYGBgYGBgYGBggICAgICAgICAgICAgICA/////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQDUAAAAAAAAAFQEbBGTQAAAAAAAAAAAAAAAAAAAAAA";
+          scaredAudio.play().catch(e => console.log("Audio play prevented: ", e));
         }
         
         // Normal click behavior (only if not triggering agony)
-        // Change to a random size
+        // Change to a random size - smaller when afraid
         setRandomSize();
         
         // Move to a random position on screen
@@ -310,6 +418,50 @@
     50% { transform: translate(5px, -2px) rotate(5deg); }
     75% { transform: translate(-3px, -5px) rotate(-3deg); }
     100% { transform: translate(4px, 4px) rotate(4deg); }
+  }
+  
+  /* Fear state animations */
+  .eyeball.nervous {
+    animation: nervousJitter 2s infinite;
+  }
+  
+  .eyeball.anxious {
+    animation: anxiousShake 1s infinite;
+  }
+  
+  .eyeball.scared {
+    animation: scaredPulse 0.7s infinite alternate;
+  }
+  
+  .eyeball.terrified {
+    animation: terrifiedShake 0.3s infinite;
+  }
+  
+  @keyframes nervousJitter {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-1px, 1px); }
+    50% { transform: translate(1px, -1px); }
+    75% { transform: translate(-1px, -1px); }
+  }
+  
+  @keyframes anxiousShake {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-2px, 1px) rotate(-1deg); }
+    50% { transform: translate(2px, -1px) rotate(1deg); }
+    75% { transform: translate(-2px, -1px) rotate(-1deg); }
+  }
+  
+  @keyframes scaredPulse {
+    0% { transform: scale(1); box-shadow: 0 0 5px rgba(255, 150, 0, 0.2); }
+    100% { transform: scale(1.05); box-shadow: 0 0 10px rgba(255, 100, 0, 0.4); }
+  }
+  
+  @keyframes terrifiedShake {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-3px, 2px) rotate(-2deg); }
+    50% { transform: translate(3px, -2px) rotate(2deg); }
+    75% { transform: translate(-3px, -2px) rotate(-2deg); }
+    100% { transform: translate(3px, 2px) rotate(2deg); }
   }
   
   /* Agony animation */
@@ -406,9 +558,36 @@
     --jiggle-intensity: 1;
   }
   
-  .eyeball.scared {
-    animation: scaredPulse 0.5s ease-in-out;
-    animation-iteration-count: 1;
+  /* Pupil states for different fear levels */
+  .eyeball.nervous .pupil {
+    transition: transform 0.1s ease-out, scale 0.15s ease-out;
+  }
+  
+  .eyeball.anxious .pupil {
+    transition: transform 0.08s ease-out, scale 0.1s ease-out;
+  }
+  
+  .eyeball.scared .pupil {
+    transition: transform 0.05s ease-out, scale 0.08s ease-out;
+    animation: pupilPulse 0.5s infinite alternate;
+  }
+  
+  .eyeball.terrified .pupil {
+    transition: transform 0.03s linear, scale 0.05s linear;
+    animation: pupilTwitch 0.3s infinite alternate;
+  }
+  
+  @keyframes pupilPulse {
+    0% { transform: translate(-50%, -50%) scale(0.8); }
+    100% { transform: translate(-50%, -50%) scale(1.1); }
+  }
+  
+  @keyframes pupilTwitch {
+    0% { transform: translate(calc(-50% - 2px), calc(-50% - 2px)) scale(0.7); }
+    25% { transform: translate(calc(-50% + 3px), calc(-50% - 1px)) scale(1.2); }
+    50% { transform: translate(calc(-50% - 1px), calc(-50% + 3px)) scale(0.9); }
+    75% { transform: translate(calc(-50% + 2px), calc(-50% + 1px)) scale(1.3); }
+    100% { transform: translate(calc(-50% - 3px), calc(-50% - 3px)) scale(0.8); }
   }
   
   .eyeball.blinking:before {
