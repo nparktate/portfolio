@@ -1,27 +1,27 @@
+# make sure you are in /var/www/portfolio
+cd /var/www/portfolio
+
 cat > deploy.sh <<'EOF'
 #!/usr/bin/env bash
 set -e
 
-echo "🔄  Updating repo…"
+echo "🔄  pulling…"
 git pull origin main
 
-echo "📦  Installing/Updating node modules…"
+echo "📦  npm ci…"
 npm ci
 
-echo "🏗️   Building Astro…"
-npm run build        # outputs to dist/
+echo "🏗️   building…"
+npm run build          # outputs to dist/
 
-echo "🚚  Publishing static files…"
-find . -maxdepth 1 -type f ! -name 'deploy.sh' ! -name '.git*' -exec rm -f {} \;
-find . -maxdepth 1 -type d ! -name 'dist' ! -name '.git' ! -name 'node_modules' ! -name '.' -exec rm -rf {} \;
+echo "🚚  copying to /var/www/portfolio_live…"
+rm -rf /var/www/portfolio_live/*                     # clear old static files
+cp -R dist/* dist/.* /var/www/portfolio_live/ 2>/dev/null || true
 
-cp -R dist/* dist/.* . 2>/dev/null || true
-rm -rf dist            # optional cleanup
-
-echo "♻️   Reloading Nginx…"
+echo "♻️   nginx reload…"
 systemctl reload nginx
 
-echo "✅  Deployed!"
+echo "✅  deployed."
 EOF
 
 chmod +x deploy.sh
