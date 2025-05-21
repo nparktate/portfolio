@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Nicholas Park - Portfolio website showcasing experience, projects and skills"
+        />
+        <meta name="generator" content={Astro.generator} />
+
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+        <title>Nicholas Park — Portfolio</title>
+
+        <!-- Open Graph / Social Media Meta Tags -->
+        <meta property="og:title" content="Nicholas Park — Portfolio" />
+        <meta
+            property="og:description"
+            content="Portfolio website showcasing Nicholas Park's experience, projects and skills"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://nicktp.com" />
+        <!-- <meta property="og:image" content="https://nicktp.com/og-image.jpg" /> -->
+
+        <slot name="head" />
+    </head>
+    <body class="font-sans bg-white text-gray-900 min-h-screen">
+        <slot />
+
+        <footer class="text-center text-sm text-gray-500 py-8 mt-16">
+            <p>
+                © {new Date().getFullYear()} Nicholas Park. All rights reserved.
+            </p>
+        </footer>
+    </body>
+</html>

@@ -1,18 +1,15 @@
 ---
-import '../styles/global.css';
+import Base from "../layouts/Base.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Nicholas Park — Portfolio (WIP)</title>
-  </head>
-
-  <body class="bg-white text-black">
-    <h1 class="text-4xl md:text-6xl font-bold text-center mt-20">
-      Hello&nbsp;from&nbsp;Astro&nbsp;+&nbsp;Tailwind!
-    </h1>
-  </body>
-</html>
+<Base>
+    <section class="h-screen flex flex-col items-center justify-center">
+        <h1 class="text-7xl font-serif font-bold tracking-tight">
+            PLAYFAIR DISPLAY
+        </h1>
+        <p class="mt-8 text-2xl font-sans">
+            This line is Inter. Compare the shapes—rounded vs high-contrast
+            serifs.
+        </p>
+    </section>
+</Base>
