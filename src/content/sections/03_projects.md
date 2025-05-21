@@ -3,7 +3,7 @@ title: "Projects"
 order: 3
 ---
 
-## Recent Work
+<h2>Recent Work</h2>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
   <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all hover:shadow-lg transform hover:-translate-y-1 duration-300">
@@ -55,7 +55,7 @@ order: 3
   </div>
 </div>
 
-## Previous Projects
+<h2>Previous Projects</h2>
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
   <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden transition-all hover:shadow-lg transform hover:-translate-y-1 duration-300">

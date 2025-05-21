@@ -3,7 +3,7 @@ title: "Contact"
 order: 4
 ---
 
-## Contact Information
+<h2>Contact Information</h2>
 
 I'm available for select freelance projects, collaborations, and consultations in motion design and creative technology.
 

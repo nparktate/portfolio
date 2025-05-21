@@ -12,6 +12,7 @@
     "@tailwindcss/vite": "^4.1.7",
     "astro": "^5.7.13",
     "gsap": "^3.13.0",
+    "marked": "^15.0.12",
     "tailwindcss": "^4.1.7"
   },
   "devDependencies": {

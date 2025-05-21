@@ -3,7 +3,7 @@ title: "Experience"
 order: 2
 ---
 
-## Professional Timeline
+<h2>Professional Timeline</h2>
 
 <div class="relative pb-20 js-fade">
   <!-- Timeline stem -->
@@ -140,7 +140,7 @@ order: 2
   </div>
 </div>
 
-## Education
+<h2>Education</h2>
 
 <div class="relative pb-12 js-fade">
   <!-- Timeline stem -->

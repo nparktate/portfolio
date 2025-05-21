@@ -13,11 +13,24 @@ body {
   overflow-x: hidden;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h3, h4, h5, h6 {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: #111827; /* text-gray-900 */
+}
+
+/* Section headings */
+h2 {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #111827; /* text-gray-900 */
+  margin-top: 3rem;
+  margin-bottom: 2.5rem;
+  font-size: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #e5e7eb; /* border-gray-200 */
 }
 
 /* Add custom focus styles for better accessibility */
@@ -86,4 +99,51 @@ a:focus, button:focus {
 .project-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Timeline section styles - fix for indentation issues */
+.timeline-item h2 {
+  margin-bottom: 3rem;
+  clear: both;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  padding-top: 1.5rem;
+}
+
+/* Reset any indentation caused by headings */
+.relative.pb-20,
+.relative.pb-12 {
+  clear: both;
+  margin-left: 0;
+  margin-right: 0;
+  position: relative;
+  width: 100%;
+}
+
+/* Ensure content containers align properly */
+.timeline-item .relative > .relative {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100%;
+}
+
+/* Add more space between timeline items */
+.timeline-item .relative.pb-20 {
+  margin-bottom: 2.5rem;
+  overflow: visible;
+}
+
+/* Fix alignment issues with timeline content */
+.timeline-item .ml-14.md\:ml-0 {
+  margin-left: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .timeline-item .ml-14.md\:ml-0 {
+    margin-left: 0;
+  }
+}
+
+/* Fix spacing issues for section headers */
+h2 + .relative {
+  margin-top: 2rem;
 }
