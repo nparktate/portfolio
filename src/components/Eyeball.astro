@@ -1,0 +1,224 @@
+---
+---
+
+<div class="eyeball-container" id="eyeball-container">
+  <div class="eyeball" id="eyeball">
+    <div class="veins"></div>
+    <div class="sclera"></div>
+    <div class="pupil" id="pupil"></div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const pupil = document.getElementById('pupil');
+    const eyeball = document.getElementById('eyeball');
+    const eyeballContainer = document.getElementById('eyeball-container');
+    
+    if (pupil && eyeball && eyeballContainer) {
+      // Set initial position randomly on screen
+      const screenWidth = window.innerWidth;
+      const screenHeight = window.innerHeight;
+      const initialX = Math.random() * (screenWidth - 200) + 100;
+      const initialY = Math.random() * (screenHeight - 200) + 100;
+      
+      // Initialize position
+      eyeballContainer.style.top = initialY + 'px';
+      eyeballContainer.style.left = initialX + 'px';
+      
+      // Variables for movement
+      let targetX = initialX;
+      let targetY = initialY;
+      let currentX = initialX;
+      let currentY = initialY;
+      let lastMoveTime = 0;
+      
+      // Constants
+      const moveSpeed = 0.08;
+      const repositionChance = 0.005;
+      const edgeBuffer = 50;
+      
+      // Track mouse movement and update pupil
+      document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        
+        // Update pupil position to follow mouse
+        const eyeRect = eyeball.getBoundingClientRect();
+        const eyeCenterX = eyeRect.left + eyeRect.width / 2;
+        const eyeCenterY = eyeRect.top + eyeRect.height / 2;
+        
+        const deltaX = mouseX - eyeCenterX;
+        const deltaY = mouseY - eyeCenterY;
+        
+        // Calculate angle and distance
+        const angle = Math.atan2(deltaY, deltaX);
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Move pupil based on mouse position
+        const pupilMaxRadius = eyeRect.width * 0.22;
+        const intensity = Math.min(1, distance / 400);
+        const pupilRadius = pupilMaxRadius * intensity;
+        const pupilX = Math.cos(angle) * pupilRadius;
+        const pupilY = Math.sin(angle) * pupilRadius;
+        
+        // Apply pupil position
+        pupil.style.transform = `translate(calc(-50% + ${pupilX}px), calc(-50% + ${pupilY}px))`;
+        
+        // Randomly reposition the eyeball occasionally
+        if (Math.random() < repositionChance && Date.now() - lastMoveTime > 2000) {
+          // Choose a new random position
+          const screenWidth = window.innerWidth;
+          const screenHeight = window.innerHeight;
+          
+          targetX = Math.random() * (screenWidth - 100) + 50;
+          targetY = Math.random() * (screenHeight - 100) + 50;
+          
+          lastMoveTime = Date.now();
+        }
+      });
+      
+      // Simple animation loop to update eyeball position
+      function updatePosition() {
+        // Move toward target position with easing
+        currentX += (targetX - currentX) * moveSpeed;
+        currentY += (targetY - currentY) * moveSpeed;
+        
+        // Update container position
+        eyeballContainer.style.left = currentX + 'px';
+        eyeballContainer.style.top = currentY + 'px';
+        
+        requestAnimationFrame(updatePosition);
+      }
+      
+      // Start position animation
+      updatePosition();
+      
+      // Simple blinking function
+      function blink() {
+        eyeball.classList.add('blinking');
+        
+        setTimeout(() => {
+          eyeball.classList.remove('blinking');
+        }, 200);
+        
+        // Schedule next blink
+        setTimeout(blink, 3000 + Math.random() * 4000);
+      }
+      
+      // Start blinking
+      setTimeout(blink, 1000);
+    }
+  });
+</script>
+
+<style>
+  .eyeball-container {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    z-index: 100;
+    pointer-events: none;
+    transition: left 0.3s ease-out, top 0.3s ease-out;
+  }
+  
+  .eyeball {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #fffdf0;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    transform-origin: center;
+    transition: transform 0.1s ease-out;
+  }
+  
+  .eyeball.jiggling {
+    animation: jiggle 0.3s ease-in-out;
+    animation-iteration-count: 1;
+    --jiggle-intensity: 1;
+  }
+  
+  .eyeball.scared {
+    animation: scaredPulse 0.5s ease-in-out;
+    animation-iteration-count: 1;
+  }
+  
+  .eyeball.blinking:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 5;
+    animation: blink 0.2s ease-in-out;
+  }
+  
+  .pupil {
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    background-color: #000;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.08s ease-out, width 0.4s ease, height 0.4s ease, clip-path 0.2s ease-out;
+    z-index: 3;
+  }
+  
+  .veins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0.18;
+    background: radial-gradient(circle, transparent 65%, #ff3000 100%);
+    background-image: 
+      radial-gradient(circle, transparent 65%, #ff3000 100%),
+      linear-gradient(30deg, transparent 49.5%, rgba(255,0,0,0.1) 50%, transparent 50.5%),
+      linear-gradient(90deg, transparent 49.5%, rgba(255,0,0,0.1) 50%, transparent 50.5%),
+      linear-gradient(150deg, transparent 49.5%, rgba(255,0,0,0.1) 50%, transparent 50.5%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  
+  .sclera {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: 
+      radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5) 0%, transparent 30%),
+      radial-gradient(circle at 70% 70%, rgba(255,255,240,0.5) 0%, transparent 20%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  
+  @keyframes quickBlink {
+    0% { height: 0; top: 50%; opacity: 1; }
+    50% { height: 100%; top: 0; opacity: 1; }
+    100% { height: 0; top: 50%; opacity: 1; }
+  }
+  
+  @keyframes jiggle {
+    0% { transform: rotate(0deg) scale(1); }
+    15% { transform: rotate(calc(var(--jiggle-intensity) * -4deg)) scale(calc(1 + var(--jiggle-intensity) * 0.05)); }
+    32% { transform: rotate(calc(var(--jiggle-intensity) * 3deg)) scale(calc(1 - var(--jiggle-intensity) * 0.03)); }
+    50% { transform: rotate(calc(var(--jiggle-intensity) * -2deg)) scale(calc(1 + var(--jiggle-intensity) * 0.02)); }
+    65% { transform: rotate(calc(var(--jiggle-intensity) * 1deg)) scale(calc(1 - var(--jiggle-intensity) * 0.01)); }
+    85% { transform: rotate(calc(var(--jiggle-intensity) * -0.5deg)) scale(1); }
+    100% { transform: rotate(0deg) scale(1); }
+  }
+  
+
+  
+  /* Animation for pupil when scared */
+  @keyframes blink {
+    0%, 100% { height: 0%; top: 50%; }
+    50% { height: 100%; top: 0%; }
+  }
+</style>

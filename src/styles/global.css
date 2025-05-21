@@ -179,3 +179,30 @@ h2 + .relative {
 .timeline-item .absolute.w-5.h-5.rounded-full {
   z-index: 3;
 }
+
+/* Improve paragraph spacing */
+p {
+  margin-bottom: 1.5rem;
+}
+
+p + p {
+  margin-top: 1.5rem;
+}
+
+/* Content hover effects for eyeball interaction */
+.eyeball-aware {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.eyeball-aware:hover {
+  z-index: 2;
+  transform: scale(1.01);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure content has higher z-index than eyeball when interacting */
+.timeline-item:hover,
+.project-card:hover {
+  z-index: 101;
+}

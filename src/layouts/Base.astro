@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Eyeball from "../components/Eyeball.astro";
 ---
 
 <!doctype html>
@@ -64,6 +65,7 @@ import "../styles/global.css";
         <slot name="head" />
     </head>
     <body class="font-sans bg-white text-gray-900 min-h-screen antialiased">
+        <Eyeball />
         <slot />
 
         <footer class="border-t border-gray-100 py-16 mt-32">
