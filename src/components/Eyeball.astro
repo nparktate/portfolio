@@ -428,88 +428,11 @@
       // Start blinking
       setTimeout(blink, 1000);
       
-      // Initialize global click counter and create footer element
-      let globalClickCount = 0;
-      const clickCounterFooter = document.createElement('div');
-      clickCounterFooter.className = 'click-counter';
-      clickCounterFooter.style.position = 'fixed';
-      clickCounterFooter.style.bottom = '10px';
-      clickCounterFooter.style.left = '0';
-      clickCounterFooter.style.width = '100%';
-      clickCounterFooter.style.textAlign = 'center';
-      clickCounterFooter.style.fontSize = '12px';
-      clickCounterFooter.style.fontFamily = 'monospace';
-      clickCounterFooter.style.color = '#555';
-      clickCounterFooter.style.background = 'rgba(255, 255, 255, 0.7)';
-      clickCounterFooter.style.padding = '3px 0';
-      clickCounterFooter.style.borderTop = '1px solid rgba(0, 0, 0, 0.05)';
-      clickCounterFooter.style.zIndex = '999';
-      clickCounterFooter.style.pointerEvents = 'none';
-      clickCounterFooter.innerHTML = '👁️ Total Eye Clicks: <span style="font-weight:bold">Loading...</span> <span style="color:#999;font-size:10px">(live)</span>';
-      document.body.appendChild(clickCounterFooter);
-      
-      // Fetch initial click count from server
-      fetch('/api/getClicks.json')
-        .then(response => response.json())
-        .then(data => {
-          globalClickCount = data.clicks;
-          updateClickDisplay();
-        })
-        .catch(error => {
-          console.error('Error fetching click count:', error);
-          clickCounterFooter.innerHTML = '👁️ Total Eye Clicks: <span style="font-weight:bold">0</span> <span style="color:#999;font-size:10px">(offline)</span>';
-        });
-        
-      // Function to update click display
-      function updateClickDisplay() {
-        clickCounterFooter.innerHTML = `👁️ Total Eye Clicks: <span style="font-weight:bold">${globalClickCount}</span> <span style="color:#999;font-size:10px">(live)</span>`;
-      }
-      
-      // Set up periodic refresh for the counter (every 10 seconds)
-      setInterval(() => {
-        fetch('/api/getClicks.json')
-          .then(response => response.json())
-          .then(data => {
-            if (data.clicks !== globalClickCount) {
-              globalClickCount = data.clicks;
-              updateClickDisplay();
-            }
-          })
-          .catch(error => console.error('Error refreshing click count:', error));
-      }, 10000);
+
       
       // Click event for stage progression with distinct behaviors
       eyeballContainer.addEventListener('click', () => {
-        // Update global click counter and footer (optimistic update)
-        globalClickCount++;
-        updateClickDisplay();
-        
-        // Add pulse animation to the counter
-        clickCounterFooter.animate([
-          { transform: 'scale(1)' },
-          { transform: 'scale(1.1)' },
-          { transform: 'scale(1)' }
-        ], {
-          duration: 300,
-          easing: 'ease-out'
-        });
-        
-        // Send click update to server
-        fetch('/api/updateClicks.json', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Update with the server's count (in case of concurrent users)
-          if (data.clicks !== globalClickCount) {
-            globalClickCount = data.clicks;
-            updateClickDisplay();
-          }
-        })
-        .catch(error => console.error('Error updating click count:', error));
+
         
         // Transition to next stage
         const previousStage = stageLevel;
