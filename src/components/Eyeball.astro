@@ -428,10 +428,106 @@
       // Start blinking
       setTimeout(blink, 1000);
       
+      // Initialize global click counter and create footer element
+      let globalClickCount = 0;
+      const clickCounterFooter = document.createElement('div');
+      clickCounterFooter.className = 'click-counter';
+      clickCounterFooter.style.position = 'fixed';
+      clickCounterFooter.style.bottom = '10px';
+      clickCounterFooter.style.left = '0';
+      clickCounterFooter.style.width = '100%';
+      clickCounterFooter.style.textAlign = 'center';
+      clickCounterFooter.style.fontSize = '12px';
+      clickCounterFooter.style.fontFamily = 'monospace';
+      clickCounterFooter.style.color = '#555';
+      clickCounterFooter.style.background = 'rgba(255, 255, 255, 0.7)';
+      clickCounterFooter.style.padding = '3px 0';
+      clickCounterFooter.style.borderTop = '1px solid rgba(0, 0, 0, 0.05)';
+      clickCounterFooter.style.zIndex = '999';
+      clickCounterFooter.style.pointerEvents = 'none';
+      clickCounterFooter.innerHTML = '👁️ Total Eye Clicks: <span style="font-weight:bold">Loading...</span> <span style="color:#999;font-size:10px">(live)</span>';
+      document.body.appendChild(clickCounterFooter);
+      
+      // Fetch initial click count from server
+      fetch('/api/getClicks.json')
+        .then(response => response.json())
+        .then(data => {
+          globalClickCount = data.clicks;
+          updateClickDisplay();
+        })
+        .catch(error => {
+          console.error('Error fetching click count:', error);
+          clickCounterFooter.innerHTML = '👁️ Total Eye Clicks: <span style="font-weight:bold">0</span> <span style="color:#999;font-size:10px">(offline)</span>';
+        });
+        
+      // Function to update click display
+      function updateClickDisplay() {
+        clickCounterFooter.innerHTML = `👁️ Total Eye Clicks: <span style="font-weight:bold">${globalClickCount}</span> <span style="color:#999;font-size:10px">(live)</span>`;
+      }
+      
+      // Set up periodic refresh for the counter (every 10 seconds)
+      setInterval(() => {
+        fetch('/api/getClicks.json')
+          .then(response => response.json())
+          .then(data => {
+            if (data.clicks !== globalClickCount) {
+              globalClickCount = data.clicks;
+              updateClickDisplay();
+            }
+          })
+          .catch(error => console.error('Error refreshing click count:', error));
+      }, 10000);
+      
       // Click event for stage progression with distinct behaviors
       eyeballContainer.addEventListener('click', () => {
+        // Update global click counter and footer (optimistic update)
+        globalClickCount++;
+        updateClickDisplay();
+        
+        // Add pulse animation to the counter
+        clickCounterFooter.animate([
+          { transform: 'scale(1)' },
+          { transform: 'scale(1.1)' },
+          { transform: 'scale(1)' }
+        ], {
+          duration: 300,
+          easing: 'ease-out'
+        });
+        
+        // Send click update to server
+        fetch('/api/updateClicks.json', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Update with the server's count (in case of concurrent users)
+          if (data.clicks !== globalClickCount) {
+            globalClickCount = data.clicks;
+            updateClickDisplay();
+          }
+        })
+        .catch(error => console.error('Error updating click count:', error));
+        
         // Transition to next stage
+        const previousStage = stageLevel;
         stageLevel = (stageLevel + 1) % 5; // Cycle through 0-4
+        
+        // Simple reset animation when cycling back to stage 0
+        if (previousStage === 4 && stageLevel === 0) {
+          eyeball.animate([
+            { transform: 'scale(1.0)' },
+            { transform: 'scale(1.1)' },
+            { transform: 'scale(0.95)' },
+            { transform: 'scale(1.0)' }
+          ], {
+            duration: 400,
+            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+          });
+        }
+        
         lastStageChange = Date.now();
         isTransitioning = true;
         
@@ -446,23 +542,23 @@
         if (stageLevel === 0) {
           // Reset to calm state
           eyeball.classList.add('calm');
-          eyeball.style.filter = '';
+          eyeball.style.backgroundColor = '#fffdf0'; // Consistent eye white color
         } else if (stageLevel === 1) {
           // Alert state
           eyeball.classList.add('nervous');
-          eyeball.style.filter = 'brightness(1.05)';
+          eyeball.style.backgroundColor = '#fffdf0'; // Consistent eye white color
         } else if (stageLevel === 2) {
           // Avoidant state
           eyeball.classList.add('anxious');
-          eyeball.style.filter = 'brightness(1.1)';
+          eyeball.style.backgroundColor = '#fffdf0'; // Consistent eye white color
         } else if (stageLevel === 3) {
           // Fleeing state
           eyeball.classList.add('scared');
-          eyeball.style.filter = 'brightness(1.15) contrast(1.05)';
+          eyeball.style.backgroundColor = '#fffdf0'; // Consistent eye white color
         } else if (stageLevel === 4) {
           // Erratic state
           eyeball.classList.add('terrified');
-          eyeball.style.filter = 'brightness(1.2) contrast(1.1)';
+          eyeball.style.backgroundColor = '#fffdf0'; // Consistent eye white color
           
           // For the final stage, add an elastic transition
           eyeball.animate([
@@ -477,25 +573,41 @@
           });
         }
         
-        // Show stage indicator briefly
+        // Show stage indicators - escalating symbols ending with heart
         const stageIndicator = document.createElement('div');
         stageIndicator.className = 'stage-indicator';
-        stageIndicator.textContent = `${stageLevel}`;
+        
+        // Set different indicators based on stage
+        if (stageLevel === 0) {
+          stageIndicator.textContent = ''; // No indicator for initial state
+        } else if (stageLevel === 1) {
+          stageIndicator.textContent = '!'; // Single exclamation
+          stageIndicator.style.color = '#ff0000'; // Red
+        } else if (stageLevel === 2) {
+          stageIndicator.textContent = '!!'; // Double exclamation
+          stageIndicator.style.color = '#ff0000'; // Red
+        } else if (stageLevel === 3) {
+          stageIndicator.textContent = '!?!'; // More chaotic
+          stageIndicator.style.color = '#ff0000'; // Red
+        } else if (stageLevel === 4) {
+          stageIndicator.textContent = '!!%@!'; // Most chaotic
+          stageIndicator.style.color = '#ff0000'; // Red
+        }
+        
         stageIndicator.style.position = 'absolute';
         stageIndicator.style.top = '-20px';
         stageIndicator.style.left = '50%';
         stageIndicator.style.transform = 'translateX(-50%)';
-        stageIndicator.style.color = '#fff';
-        stageIndicator.style.background = 'rgba(0,0,0,0.7)';
-        stageIndicator.style.borderRadius = '50%';
-        stageIndicator.style.width = '16px';
-        stageIndicator.style.height = '16px';
-        stageIndicator.style.fontSize = '12px';
+        stageIndicator.style.background = 'transparent'; // No background
+        stageIndicator.style.padding = '2px';
+        stageIndicator.style.fontSize = '14px';
         stageIndicator.style.lineHeight = '16px';
         stageIndicator.style.textAlign = 'center';
         stageIndicator.style.zIndex = '1001';
         stageIndicator.style.opacity = '0';
         stageIndicator.style.animation = 'fadeInOut 1.5s forwards';
+        stageIndicator.style.fontWeight = 'bold';
+        stageIndicator.style.textShadow = '0px 0px 2px rgba(0,0,0,0.5)'; // Add shadow for visibility
         eyeballContainer.appendChild(stageIndicator);
         
         setTimeout(() => {
@@ -540,27 +652,32 @@
   
   /* Stage-based animations */
   .eyeball.stage-0 {
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: #fffdf0 !important;
   }
   
   .eyeball.stage-1, .eyeball.nervous {
     animation: nervousJitter 2s infinite;
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: #fffdf0 !important;
   }
   
   .eyeball.stage-2, .eyeball.anxious {
     animation: anxiousShake 1s infinite;
-    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: #fffdf0 !important;
   }
   
   .eyeball.stage-3, .eyeball.scared {
     animation: scaredPulse 0.7s infinite alternate;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: #fffdf0 !important;
   }
   
   .eyeball.stage-4, .eyeball.terrified {
     animation: terrifiedShake 0.3s infinite;
-    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-color: #fffdf0 !important;
   }
   
   .eyeball.panicking {
@@ -582,8 +699,8 @@
   }
   
   @keyframes scaredPulse {
-    0% { transform: scale(1); filter: brightness(1.01); }
-    100% { transform: scale(1.05); filter: brightness(1.05); }
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
   }
   
   @keyframes terrifiedShake {
@@ -607,6 +724,7 @@
   .eyeball.agony {
     animation: writhe 0.15s infinite alternate ease-in-out;
     box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.7);
+    background-color: #fffdf0 !important;
   }
 
   .eyeball.agony .pupil {
@@ -627,20 +745,23 @@
   
   /* Stage indicator animation */
   @keyframes fadeInOut {
-    0% { opacity: 0; transform: translateX(-50%) translateY(-5px); }
-    20% { opacity: 1; transform: translateX(-50%) translateY(0); }
-    80% { opacity: 1; transform: translateX(-50%) translateY(0); }
-    100% { opacity: 0; transform: translateX(-50%) translateY(5px); }
+    0% { opacity: 0; transform: translateX(-50%) translateY(-5px) scale(0.8); }
+    20% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1.2); }
+    40% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    80% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(5px) scale(0.8); }
   }
+  
+
 
   @keyframes writhe {
-    0% { transform: scale(1.3) rotate(-20deg); filter: hue-rotate(0deg) contrast(1.5); }
-    20% { transform: scale(0.8) rotate(25deg); filter: hue-rotate(45deg) contrast(1.2); }
-    40% { transform: scale(1.4) rotate(-15deg); filter: hue-rotate(90deg) contrast(1.7); }
-    60% { transform: scale(0.7) rotate(30deg); filter: hue-rotate(135deg) contrast(1.3); }
-    80% { transform: scale(1.35) rotate(-25deg); filter: hue-rotate(180deg) contrast(1.6); }
-    90% { transform: scale(1.1) rotate(10deg); filter: hue-rotate(225deg) contrast(1.4); }
-    100% { transform: scale(1.2) rotate(-5deg); filter: hue-rotate(270deg) contrast(1.5); }
+    0% { transform: scale(1.3) rotate(-20deg); }
+    20% { transform: scale(0.8) rotate(25deg); }
+    40% { transform: scale(1.4) rotate(-15deg); }
+    60% { transform: scale(0.7) rotate(30deg); }
+    80% { transform: scale(1.35) rotate(-25deg); }
+    90% { transform: scale(1.1) rotate(10deg); }
+    100% { transform: scale(1.2) rotate(-5deg); }
   }
 
   @keyframes dilate {
@@ -684,7 +805,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    background-color: #fffdf0;
+    background-color: #fffdf0 !important; /* Force consistent eye white color */
     border-radius: 50%;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
     overflow: hidden;
