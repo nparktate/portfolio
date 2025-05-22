@@ -15,8 +15,6 @@ import Eyeball from "../components/Eyeball.astro";
         <meta name="generator" content={Astro.generator} />
         
         <!-- Performance optimizations -->
-        <link rel="dns-prefetch" href="https://images.unsplash.com">
-        <link rel="preconnect" href="https://images.unsplash.com">
         
         <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,20 +64,11 @@ import Eyeball from "../components/Eyeball.astro";
         <!-- Preload critical assets -->
         <link rel="preload" href="/fade.js" as="script" />
         
-        <!-- Image loading optimization -->
-        <script is:inline>
-          // Set default lazy loading for all images
-          document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('img:not([loading])').forEach(img => {
-              img.setAttribute('loading', 'lazy');
-              img.setAttribute('decoding', 'async');
-            });
-          });
-        </script>
+
 
         <slot name="head" />
     </head>
-    <body class="font-sans bg-white text-gray-900 min-h-screen antialiased js-image-observer">
+    <body class="font-sans bg-white text-gray-900 min-h-screen antialiased">
         <Eyeball />
         <slot />
 
@@ -114,36 +103,6 @@ import Eyeball from "../components/Eyeball.astro";
         <!-- Animation scripts -->
         <script src="/fade.js" defer></script>
         
-        <!-- Progressive image loading -->
-        <script is:inline>
-          if ('IntersectionObserver' in window) {
-            const imgObserver = new IntersectionObserver((entries) => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  const img = entry.target;
-                  if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    if (img.dataset.srcset) img.srcset = img.dataset.srcset;
-                    img.classList.add('img-loaded');
-                  }
-                  imgObserver.unobserve(img);
-                }
-              });
-            }, { rootMargin: '50px' });
-            
-            // Initialize after DOM is ready
-            document.addEventListener('DOMContentLoaded', () => {
-              document.querySelectorAll('img[data-src]').forEach(img => {
-                imgObserver.observe(img);
-              });
-            });
-          } else {
-            // Fallback for browsers without IntersectionObserver
-            document.querySelectorAll('img[data-src]').forEach(img => {
-              img.src = img.dataset.src;
-              if (img.dataset.srcset) img.srcset = img.dataset.srcset;
-            });
-          }
-        </script>
+
     </body>
 </html>

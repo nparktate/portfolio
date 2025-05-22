@@ -16,11 +16,22 @@
     const eyeballContainer = document.getElementById('eyeball-container');
     
     if (pupil && eyeball && eyeballContainer) {
-      // Set initial position randomly on screen
+      // Set initial position ensuring it's always within visible viewport
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
-      const initialX = Math.random() * (screenWidth - 200) + 100;
-      const initialY = Math.random() * (screenHeight - 200) + 100;
+      
+      // Ensure padding from edges (25% from any edge)
+      const padding = Math.min(screenWidth, screenHeight) * 0.25;
+      const safeWidth = screenWidth - (padding * 2);
+      const safeHeight = screenHeight - (padding * 2);
+      
+      // Position within the safe area, defaulting to center if calculations fail
+      const initialX = safeWidth > 0 ? 
+        (padding + Math.random() * safeWidth) : 
+        screenWidth / 2;
+      const initialY = safeHeight > 0 ? 
+        (padding + Math.random() * safeHeight) : 
+        screenHeight / 2;
       
       // Initialize position with fixed positioning to avoid scroll issues
       eyeballContainer.style.position = 'fixed';
@@ -67,12 +78,8 @@
       
       // Function to update pupil position - with stage-based behavior
       function updatePupilPosition(pointerX, pointerY) {
-        // Get eye center - cache dimensions for better performance
-        if (!eyeball._rect || eyeball._lastRectUpdate < Date.now() - 500) {
-          eyeball._rect = eyeball.getBoundingClientRect();
-          eyeball._lastRectUpdate = Date.now();
-        }
-        const eyeRect = eyeball._rect;
+        // Get eye center
+        const eyeRect = eyeball.getBoundingClientRect();
         const eyeCenterX = eyeRect.left + eyeRect.width / 2;
         const eyeCenterY = eyeRect.top + eyeRect.height / 2;
         
@@ -226,15 +233,15 @@
               
               // Calculate position on opposite side of screen from cursor
               const cursorAngle = Math.atan2(pointerY - screenHeight/2, pointerX - screenWidth/2);
-              const jumpDistance = Math.min(screenWidth, screenHeight) * 0.4;
+              const jumpDistance = Math.min(screenWidth, screenHeight) * 0.35; // Reduced distance
               const jumpAngle = cursorAngle + Math.PI + (Math.random() - 0.5);
               
               targetX = screenWidth/2 + Math.cos(jumpAngle) * jumpDistance;
               targetY = screenHeight/2 + Math.sin(jumpAngle) * jumpDistance;
               
-              // Keep within screen bounds
-              targetX = Math.max(50, Math.min(screenWidth - 50, targetX));
-              targetY = Math.max(50, Math.min(screenHeight - 50, targetY));
+              // Keep well within screen bounds with larger margin
+              targetX = Math.max(80, Math.min(screenWidth - 80, targetX));
+              targetY = Math.max(80, Math.min(screenHeight - 80, targetY));
               
               lastMoveTime = Date.now();
             }
@@ -284,19 +291,20 @@
             // Extremely jumpy behavior
             if (closenessFactor > 0.5 && Math.random() < 0.1) {
               // Panic jump to random position far from cursor
+              // Jump to a new position away from cursor
               const screenWidth = window.innerWidth;
               const screenHeight = window.innerHeight;
               
-              // Calculate position far from cursor
-              const jumpDistance = Math.min(screenWidth, screenHeight) * 0.6;
+              // Calculate position far from cursor but ensure visibility
+              const jumpDistance = Math.min(screenWidth, screenHeight) * 0.4; // Reduced distance
               const jumpAngle = Math.random() * Math.PI * 2;
               
               targetX = screenWidth/2 + Math.cos(jumpAngle) * jumpDistance;
               targetY = screenHeight/2 + Math.sin(jumpAngle) * jumpDistance;
               
-              // Keep within screen bounds
-              targetX = Math.max(50, Math.min(screenWidth - 50, targetX));
-              targetY = Math.max(50, Math.min(screenHeight - 50, targetY));
+              // Keep well within screen bounds with larger margin
+              targetX = Math.max(100, Math.min(screenWidth - 100, targetX));
+              targetY = Math.max(100, Math.min(screenHeight - 100, targetY));
               
               // Add some "panic" animation
               eyeball.classList.add('panicking');
@@ -347,44 +355,41 @@
           }
         }
         
-        // Apply final pupil position with dynamic scale and effects - use 3D transforms for hardware acceleration
-        pupil.style.transform = `translate3d(calc(-50% + ${finalPupilX}px), calc(-50% + ${finalPupilY}px), 0) scale(${pupilScale}) ${trembleEffect}`;
+        // Apply final pupil position with dynamic scale and effects
+        pupil.style.transform = `translate(calc(-50% + ${finalPupilX}px), calc(-50% + ${finalPupilY}px)) scale(${pupilScale}) ${trembleEffect}`;
         
         // Random repositioning happens less frequently at higher stages
         const repositionFactor = Math.max(0.1, 1 - (stageLevel * 0.2));
         if (Math.random() < repositionChance * repositionFactor && Date.now() - lastMoveTime > 2000) {
-          // Choose a new random position
+          // Choose a new random position - ensuring visibility
           const screenWidth = window.innerWidth;
           const screenHeight = window.innerHeight;
-          
-          targetX = Math.random() * (screenWidth - 100) + 50;
-          targetY = Math.random() * (screenHeight - 100) + 50;
-          
+        
+          // Ensure the eyeball stays well within viewport
+          const margin = 80; // Keep 80px from edges minimum
+          const visibleWidth = screenWidth - (margin * 2);
+          const visibleHeight = screenHeight - (margin * 2);
+        
+          targetX = visibleWidth > 0 ? 
+            (margin + Math.random() * visibleWidth) : 
+            screenWidth / 2;
+          targetY = visibleHeight > 0 ? 
+            (margin + Math.random() * visibleHeight) : 
+            screenHeight / 2;
+        
           lastMoveTime = Date.now();
         }
       }
       
-      // Use pointer events for unified mouse/touch handling with throttling
-      let lastPointerUpdate = 0;
-      const pointerThrottleMs = 16; // ~60fps
-      
-      function handlePointerMove(x, y) {
-        const now = Date.now();
-        if (now - lastPointerUpdate > pointerThrottleMs) {
-          updatePupilPosition(x, y);
-          lastPointerUpdate = now;
-        }
-      }
-      
-      // Track mouse movement
+      // Track mouse movement (with passive flag for better performance)
       document.addEventListener('mousemove', (e) => {
-        handlePointerMove(e.clientX, e.clientY);
+        updatePupilPosition(e.clientX, e.clientY);
       }, { passive: true });
       
-      // Track touch movement for mobile
+      // Track touch movement for mobile (passive where possible)
       document.addEventListener('touchmove', (e) => {
         if (e.touches && e.touches[0]) {
-          handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
+          updatePupilPosition(e.touches[0].clientX, e.touches[0].clientY);
           
           // Only prevent default if touching the eyeball
           if (e.target === eyeballContainer || eyeball.contains(e.target)) {
@@ -395,9 +400,6 @@
       
       // Animation loop to update eyeball position
       function updatePosition() {
-        // Cache timestamp for consistent animations within frame
-        const now = performance.now() * 0.001; // Convert to seconds for smaller values
-        
         // Add subtle ambient movement - varies by stage
         const ambientFactorByStage = [1.0, 1.2, 1.5, 2.0, 3.0];
         const currentAmbientFactor = ambientFactorByStage[stageLevel];
@@ -418,12 +420,13 @@
         // Add subtle spring effect when changing directions - more dramatic at higher stages
         if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
           const springFactor = 0.5 * (1 + stageLevel * 0.3);
-          currentX += Math.sin(now * 10) * springFactor; // Using cached time, scaled for better values
-          currentY += Math.cos(now * 10) * springFactor;
+          currentX += Math.sin(Date.now() * 0.01) * springFactor;
+          currentY += Math.cos(Date.now() * 0.01) * springFactor;
         }
         
-        // Update container position - use transform for better performance
-        eyeballContainer.style.transform = `translate(${currentX + ambientX}px, ${currentY + ambientY}px)`;
+        // Update container position
+        eyeballContainer.style.left = `${currentX + ambientX}px`;
+        eyeballContainer.style.top = `${currentY + ambientY}px`;
         
         requestAnimationFrame(updatePosition);
       }
@@ -431,7 +434,51 @@
       // Start position animation
       updatePosition();
       
-      // Simple blinking function
+      // Check viewport visibility and adjust position if needed
+      function checkVisibility() {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const margin = 80;
+        
+        // Get current position
+        const currentLeft = parseFloat(eyeballContainer.style.left) || 0;
+        const currentTop = parseFloat(eyeballContainer.style.top) || 0;
+        
+        // If offscreen, move to visible area
+        if (currentLeft < 0 || currentLeft > screenWidth || 
+            currentTop < 0 || currentTop > screenHeight) {
+          console.log("Eyeball was offscreen, repositioning to center");
+          targetX = screenWidth / 2;
+          targetY = screenHeight / 2;
+          currentX = targetX;
+          currentY = targetY;
+          eyeballContainer.style.left = `${targetX}px`;
+          eyeballContainer.style.top = `${targetY}px`;
+        }
+      }
+      
+      // Run visibility check after a slight delay to ensure all calculations are correct
+      setTimeout(checkVisibility, 500);
+      
+      // Add window resize handler to keep eyeball in visible area
+      window.addEventListener('resize', () => {
+        // Recalculate screen dimensions
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const margin = 80;
+        
+        // Ensure eyeball stays within visible area
+        if (currentX < margin || currentX > screenWidth - margin || 
+            currentY < margin || currentY > screenHeight - margin) {
+          targetX = Math.max(margin, Math.min(screenWidth - margin, currentX));
+          targetY = Math.max(margin, Math.min(screenHeight - margin, currentY));
+        }
+        
+        // Run additional visibility check
+        checkVisibility();
+      }, { passive: true });
+      
+      // Simple blinking function with optimized randomization
       function blink() {
         eyeball.classList.add('blinking');
         
@@ -439,8 +486,9 @@
           eyeball.classList.remove('blinking');
         }, 200);
         
-        // Schedule next blink
-        setTimeout(blink, 3000 + Math.random() * 4000);
+        // Schedule next blink - cache the random value for efficiency
+        const nextBlinkDelay = 3000 + (Math.random() * 4000);
+        setTimeout(blink, nextBlinkDelay);
       }
       
       // Start blinking
@@ -456,7 +504,7 @@
         const previousStage = stageLevel;
         stageLevel = (stageLevel + 1) % 5; // Cycle through 0-4
         
-        // Simple reset animation when cycling back to stage 0
+        // Simple reset animation when cycling back to stage 0 - with reduced repaints
         if (previousStage === 4 && stageLevel === 0) {
           eyeball.animate([
             { transform: 'scale(1.0)' },
@@ -465,8 +513,15 @@
             { transform: 'scale(1.0)' }
           ], {
             duration: 400,
-            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+            easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+            composite: 'accumulate'
           });
+          
+          // Also reset position to center of screen to avoid edge cases
+          const screenWidth = window.innerWidth;
+          const screenHeight = window.innerHeight;
+          targetX = screenWidth / 2;
+          targetY = screenHeight / 2;
         }
         
         lastStageChange = Date.now();
@@ -551,17 +606,31 @@
         stageIndicator.style.textShadow = '0px 0px 2px rgba(0,0,0,0.5)'; // Add shadow for visibility
         eyeballContainer.appendChild(stageIndicator);
         
-        setTimeout(() => {
+        // Use a variable to track the timeout for cleanup
+        const indicatorTimeout = setTimeout(() => {
           if (stageIndicator.parentNode === eyeballContainer) {
             eyeballContainer.removeChild(stageIndicator);
           }
         }, 1500);
         
         // Change to a slightly different size for each stage
+        // Size-specific sizing for different stages
         const sizeFactorByStage = [1.0, 1.05, 1.1, 1.15, 1.2];
         currentSize = sizesRange.default * sizeFactorByStage[stageLevel];
         eyeballContainer.style.width = `${currentSize}px`;
         eyeballContainer.style.height = `${currentSize}px`;
+        
+        // After changing size, ensure eyeball is still in visible area
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const margin = 80;
+        
+        // If near edge after size change, adjust position
+        if (currentX < margin || currentX > screenWidth - margin || 
+            currentY < margin || currentY > screenHeight - margin) {
+          targetX = Math.max(margin, Math.min(screenWidth - margin, currentX));
+          targetY = Math.max(margin, Math.min(screenHeight - margin, currentY));
+        }
         
         // Add animation to eyeball on click
         eyeball.classList.add('size-changing');
@@ -729,10 +798,9 @@
       z-index: 1000;
       pointer-events: auto;
       cursor: pointer;
-      will-change: transform;
+      will-change: left, top, transform;
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
       touch-action: none;
-      transform: translate3d(0, 0, 0); /* Force GPU acceleration */
     }
   
   .eyeball-container:hover {
@@ -777,11 +845,11 @@
     border-radius: 50%;
     top: 50%;
     left: 50%;
-    transform: translate3d(-50%, -50%, 0) scale(1);
+    transform: translate(-50%, -50%) scale(1);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 3;
     will-change: transform;
-    backface-visibility: hidden;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5) inset;
   }
   
   /* Stage-specific pupil styling */
