@@ -1,16 +1,10 @@
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
   // Initial fade in for hero section
-  setTimeout(function() {
+  requestAnimationFrame(() => {
     document.querySelector('.hero-section')?.classList.add('visible');
-  }, 100);
+  });
   
   // Fade in other elements as they scroll into view
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-  };
-  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -18,20 +12,13 @@ window.onload = function() {
         observer.unobserve(entry.target);
       }
     });
-  }, observerOptions);
-  
-  document.querySelectorAll('.js-fade').forEach(function(el) {
-    observer.observe(el);
+  }, {
+    rootMargin: '0px 0px -100px 0px',
+    threshold: 0.1
   });
   
-  // Add smooth hover effects for buttons and cards
-  document.querySelectorAll('.hover-lift').forEach(element => {
-    element.addEventListener('mouseenter', () => {
-      element.style.transform = 'translateY(-5px)';
-    });
-    
-    element.addEventListener('mouseleave', () => {
-      element.style.transform = 'translateY(0)';
-    });
-  });
-}
+  document.querySelectorAll('.js-fade').forEach(el => observer.observe(el));
+  
+  // Note: Hover effects now handled by CSS in global.css
+  // .hover-lift class uses CSS transitions for better performance
+});

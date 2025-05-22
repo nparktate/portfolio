@@ -67,8 +67,12 @@
       
       // Function to update pupil position - with stage-based behavior
       function updatePupilPosition(pointerX, pointerY) {
-        // Get eye center
-        const eyeRect = eyeball.getBoundingClientRect();
+        // Get eye center - cache dimensions for better performance
+        if (!eyeball._rect || eyeball._lastRectUpdate < Date.now() - 500) {
+          eyeball._rect = eyeball.getBoundingClientRect();
+          eyeball._lastRectUpdate = Date.now();
+        }
+        const eyeRect = eyeball._rect;
         const eyeCenterX = eyeRect.left + eyeRect.width / 2;
         const eyeCenterY = eyeRect.top + eyeRect.height / 2;
         
@@ -76,7 +80,7 @@
         const deltaX = pointerX - eyeCenterX;
         const deltaY = pointerY - eyeCenterY;
         const angle = Math.atan2(deltaY, deltaX);
-        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        const distance = Math.hypot(deltaX, deltaY); // More efficient than Math.sqrt
         
         // Base variables for pupil behavior
         let pupilScale = 1.0;
@@ -343,8 +347,8 @@
           }
         }
         
-        // Apply final pupil position with dynamic scale and effects
-        pupil.style.transform = `translate(calc(-50% + ${finalPupilX}px), calc(-50% + ${finalPupilY}px)) scale(${pupilScale}) ${trembleEffect}`;
+        // Apply final pupil position with dynamic scale and effects - use 3D transforms for hardware acceleration
+        pupil.style.transform = `translate3d(calc(-50% + ${finalPupilX}px), calc(-50% + ${finalPupilY}px), 0) scale(${pupilScale}) ${trembleEffect}`;
         
         // Random repositioning happens less frequently at higher stages
         const repositionFactor = Math.max(0.1, 1 - (stageLevel * 0.2));
@@ -360,15 +364,27 @@
         }
       }
       
+      // Use pointer events for unified mouse/touch handling with throttling
+      let lastPointerUpdate = 0;
+      const pointerThrottleMs = 16; // ~60fps
+      
+      function handlePointerMove(x, y) {
+        const now = Date.now();
+        if (now - lastPointerUpdate > pointerThrottleMs) {
+          updatePupilPosition(x, y);
+          lastPointerUpdate = now;
+        }
+      }
+      
       // Track mouse movement
       document.addEventListener('mousemove', (e) => {
-        updatePupilPosition(e.clientX, e.clientY);
-      });
+        handlePointerMove(e.clientX, e.clientY);
+      }, { passive: true });
       
       // Track touch movement for mobile
       document.addEventListener('touchmove', (e) => {
         if (e.touches && e.touches[0]) {
-          updatePupilPosition(e.touches[0].clientX, e.touches[0].clientY);
+          handlePointerMove(e.touches[0].clientX, e.touches[0].clientY);
           
           // Only prevent default if touching the eyeball
           if (e.target === eyeballContainer || eyeball.contains(e.target)) {
@@ -379,6 +395,9 @@
       
       // Animation loop to update eyeball position
       function updatePosition() {
+        // Cache timestamp for consistent animations within frame
+        const now = performance.now() * 0.001; // Convert to seconds for smaller values
+        
         // Add subtle ambient movement - varies by stage
         const ambientFactorByStage = [1.0, 1.2, 1.5, 2.0, 3.0];
         const currentAmbientFactor = ambientFactorByStage[stageLevel];
@@ -399,13 +418,12 @@
         // Add subtle spring effect when changing directions - more dramatic at higher stages
         if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
           const springFactor = 0.5 * (1 + stageLevel * 0.3);
-          currentX += Math.sin(Date.now() * 0.01) * springFactor;
-          currentY += Math.cos(Date.now() * 0.01) * springFactor;
+          currentX += Math.sin(now * 10) * springFactor; // Using cached time, scaled for better values
+          currentY += Math.cos(now * 10) * springFactor;
         }
         
-        // Update container position
-        eyeballContainer.style.left = `${currentX + ambientX}px`;
-        eyeballContainer.style.top = `${currentY + ambientY}px`;
+        // Update container position - use transform for better performance
+        eyeballContainer.style.transform = `translate(${currentX + ambientX}px, ${currentY + ambientY}px)`;
         
         requestAnimationFrame(updatePosition);
       }
@@ -711,9 +729,10 @@
       z-index: 1000;
       pointer-events: auto;
       cursor: pointer;
-      will-change: left, top, transform;
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      will-change: transform;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
       touch-action: none;
+      transform: translate3d(0, 0, 0); /* Force GPU acceleration */
     }
   
   .eyeball-container:hover {
@@ -734,6 +753,8 @@
     overflow: hidden;
     transform-origin: center;
     transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+    will-change: transform;
+    backface-visibility: hidden; /* Reduce composite layers */
   }
   
   .eyeball.blinking:before {
@@ -756,11 +777,11 @@
     border-radius: 50%;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate3d(-50%, -50%, 0) scale(1);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 3;
-    will-change: transform, scale;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5) inset;
+    will-change: transform;
+    backface-visibility: hidden;
   }
   
   /* Stage-specific pupil styling */
