@@ -141,7 +141,7 @@ export default function Portfolio() {
         {/* Click to Play Overlay */}
         {!canAutoplay && !videoLoading && !videoError && (
           <div 
-            className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer z-10"
+            className="absolute inset-0 bg-black/50 flex items-center justify-center cursor-pointer z-10 pointer-events-auto"
             onClick={handleManualPlay}
           >
             <div className="text-center text-white">
@@ -159,10 +159,10 @@ export default function Portfolio() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
         
         {/* Video info */}
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+        <div className="absolute bottom-0 left-0 right-0 p-8 text-white pointer-events-none">
           <div className="max-w-7xl mx-auto">
-            <h1 className="font-mono text-6xl font-bold mb-4 tracking-tight">NICHOLAS PARK</h1>
-            <p className="font-mono text-xl text-gray-300 mb-6">Motion Designer & Creative Technologist</p>
+            <h1 className="font-mono text-sm font-bold mb-2 tracking-tight">NICHOLAS PARK</h1>
+            <p className="font-mono text-sm text-gray-300 mb-6">Motion Designer & Creative Technologist</p>
             <div className="flex items-center space-x-8 font-mono text-sm text-gray-400">
               <span>REEL 2023</span>
               <span>21M+ VIEWS</span>

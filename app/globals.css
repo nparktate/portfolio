@@ -10,6 +10,18 @@ html {
 
 * {
   box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: none !important;
+}
+
+/* Allow selection in inputs/textareas if added later */
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text !important;
 }
 
 body {
