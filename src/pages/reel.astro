@@ -1,0 +1,238 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import GridContainer from '../components/GridContainer.astro';
+---
+
+<Base title="Reel — Nicholas Park" description="Motion Design Reel by Nicholas Park">
+  <div class="min-h-screen bg-black text-white">
+    <!-- Navigation breadcrumb -->
+    <header class="absolute top-0 left-0 right-0 z-50 bg-black bg-opacity-50 border-b border-gray-800">
+      <GridContainer>
+        <div class="col-span-16 py-4">
+          <nav class="flex items-center font-mono text-sm text-gray-300">
+            <span class="text-gray-500">~/</span>
+            <span class="mx-1 text-gray-500">/</span>
+            <a href="/" class="hover:text-white transition-colors duration-200">home</a>
+            <span class="mx-1 text-gray-500">/</span>
+            <span class="text-white font-medium">reel</span>
+            <span class="ml-1 w-2 h-4 bg-white animate-pulse"></span>
+          </nav>
+        </div>
+      </GridContainer>
+    </header>
+
+    <!-- Fullscreen video container -->
+    <div class="relative w-full h-screen overflow-hidden">
+      <!-- Video element -->
+      <video 
+        id="reel-video"
+        class="absolute inset-0 w-full h-full object-cover"
+        controls
+        preload="metadata"
+        poster=""
+      >
+        <source src="/reel-2023-nicholas-park.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+
+      <!-- Grid overlay -->
+      <div id="video-grid-overlay" class="absolute inset-0 pointer-events-none opacity-0 transition-opacity duration-300">
+        <div class="w-full h-full relative">
+          <!-- 16-column grid lines -->
+          <div class="absolute inset-0 max-w-screen-xl mx-auto px-4">
+            <div class="grid grid-cols-16 h-full gap-4">
+              {Array.from({ length: 16 }, (_, i) => (
+                <div class="border-l border-r border-white border-opacity-20 h-full"></div>
+              ))}
+            </div>
+          </div>
+          
+          <!-- Horizontal grid lines -->
+          <div class="absolute inset-0" style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 100% 32px;"></div>
+        </div>
+      </div>
+
+      <!-- Controls overlay -->
+      <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-8">
+        <GridContainer>
+          <div class="col-span-16">
+            <!-- Video info -->
+            <div class="grid grid-cols-16 gap-4 mb-8">
+              <div class="col-span-8">
+                <h1 class="font-mono text-2xl font-bold mb-2">
+                  MOTION DESIGN REEL 2023
+                </h1>
+                <p class="font-mono text-sm text-gray-300 mb-4">
+                  A compilation of selected motion graphics work from HBO Max, Nike, Universal Music Group, and personal projects.
+                </p>
+                <div class="grid grid-cols-8 gap-4 font-mono text-xs text-gray-400">
+                  <div class="col-span-2">
+                    <span class="block text-gray-500 uppercase">Duration</span>
+                    <span id="video-duration">--:--</span>
+                  </div>
+                  <div class="col-span-2">
+                    <span class="block text-gray-500 uppercase">Format</span>
+                    <span>MP4 / 1080p</span>
+                  </div>
+                  <div class="col-span-2">
+                    <span class="block text-gray-500 uppercase">Year</span>
+                    <span>2023</span>
+                  </div>
+                  <div class="col-span-2">
+                    <span class="block text-gray-500 uppercase">Size</span>
+                    <span>~50MB</span>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Controls -->
+              <div class="col-span-8 flex items-end justify-end">
+                <div class="space-x-4">
+                  <button 
+                    id="grid-toggle-video"
+                    class="px-4 py-2 bg-white bg-opacity-10 border border-white border-opacity-30 text-white font-mono text-sm hover:bg-opacity-20 transition-all duration-200"
+                  >
+                    TOGGLE GRID
+                  </button>
+                  
+                  <button 
+                    id="fullscreen-toggle"
+                    class="px-4 py-2 bg-white bg-opacity-10 border border-white border-opacity-30 text-white font-mono text-sm hover:bg-opacity-20 transition-all duration-200"
+                  >
+                    FULLSCREEN
+                  </button>
+                  
+                  <a 
+                    href="/"
+                    class="px-4 py-2 bg-white text-black font-mono text-sm hover:bg-gray-200 transition-all duration-200"
+                  >
+                    BACK TO ROOT
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </GridContainer>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="video-loading" class="absolute inset-0 bg-black flex items-center justify-center">
+        <div class="text-center">
+          <div class="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="font-mono text-sm text-gray-300">LOADING REEL...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const video = document.getElementById('reel-video') as HTMLVideoElement;
+    const gridToggle = document.getElementById('grid-toggle-video');
+    const fullscreenToggle = document.getElementById('fullscreen-toggle');
+    const gridOverlay = document.getElementById('video-grid-overlay');
+    const loading = document.getElementById('video-loading');
+    const durationSpan = document.getElementById('video-duration');
+    
+    let gridVisible = false;
+
+    // Hide loading when video can play
+    video?.addEventListener('canplay', () => {
+      loading?.classList.add('opacity-0');
+      setTimeout(() => {
+        loading?.classList.add('hidden');
+      }, 300);
+    });
+
+    // Update duration when metadata loads
+    video?.addEventListener('loadedmetadata', () => {
+      if (durationSpan && video.duration) {
+        const minutes = Math.floor(video.duration / 60);
+        const seconds = Math.floor(video.duration % 60);
+        durationSpan.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+      }
+    });
+
+    // Grid toggle functionality
+    gridToggle?.addEventListener('click', () => {
+      gridVisible = !gridVisible;
+      gridOverlay?.classList.toggle('opacity-0', !gridVisible);
+      gridOverlay?.classList.toggle('opacity-100', gridVisible);
+    });
+
+    // Fullscreen toggle
+    fullscreenToggle?.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        document.exitFullscreen();
+      }
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      
+      switch (e.key.toLowerCase()) {
+        case 'g':
+          e.preventDefault();
+          gridVisible = !gridVisible;
+          gridOverlay?.classList.toggle('opacity-0', !gridVisible);
+          gridOverlay?.classList.toggle('opacity-100', gridVisible);
+          break;
+        case 'f':
+          e.preventDefault();
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+          } else {
+            document.exitFullscreen();
+          }
+          break;
+        case ' ':
+          e.preventDefault();
+          if (video?.paused) {
+            video.play();
+          } else {
+            video?.pause();
+          }
+          break;
+        case 'escape':
+          if (document.fullscreenElement) {
+            document.exitFullscreen();
+          }
+          break;
+      }
+    });
+
+    // Auto-hide controls on inactivity
+    let controlsTimeout: number;
+    const controls = document.querySelector('.absolute.bottom-0') as HTMLElement;
+    
+    function showControls() {
+      controls?.classList.remove('opacity-0');
+      controls?.classList.add('opacity-100');
+      clearTimeout(controlsTimeout);
+      controlsTimeout = setTimeout(() => {
+        if (!video?.paused) {
+          controls?.classList.add('opacity-0');
+          controls?.classList.remove('opacity-100');
+        }
+      }, 3000);
+    }
+
+    document.addEventListener('mousemove', showControls);
+    video?.addEventListener('play', () => {
+      controlsTimeout = setTimeout(() => {
+        controls?.classList.add('opacity-0');
+        controls?.classList.remove('opacity-100');
+      }, 3000);
+    });
+    video?.addEventListener('pause', showControls);
+  </script>
+
+  <style>
+    .absolute.bottom-0 {
+      transition: opacity 0.3s ease;
+    }
+  </style>
+</Base>

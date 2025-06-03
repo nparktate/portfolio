@@ -1,53 +1,110 @@
 ---
-import { getCollection } from 'astro:content';
-import Base from "../layouts/Base.astro";
-import Hero from "../components/Hero.astro";
-import Navigation from "../components/Navigation.astro";
-
-// Get all section content, sorted by order
-const sections = await getCollection('sections');
-const sortedSections = sections.sort((a, b) => a.data.order - b.data.order);
-
-// Process content to handle Markdown headers
-function processMarkdownHeaders(content: string): string {
-  // Convert Markdown headers to HTML
-  return content
-    .replace(/^## (.*)$/gm, '<h2>$1</h2>')
-    .replace(/^### (.*)$/gm, '<h3>$1</h3>');
-}
+import Base from '../layouts/Base.astro';
+import Folder from '../components/Folder.astro';
+import GridContainer from '../components/GridContainer.astro';
 ---
 
-<Base>
-    <!-- Navigation -->
-    <Navigation sections={sortedSections} />
-    
-    <!-- Hero section -->
-    <Hero />
+<Base title="Nicholas Park — Motion Designer" description="Motion Designer & Creative Technologist">
+  <div class="min-h-screen bg-white">
+    <!-- Header -->
+    <header class="border-b border-gray-200">
+      <GridContainer>
+        <div class="col-span-16 py-8">
+          <h1 class="font-mono text-2xl font-bold text-gray-900 tracking-tight">
+            NICHOLAS PARK
+          </h1>
+          <p class="font-mono text-sm text-gray-600 mt-2">
+            MOTION DESIGNER & CREATIVE TECHNOLOGIST
+          </p>
+        </div>
+      </GridContainer>
+    </header>
 
-    <!-- Content sections -->
-    <main class="content-sections">
-        {sortedSections.map((section, index) => (
-            <section 
-                id={section.slug} 
-                class={`py-32 px-6 js-fade timeline-item ${section.slug === "02_experience" ? "timeline-section" : ""} ${index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}
-            >
-                <div class="max-w-5xl mx-auto">
-                    <header class="mb-16">
-                        <h2 class="text-4xl md:text-5xl lg:text-6xl font-serif font-bold relative inline-block">
-                            {section.data.title}
-                            <span class="absolute -bottom-3 left-0 w-full h-[3px] bg-primary-500 transform origin-left"></span>
-                        </h2>
-                    </header>
-                    
-                    <div class="prose prose-xl prose-headings:font-serif prose-headings:font-bold prose-headings:tracking-tight 
-                        prose-p:text-gray-700 prose-a:text-primary-600 prose-a:no-underline hover:prose-a:text-primary-800 
-                        hover:prose-a:underline prose-img:rounded-lg prose-strong:text-gray-900 prose-strong:font-semibold max-w-none">
-                        <Fragment set:html={processMarkdownHeaders(section.body)} />
-                    </div>
-                </div>
-            </section>
-        ))}
-    </main>
-    
-    <!-- Remove local styles since they're now in Base.astro -->
+    <!-- Main content area -->
+    <section class="py-16">
+      <GridContainer>
+        <!-- Current directory indicator -->
+        <div class="col-span-16 mb-8">
+          <p class="font-mono text-sm text-gray-500 flex items-center">
+            <span class="text-gray-400">~/</span>
+            <span class="ml-1 w-2 h-4 bg-gray-900 animate-pulse"></span>
+          </p>
+        </div>
+
+        <!-- Folder grid -->
+        <div class="col-span-16 grid grid-cols-16 gap-4">
+          <Folder 
+            name="ABOUT" 
+            path="/about" 
+            size="large"
+            gridSpan={4}
+          />
+          
+          <Folder 
+            name="WORK" 
+            path="/work" 
+            size="large"
+            gridSpan={4}
+          />
+          
+          <Folder 
+            name="EXPERIENCE" 
+            path="/experience" 
+            size="large"
+            gridSpan={4}
+          />
+          
+          <Folder 
+            name="REEL" 
+            path="/reel" 
+            size="large"
+            gridSpan={4}
+          />
+          
+          <Folder 
+            name="CONTACT" 
+            path="/contact" 
+            size="medium"
+            gridSpan={3}
+          />
+          
+          <Folder 
+            name="RESUME.PDF" 
+            path="/resume" 
+            size="medium"
+            gridSpan={3}
+          />
+          
+          <!-- Quick stats -->
+          <div class="col-span-6 h-20 bg-gray-900 text-white flex flex-col justify-center px-4 font-mono">
+            <div class="text-xs text-gray-400 uppercase">STATUS</div>
+            <div class="text-sm font-medium">AVAILABLE FOR WORK</div>
+          </div>
+          
+          <div class="col-span-4 h-20 bg-gray-100 flex flex-col justify-center px-4 font-mono border border-gray-200">
+            <div class="text-xs text-gray-400 uppercase">LOCATION</div>
+            <div class="text-sm font-medium text-gray-900">LOS ANGELES, CA</div>
+          </div>
+        </div>
+
+        <!-- System info -->
+        <div class="col-span-16 mt-16 pt-8 border-t border-gray-200">
+          <div class="grid grid-cols-16 gap-4 font-mono text-xs text-gray-500">
+            <div class="col-span-4">
+              LAST MODIFIED: 2025.01.XX
+            </div>
+            <div class="col-span-4">
+              SIZE: ~5MB
+            </div>
+            <div class="col-span-4">
+              TYPE: PORTFOLIO
+            </div>
+            <div class="col-span-4">
+              VERSION: 10.0
+            </div>
+          </div>
+        </div>
+      </GridContainer>
+    </section>
+  </div>
 </Base>

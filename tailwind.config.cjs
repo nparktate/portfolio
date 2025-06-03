@@ -1,4 +1,3 @@
-// tailwind.config.cjs
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{astro,html,js,jsx,ts,tsx,vue,svelte,md,mdx}"],
@@ -6,101 +5,124 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      black: '#000',
-      white: '#fff',
+      black: '#000000',
+      white: '#ffffff',
+    },
+    spacing: {
+      // Grid-based spacing system - all measurements are multiples of 4px (1 grid unit)
+      '0': '0px',
+      'px': '1px',
+      '0.5': '2px',   // 0.5 grid units
+      '1': '4px',     // 1 grid unit
+      '1.5': '6px',   // 1.5 grid units
+      '2': '8px',     // 2 grid units
+      '2.5': '10px',  // 2.5 grid units
+      '3': '12px',    // 3 grid units
+      '3.5': '14px',  // 3.5 grid units
+      '4': '16px',    // 4 grid units
+      '5': '20px',    // 5 grid units
+      '6': '24px',    // 6 grid units
+      '7': '28px',    // 7 grid units
+      '8': '32px',    // 8 grid units
+      '9': '36px',    // 9 grid units
+      '10': '40px',   // 10 grid units
+      '11': '44px',   // 11 grid units
+      '12': '48px',   // 12 grid units
+      '14': '56px',   // 14 grid units
+      '16': '64px',   // 16 grid units (4rem)
+      '18': '72px',   // 18 grid units
+      '20': '80px',   // 20 grid units (5rem)
+      '24': '96px',   // 24 grid units (6rem)
+      '28': '112px',  // 28 grid units (7rem)
+      '32': '128px',  // 32 grid units (8rem)
+      '36': '144px',  // 36 grid units (9rem)
+      '40': '160px',  // 40 grid units (10rem)
+      '44': '176px',  // 44 grid units (11rem)
+      '48': '192px',  // 48 grid units (12rem)
+      '52': '208px',  // 52 grid units (13rem)
+      '56': '224px',  // 56 grid units (14rem)
+      '60': '240px',  // 60 grid units (15rem)
+      '64': '256px',  // 64 grid units (16rem)
+      '72': '288px',  // 72 grid units (18rem)
+      '80': '320px',  // 80 grid units (20rem)
+      '96': '384px',  // 96 grid units (24rem)
     },
     extend: {
       fontFamily: {
-        sans: ['"Inter"', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
-        serif: ['"Playfair Display"', 'ui-serif', 'Georgia', 'Cambria', 'Times New Roman', 'Times', 'serif'],
+        mono: ['JetBrains Mono', 'Monaco', 'Cascadia Code', 'Segoe UI Mono', 'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier New', 'monospace'],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
       },
       fontSize: {
-        // Fluid typography scale
-        'xs': ['clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem)', { lineHeight: '1.5' }],
-        'sm': ['clamp(0.875rem, 0.825rem + 0.25vw, 1rem)', { lineHeight: '1.5' }],
-        'base': ['clamp(1rem, 0.95rem + 0.25vw, 1.125rem)', { lineHeight: '1.75' }],
-        'lg': ['clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem)', { lineHeight: '1.75' }],
-        'xl': ['clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)', { lineHeight: '1.75' }],
-        '2xl': ['clamp(1.5rem, 1.35rem + 0.75vw, 1.875rem)', { lineHeight: '1.5' }],
-        '3xl': ['clamp(1.875rem, 1.65rem + 1.125vw, 2.25rem)', { lineHeight: '1.4' }],
-        '4xl': ['clamp(2.25rem, 1.95rem + 1.5vw, 3rem)', { lineHeight: '1.3' }],
-        '5xl': ['clamp(3rem, 2.55rem + 2.25vw, 3.75rem)', { lineHeight: '1.25' }],
-        '6xl': ['clamp(3.75rem, 3.15rem + 3vw, 4.5rem)', { lineHeight: '1.2' }],
+        // Grid-aligned typography - line heights maintain grid rhythm
+        'xs': ['12px', { lineHeight: '16px' }],     // 3 units font, 4 units line-height
+        'sm': ['14px', { lineHeight: '20px' }],     // 3.5 units font, 5 units line-height
+        'base': ['16px', { lineHeight: '24px' }],   // 4 units font, 6 units line-height
+        'lg': ['18px', { lineHeight: '28px' }],     // 4.5 units font, 7 units line-height
+        'xl': ['20px', { lineHeight: '32px' }],     // 5 units font, 8 units line-height
+        '2xl': ['24px', { lineHeight: '36px' }],    // 6 units font, 9 units line-height
+        '3xl': ['32px', { lineHeight: '44px' }],    // 8 units font, 11 units line-height
+        '4xl': ['40px', { lineHeight: '52px' }],    // 10 units font, 13 units line-height
+        '5xl': ['48px', { lineHeight: '60px' }],    // 12 units font, 15 units line-height
+        '6xl': ['64px', { lineHeight: '80px' }],    // 16 units font, 20 units line-height
+        '7xl': ['80px', { lineHeight: '96px' }],    // 20 units font, 24 units line-height
+        '8xl': ['96px', { lineHeight: '112px' }],   // 24 units font, 28 units line-height
+        '9xl': ['112px', { lineHeight: '128px' }],  // 28 units font, 32 units line-height
       },
       colors: {
-        // Brand colors
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
-          950: '#082f49',
-        },
-        // Secondary accent color
-        accent: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
-        },
         gray: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
-          950: '#030712',
+          50: '#f9f9f9',
+          100: '#f3f3f3',
+          200: '#e6e6e6',
+          300: '#d9d9d9',
+          400: '#b3b3b3',
+          500: '#808080',
+          600: '#666666',
+          700: '#4d4d4d',
+          800: '#333333',
+          900: '#1a1a1a',
+          950: '#0d0d0d',
         },
       },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: '70ch',
-            a: {
-              color: 'var(--tw-prose-links)',
-              textDecoration: 'underline',
-              fontWeight: '500',
-              '&:hover': {
-                opacity: 0.8,
-              },
-            },
-            'h1, h2, h3, h4': {
-              fontFamily: ['"Playfair Display"', 'Georgia', 'serif'].join(', '),
-              fontWeight: '700',
-            },
-            blockquote: {
-              borderLeftColor: 'var(--tw-prose-quote-borders)',
-              borderLeftWidth: '4px',
-              fontStyle: 'italic',
-              fontWeight: '500',
-            },
-            img: {
-              borderRadius: '0.375rem',
-            },
-          },
+      gridTemplateColumns: {
+        // Precise 16-column grid system
+        '16': 'repeat(16, minmax(0, 1fr))',
+        '24': 'repeat(24, minmax(0, 1fr))',
+        '32': 'repeat(32, minmax(0, 1fr))',
+      },
+      gridColumn: {
+        'span-13': 'span 13 / span 13',
+        'span-14': 'span 14 / span 14',
+        'span-15': 'span 15 / span 15',
+        'span-16': 'span 16 / span 16',
+        'span-17': 'span 17 / span 17',
+        'span-18': 'span 18 / span 18',
+        'span-19': 'span 19 / span 19',
+        'span-20': 'span 20 / span 20',
+        'span-21': 'span 21 / span 21',
+        'span-22': 'span 22 / span 22',
+        'span-23': 'span 23 / span 23',
+        'span-24': 'span 24 / span 24',
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-in-out',
+        'slide-up': 'slideUp 0.5s ease-out',
+        'grid-pulse': 'gridPulse 2s ease-in-out infinite',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        gridPulse: {
+          '0%, 100%': { opacity: '0.1' },
+          '50%': { opacity: '0.3' },
         },
       },
     },
   },
-  plugins: [
-    require("@tailwindcss/typography"), // ← this adds the prose styles
-  ],
+  plugins: [],
 };

@@ -1,0 +1,60 @@
+---
+export interface Props {
+  name: string;
+  path: string;
+  isActive?: boolean;
+  size?: 'small' | 'medium' | 'large';
+  gridSpan?: number;
+}
+
+const { name, path, isActive = false, size = 'medium', gridSpan = 4 } = Astro.props;
+
+const sizeClasses: Record<string, string> = {
+  small: 'h-16 text-sm',
+  medium: 'h-20 text-base',
+  large: 'h-24 text-lg'
+};
+
+const spanClass = `col-span-${gridSpan}`;
+---
+
+<a 
+  href={path}
+  class={`
+    ${spanClass}
+    ${sizeClasses[size]}
+    bg-gray-50 
+    border border-gray-200 
+    rounded-none 
+    flex items-center justify-center 
+    font-mono 
+    font-medium 
+    transition-all 
+    duration-200 
+    hover:bg-gray-100 
+    hover:border-gray-300
+    hover:scale-[1.02]
+    active:scale-[0.98]
+    ${isActive ? 'bg-gray-900 text-white border-gray-900' : 'text-gray-900'}
+    group
+    relative
+    overflow-hidden
+  `}
+>
+  <!-- Folder icon -->
+  <div class="absolute left-3 top-1/2 transform -translate-y-1/2">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" class="opacity-60">
+      <path d="M2 3a1 1 0 011-1h2.5a1 1 0 01.707.293L7.5 3.586A.5.5 0 008 4h5a1 1 0 011 1v7a1 1 0 01-1 1H3a1 1 0 01-1-1V3z"/>
+    </svg>
+  </div>
+  
+  <!-- Folder name -->
+  <span class="ml-6 tracking-tight uppercase">
+    {name}
+  </span>
+  
+  <!-- Grid pattern overlay on hover -->
+  <div class="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-200">
+    <div class="w-full h-full" style="background-image: linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px); background-size: 4px 4px;"></div>
+  </div>
+</a>

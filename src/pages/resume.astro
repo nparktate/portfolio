@@ -1,0 +1,274 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import GridContainer from '../components/GridContainer.astro';
+---
+
+<Base title="Resume — Nicholas Park" description="Nicholas Park's professional resume">
+  <div class="min-h-screen bg-white">
+    <!-- Navigation breadcrumb -->
+    <header class="border-b border-gray-200">
+      <GridContainer>
+        <Breadcrumb path={[]} current="resume" />
+      </GridContainer>
+    </header>
+
+    <!-- Main content -->
+    <section class="py-16">
+      <GridContainer>
+        <!-- Title section -->
+        <div class="col-span-16 mb-16">
+          <h1 class="font-mono text-4xl font-bold text-gray-900 mb-4 uppercase">
+            Resume
+          </h1>
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-8">
+              <p class="font-mono text-lg text-gray-700 leading-8">
+                Professional resume for Nicholas Park, Motion Designer & Creative Technologist.
+                Available in PDF format for download.
+              </p>
+            </div>
+            <div class="col-span-4">
+              <a 
+                href="/nicholas-park-resume.pdf" 
+                download
+                class="inline-block bg-gray-900 text-white px-6 py-3 font-mono text-sm uppercase hover:bg-gray-700 transition-colors duration-200"
+              >
+                Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resume header -->
+        <div class="col-span-16 mb-16 bg-gray-50 border border-gray-200 p-8">
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-10">
+              <h2 class="font-mono text-3xl font-bold text-gray-900 mb-2">
+                NICHOLAS PARK
+              </h2>
+              <p class="font-mono text-lg text-gray-700 mb-4">
+                Motion Designer & Creative Technologist
+              </p>
+              <p class="font-mono text-base text-gray-600 leading-6">
+                5+ years of experience crafting dynamic visual content for major entertainment brands. 
+                Specializing in motion graphics, VFX, and interactive design.
+              </p>
+            </div>
+            <div class="col-span-6">
+              <div class="font-mono text-sm text-gray-600 space-y-2">
+                <div>
+                  <span class="text-gray-500">EMAIL:</span> nparktate@gmail.com
+                </div>
+                <div>
+                  <span class="text-gray-500">PHONE:</span> (401) 241-3241
+                </div>
+                <div>
+                  <span class="text-gray-500">LOCATION:</span> Los Angeles, CA
+                </div>
+                <div>
+                  <span class="text-gray-500">LINKEDIN:</span> linkedin.com/in/linkparkdesign
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Experience section -->
+        <div class="col-span-16 mb-16">
+          <h3 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Professional Experience
+          </h3>
+          
+          <div class="space-y-8">
+            <!-- Current role -->
+            <div class="grid grid-cols-16 gap-4 border-b border-gray-100 pb-8">
+              <div class="col-span-4">
+                <div class="font-mono text-sm text-gray-500 uppercase">Oct 2022 - Present</div>
+                <div class="font-mono text-sm text-gray-500">2+ Years</div>
+              </div>
+              <div class="col-span-12">
+                <h4 class="font-mono text-lg font-bold text-gray-900 mb-1">
+                  Motion Designer
+                </h4>
+                <p class="font-mono text-base text-gray-700 mb-3">
+                  Warner Bros. Discovery (HBO/Max)
+                </p>
+                <p class="font-mono text-sm text-gray-600 leading-6 mb-4">
+                  Create motion graphics and visual content for HBO and Max Original programming. 
+                  Develop modular After Effects toolkits to streamline versioning and localization 
+                  across marketing assets while maintaining brand consistency.
+                </p>
+                <div class="font-mono text-xs text-gray-500 uppercase">
+                  After Effects • Motion Graphics • Brand Systems • Podcast Visuals
+                </div>
+              </div>
+            </div>
+
+            <!-- Previous roles -->
+            <div class="grid grid-cols-16 gap-4 border-b border-gray-100 pb-8">
+              <div class="col-span-4">
+                <div class="font-mono text-sm text-gray-500 uppercase">Oct 2020 - Oct 2022</div>
+                <div class="font-mono text-sm text-gray-500">2 Years</div>
+              </div>
+              <div class="col-span-12">
+                <h4 class="font-mono text-lg font-bold text-gray-900 mb-1">
+                  Motion Designer
+                </h4>
+                <p class="font-mono text-base text-gray-700 mb-3">
+                  Warner Bros. Discovery (HBO Max)
+                </p>
+                <p class="font-mono text-sm text-gray-600 leading-6 mb-4">
+                  Developed graphics and animations for HBO Max's streaming originals marketing. 
+                  Contributed to key art design on 50+ shows and podcasts, pioneered branded AR filters.
+                </p>
+                <div class="font-mono text-xs text-gray-500 uppercase">
+                  Motion Graphics • Key Art Design • AR Development • Campaign Design
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-16 gap-4 border-b border-gray-100 pb-8">
+              <div class="col-span-4">
+                <div class="font-mono text-sm text-gray-500 uppercase">Feb 2023 - Mar 2023</div>
+                <div class="font-mono text-sm text-gray-500">Contract</div>
+              </div>
+              <div class="col-span-12">
+                <h4 class="font-mono text-lg font-bold text-gray-900 mb-1">
+                  VFX Director & Visual Designer
+                </h4>
+                <p class="font-mono text-base text-gray-700 mb-3">
+                  NIKE, Inc.
+                </p>
+                <p class="font-mono text-sm text-gray-600 leading-6 mb-4">
+                  Led design and coordination of VFX/GFX for Nike D/N global launch campaign. 
+                  Defined visual style and coordinated international production team.
+                </p>
+                <div class="font-mono text-xs text-gray-500 uppercase">
+                  VFX Direction • 360° Video • Global Campaigns • Team Leadership
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-16 gap-4">
+              <div class="col-span-4">
+                <div class="font-mono text-sm text-gray-500 uppercase">Mar 2021 - Jan 2022</div>
+                <div class="font-mono text-sm text-gray-500">Freelance</div>
+              </div>
+              <div class="col-span-12">
+                <h4 class="font-mono text-lg font-bold text-gray-900 mb-1">
+                  Motion Graphics Artist
+                </h4>
+                <p class="font-mono text-base text-gray-700 mb-3">
+                  Universal Music Group
+                </p>
+                <p class="font-mono text-sm text-gray-600 leading-6 mb-4">
+                  Produced animated lyric videos for major recording artists accumulating 21M+ views. 
+                  Utilized motion tracking and 3D camera projection techniques.
+                </p>
+                <div class="font-mono text-xs text-gray-500 uppercase">
+                  Lyric Videos • Motion Tracking • 3D Projection • Music Industry
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Education section -->
+        <div class="col-span-16 mb-16">
+          <h3 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Education
+          </h3>
+          
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-4">
+              <div class="font-mono text-sm text-gray-500 uppercase">2017 - 2021</div>
+              <div class="font-mono text-sm text-gray-500">GPA: 3.7/4.0</div>
+            </div>
+            <div class="col-span-12">
+              <h4 class="font-mono text-lg font-bold text-gray-900 mb-1">
+                Bachelor of Fine Arts in Graphic Design
+              </h4>
+              <p class="font-mono text-base text-gray-700 mb-3">
+                Rhode Island School of Design (RISD)
+              </p>
+              <p class="font-mono text-sm text-gray-600 leading-6 mb-4">
+                Graduated with Graphic Design Honors. Coursework emphasized motion design, 
+                interactive media, and visual communication. Active in cross-disciplinary collaborations.
+              </p>
+              <div class="font-mono text-xs text-gray-500 uppercase">
+                Motion Design • Interactive Media • Visual Communication • Honors Program
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills section -->
+        <div class="col-span-16 mb-16">
+          <h3 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Technical Skills
+          </h3>
+          
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-5">
+              <h4 class="font-mono text-sm text-gray-500 uppercase mb-4">Motion Graphics</h4>
+              <div class="font-mono text-sm text-gray-700 space-y-2">
+                <div>Adobe After Effects</div>
+                <div>Adobe Premiere Pro</div>
+                <div>Cinema 4D</div>
+                <div>Blender</div>
+                <div>DaVinci Resolve</div>
+              </div>
+            </div>
+            <div class="col-span-5">
+              <h4 class="font-mono text-sm text-gray-500 uppercase mb-4">Design</h4>
+              <div class="font-mono text-sm text-gray-700 space-y-2">
+                <div>Adobe Creative Suite</div>
+                <div>Figma</div>
+                <div>Sketch</div>
+                <div>Photoshop</div>
+                <div>Illustrator</div>
+              </div>
+            </div>
+            <div class="col-span-6">
+              <h4 class="font-mono text-sm text-gray-500 uppercase mb-4">Development</h4>
+              <div class="font-mono text-sm text-gray-700 space-y-2">
+                <div>HTML/CSS/JavaScript</div>
+                <div>React/Vue.js</div>
+                <div>Unity/Unreal Engine</div>
+                <div>Spark AR/Effect House</div>
+                <div>Node.js/Express</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key achievements -->
+        <div class="col-span-16">
+          <h3 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Key Achievements
+          </h3>
+          
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-4 bg-gray-100 border border-gray-200 p-6 text-center">
+              <div class="font-mono text-2xl font-bold text-gray-900 mb-2">50+</div>
+              <div class="font-mono text-xs text-gray-600 uppercase">Shows & Podcasts</div>
+            </div>
+            <div class="col-span-4 bg-gray-100 border border-gray-200 p-6 text-center">
+              <div class="font-mono text-2xl font-bold text-gray-900 mb-2">21M+</div>
+              <div class="font-mono text-xs text-gray-600 uppercase">Video Views</div>
+            </div>
+            <div class="col-span-4 bg-gray-100 border border-gray-200 p-6 text-center">
+              <div class="font-mono text-2xl font-bold text-gray-900 mb-2">5+</div>
+              <div class="font-mono text-xs text-gray-600 uppercase">Years Experience</div>
+            </div>
+            <div class="col-span-4 bg-gray-900 text-white p-6 text-center">
+              <div class="font-mono text-2xl font-bold mb-2">3</div>
+              <div class="font-mono text-xs text-gray-300 uppercase">Major Brands</div>
+            </div>
+          </div>
+        </div>
+      </GridContainer>
+    </section>
+  </div>
+</Base>

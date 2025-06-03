@@ -1,0 +1,362 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import GridContainer from '../components/GridContainer.astro';
+---
+
+<Base title="Contact — Nicholas Park" description="Contact Nicholas Park for motion design and creative technology projects">
+  <div class="min-h-screen bg-white">
+    <!-- Navigation breadcrumb -->
+    <header class="border-b border-gray-200">
+      <GridContainer>
+        <Breadcrumb path={[]} current="contact" />
+      </GridContainer>
+    </header>
+
+    <!-- Main content -->
+    <section class="py-16">
+      <GridContainer>
+        <!-- Title section -->
+        <div class="col-span-16 mb-16">
+          <h1 class="font-mono text-4xl font-bold text-gray-900 mb-4 uppercase">
+            Contact Information
+          </h1>
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-8">
+              <p class="font-mono text-lg text-gray-700 leading-8">
+                Available for select freelance projects, collaborations, and consultations 
+                in motion design and creative technology.
+              </p>
+            </div>
+            <div class="col-span-4">
+              <div class="font-mono text-sm text-gray-500 space-y-2">
+                <div>RESPONSE TIME: 24-48H</div>
+                <div>AVAILABILITY: SELECTIVE</div>
+                <div>STATUS: OPEN TO WORK</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact methods -->
+        <div class="col-span-16 mb-16">
+          <h2 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Contact Methods
+          </h2>
+          
+          <div class="grid grid-cols-16 gap-4">
+            <!-- Email -->
+            <div class="col-span-8 bg-gray-900 text-white p-8">
+              <div class="flex items-center mb-4">
+                <div class="w-4 h-4 bg-white mr-4"></div>
+                <h3 class="font-mono text-lg font-bold uppercase">Primary Email</h3>
+              </div>
+              <a 
+                href="mailto:nparktate@gmail.com" 
+                class="font-mono text-2xl font-bold hover:text-gray-300 transition-colors duration-200"
+              >
+                nparktate@gmail.com
+              </a>
+              <p class="font-mono text-sm text-gray-300 mt-4">
+                Best for project inquiries, collaborations, and business communications.
+              </p>
+            </div>
+
+            <!-- Phone -->
+            <div class="col-span-8 bg-gray-50 border border-gray-200 p-8">
+              <div class="flex items-center mb-4">
+                <div class="w-4 h-4 bg-gray-900 mr-4"></div>
+                <h3 class="font-mono text-lg font-bold text-gray-900 uppercase">Phone</h3>
+              </div>
+              <a 
+                href="tel:4012413241" 
+                class="font-mono text-2xl font-bold text-gray-900 hover:text-gray-700 transition-colors duration-200"
+              >
+                401-241-3241
+              </a>
+              <p class="font-mono text-sm text-gray-600 mt-4">
+                Available for urgent project discussions and consultations.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Professional links -->
+        <div class="col-span-16 mb-16">
+          <h2 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Professional Links
+          </h2>
+          
+          <div class="grid grid-cols-16 gap-4">
+            <!-- LinkedIn -->
+            <div class="col-span-5 bg-gray-100 border border-gray-200 p-6">
+              <div class="font-mono text-sm text-gray-500 uppercase mb-2">LinkedIn</div>
+              <a 
+                href="https://www.linkedin.com/in/linkparkdesign/" 
+                target="_blank" 
+                rel="noopener"
+                class="font-mono text-lg font-bold text-gray-900 hover:text-gray-700 transition-colors duration-200 break-all"
+              >
+                linkedin.com/in/linkparkdesign
+              </a>
+            </div>
+
+            <!-- Resume -->
+            <div class="col-span-5 bg-gray-100 border border-gray-200 p-6">
+              <div class="font-mono text-sm text-gray-500 uppercase mb-2">Resume</div>
+              <a 
+                href="/resume" 
+                class="font-mono text-lg font-bold text-gray-900 hover:text-gray-700 transition-colors duration-200"
+              >
+                Download PDF
+              </a>
+            </div>
+
+            <!-- Portfolio -->
+            <div class="col-span-6 bg-gray-100 border border-gray-200 p-6">
+              <div class="font-mono text-sm text-gray-500 uppercase mb-2">Motion Reel</div>
+              <a 
+                href="/reel" 
+                class="font-mono text-lg font-bold text-gray-900 hover:text-gray-700 transition-colors duration-200"
+              >
+                View Full Reel
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Services offered -->
+        <div class="col-span-16 mb-16">
+          <h2 class="font-mono text-xl font-bold text-gray-900 mb-8 uppercase">
+            Services Offered
+          </h2>
+          
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-8">
+              <div class="space-y-6">
+                <!-- Motion Design -->
+                <div class="border-b border-gray-200 pb-6">
+                  <h3 class="font-mono text-lg font-bold text-gray-900 mb-3 uppercase">
+                    Motion Design & Animation
+                  </h3>
+                  <div class="grid grid-cols-8 gap-4 font-mono text-sm text-gray-700">
+                    <div class="col-span-4 space-y-2">
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Brand Animation</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Kinetic Typography</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>UI/UX Motion</span>
+                      </div>
+                    </div>
+                    <div class="col-span-4 space-y-2">
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Explainer Videos</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Social Media Content</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Podcast Visuals</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- VFX & Production -->
+                <div class="border-b border-gray-200 pb-6">
+                  <h3 class="font-mono text-lg font-bold text-gray-900 mb-3 uppercase">
+                    VFX & Visual Production
+                  </h3>
+                  <div class="grid grid-cols-8 gap-4 font-mono text-sm text-gray-700">
+                    <div class="col-span-4 space-y-2">
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Compositing</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Rotoscoping</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Color Grading</span>
+                      </div>
+                    </div>
+                    <div class="col-span-4 space-y-2">
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>360° Video</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Green Screen</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Motion Tracking</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Creative Technology -->
+                <div>
+                  <h3 class="font-mono text-lg font-bold text-gray-900 mb-3 uppercase">
+                    Creative Technology
+                  </h3>
+                  <div class="grid grid-cols-8 gap-4 font-mono text-sm text-gray-700">
+                    <div class="col-span-4 space-y-2">
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>AR Development</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Interactive Design</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Web Development</span>
+                      </div>
+                    </div>
+                    <div class="col-span-4 space-y-2">
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Generative Design</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>3D Animation</span>
+                      </div>
+                      <div class="flex items-center">
+                        <span class="w-2 h-2 bg-gray-400 mr-3"></span>
+                        <span>Technical Consultation</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Contact form -->
+            <div class="col-span-8 bg-gray-50 border border-gray-200 p-8">
+              <h3 class="font-mono text-lg font-bold text-gray-900 mb-6 uppercase">
+                Project Inquiry
+              </h3>
+              <form class="space-y-6">
+                <div class="space-y-2">
+                  <label class="font-mono text-sm text-gray-600 uppercase">Project Type</label>
+                  <select class="w-full p-3 border border-gray-300 font-mono text-sm text-gray-900 bg-white">
+                    <option>Motion Graphics</option>
+                    <option>VFX & Compositing</option>
+                    <option>AR Development</option>
+                    <option>Web Development</option>
+                    <option>Consultation</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="font-mono text-sm text-gray-600 uppercase">Timeline</label>
+                  <select class="w-full p-3 border border-gray-300 font-mono text-sm text-gray-900 bg-white">
+                    <option>ASAP (Rush Job)</option>
+                    <option>1-2 Weeks</option>
+                    <option>1 Month</option>
+                    <option>2-3 Months</option>
+                    <option>Long-term Project</option>
+                    <option>Flexible</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="font-mono text-sm text-gray-600 uppercase">Budget Range</label>
+                  <select class="w-full p-3 border border-gray-300 font-mono text-sm text-gray-900 bg-white">
+                    <option>$1K - $5K</option>
+                    <option>$5K - $10K</option>
+                    <option>$10K - $25K</option>
+                    <option>$25K+</option>
+                    <option>Hourly Rate</option>
+                    <option>To Be Discussed</option>
+                  </select>
+                </div>
+                <div class="space-y-2">
+                  <label class="font-mono text-sm text-gray-600 uppercase">Project Details</label>
+                  <textarea 
+                    rows="4" 
+                    class="w-full p-3 border border-gray-300 font-mono text-sm text-gray-900 resize-none"
+                    placeholder="Brief description of your project, goals, and any specific requirements..."
+                  ></textarea>
+                </div>
+                <button 
+                  type="button"
+                  onclick="window.location.href='mailto:nparktate@gmail.com?subject=Project Inquiry&body=Please fill out the form on your website and include project details.'"
+                  class="w-full py-3 bg-gray-900 text-white font-mono text-sm uppercase hover:bg-gray-700 transition-colors duration-200"
+                >
+                  Send via Email
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Location & availability -->
+        <div class="col-span-16 mb-16">
+          <div class="grid grid-cols-16 gap-4">
+            <div class="col-span-8">
+              <h2 class="font-mono text-xl font-bold text-gray-900 mb-4 uppercase">
+                Location & Availability
+              </h2>
+              <div class="space-y-4 font-mono text-base text-gray-700">
+                <p>
+                  Based in Los Angeles, California. Available for remote work globally 
+                  and on-site projects within the LA area.
+                </p>
+                <p>
+                  Currently employed full-time at Warner Bros. Discovery but open to 
+                  select freelance projects during evenings and weekends.
+                </p>
+              </div>
+            </div>
+            <div class="col-span-8">
+              <div class="grid grid-cols-8 gap-4">
+                <div class="col-span-4 bg-gray-100 border border-gray-200 p-4 text-center">
+                  <div class="font-mono text-lg font-bold text-gray-900 mb-1">PST</div>
+                  <div class="font-mono text-xs text-gray-600 uppercase">Time Zone</div>
+                </div>
+                <div class="col-span-4 bg-gray-900 text-white p-4 text-center">
+                  <div class="font-mono text-lg font-bold mb-1">REMOTE</div>
+                  <div class="font-mono text-xs text-gray-300 uppercase">Available</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- System info -->
+        <div class="col-span-16 mt-16 pt-8 border-t border-gray-200">
+          <div class="grid grid-cols-16 gap-4 font-mono text-xs text-gray-500">
+            <div class="col-span-4">
+              RESPONSE TIME: 24-48H
+            </div>
+            <div class="col-span-4">
+              AVAILABILITY: SELECTIVE
+            </div>
+            <div class="col-span-4">
+              LOCATION: LOS ANGELES, CA
+            </div>
+            <div class="col-span-4">
+              STATUS: OPEN TO WORK
+            </div>
+          </div>
+        </div>
+      </GridContainer>
+    </section>
+  </div>
+</Base>
