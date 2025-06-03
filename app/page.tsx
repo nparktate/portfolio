@@ -53,15 +53,7 @@ export default function Portfolio() {
       }
     }
 
-    // Manual play function for click-to-play
-    const handleManualPlay = async () => {
-      try {
-        await video.play()
-        setCanAutoplay(true)
-      } catch (error) {
-        console.error('Manual play failed:', error)
-      }
-    }
+
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -83,6 +75,19 @@ export default function Portfolio() {
       video.removeEventListener('loadeddata', handleLoadedData)
     }
   }, [])
+
+  // Manual play function for click-to-play
+  const handleManualPlay = async () => {
+    const video = videoRef.current
+    if (!video) return
+    
+    try {
+      await video.play()
+      setCanAutoplay(true)
+    } catch (error) {
+      console.error('Manual play failed:', error)
+    }
+  }
 
   return (
     <div className="bg-white">
