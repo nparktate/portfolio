@@ -1,97 +1,148 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const cursorDotRef = useRef<HTMLDivElement>(null)
+  const requestRef = useRef<number | null>(null)
+  const mousePosition = useRef({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
-  const [cursorState, setCursorState] = useState<'default' | 'hover' | 'video' | 'text'>('default')
+  const [cursorVariant, setCursorVariant] = useState<'default' | 'hover' | 'video' | 'text'>('default')
+  
+  // Debounced cursor variant update
+  const updateTimer = useRef<NodeJS.Timeout | null>(null)
+  const updateCursorVariant = useCallback((e: MouseEvent) => {
+    if (updateTimer.current) clearTimeout(updateTimer.current)
+    
+    updateTimer.current = setTimeout(() => {
+      const target = e.target as HTMLElement
+      if (!target) return
+      
+      const tagName = target.tagName.toLowerCase()
+      
+      // Check for video elements
+      if (tagName === 'video') {
+        setCursorVariant('video')
+        return
+      }
+      
+      // Check for interactive elements
+      if (
+        tagName === 'a' || 
+        tagName === 'button' || 
+        target.closest('a') || 
+        target.closest('button') ||
+        target.style.cursor === 'pointer'
+      ) {
+        setCursorVariant('hover')
+        return
+      }
+      
+      // Check for text elements
+      if (
+        ['p', 'h1', 'h2', 'h3', 'span', 'li'].includes(tagName) && 
+        target.innerText && 
+        target.innerText.trim().length > 0
+      ) {
+        setCursorVariant('text')
+        return
+      }
+      
+      setCursorVariant('default')
+    }, 10)
+  }, [])
+
+  // Smooth cursor movement
+  const moveCursor = useCallback(() => {
+    if (cursorRef.current && cursorDotRef.current) {
+      const x = mousePosition.current.x
+      const y = mousePosition.current.y
+      
+      cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`
+      cursorDotRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`
+    }
+    
+    requestRef.current = null
+  }, [])
 
   useEffect(() => {
-    const updateCursor = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY })
+    const handleMouseMove = (e: MouseEvent) => {
+      mousePosition.current = { x: e.clientX, y: e.clientY }
       
-      const target = e.target as HTMLElement
-      const tagName = target.tagName.toLowerCase()
-      const hasClickHandler = target.onclick !== null
-      const isClickable = ['a', 'button'].includes(tagName) || hasClickHandler
-      const isVideo = tagName === 'video'
-      const isText = ['p', 'h1', 'h2', 'h3', 'span', 'div'].includes(tagName) && target.textContent?.trim()
-
-      if (isVideo) {
-        setCursorState('video')
-      } else if (isClickable) {
-        setCursorState('hover')
-      } else if (isText) {
-        setCursorState('text')
-      } else {
-        setCursorState('default')
+      if (!requestRef.current) {
+        requestRef.current = requestAnimationFrame(moveCursor)
       }
+      
+      updateCursorVariant(e)
     }
 
     const handleMouseEnter = () => setIsVisible(true)
     const handleMouseLeave = () => setIsVisible(false)
 
-    document.addEventListener('mousemove', updateCursor)
-    document.addEventListener('mouseenter', handleMouseEnter)
-    document.addEventListener('mouseleave', handleMouseLeave)
+    // Use passive listeners for better performance
+    const options = { passive: true }
+    document.addEventListener('mousemove', handleMouseMove, options)
+    document.addEventListener('mouseenter', handleMouseEnter, options)
+    document.addEventListener('mouseleave', handleMouseLeave, options)
 
     return () => {
-      document.removeEventListener('mousemove', updateCursor)
+      if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current)
+      }
+      if (updateTimer.current) {
+        clearTimeout(updateTimer.current)
+      }
+      document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('mouseenter', handleMouseEnter)
       document.removeEventListener('mouseleave', handleMouseLeave)
     }
-  }, [])
+  }, [moveCursor, updateCursorVariant])
 
-  const getCursorStyles = () => {
-    const baseStyles = 'fixed top-0 left-0 pointer-events-none z-[9999] transition-all duration-150 ease-out'
-    
-    switch (cursorState) {
-      case 'hover':
-        return `${baseStyles} w-8 h-8 -translate-x-4 -translate-y-4`
-      case 'video':
-        return `${baseStyles} w-12 h-12 -translate-x-6 -translate-y-6`
-      case 'text':
-        return `${baseStyles} w-1 h-6 -translate-x-0.5 -translate-y-3`
-      default:
-        return `${baseStyles} w-4 h-4 -translate-x-2 -translate-y-2`
-    }
+  // Don't render on touch devices or when invisible
+  if (!isVisible || typeof window !== 'undefined' && 'ontouchstart' in window) {
+    return null
   }
 
-  const getCursorElement = () => {
-    switch (cursorState) {
-      case 'hover':
-        return (
-          <div className="w-full h-full rounded-full border-2 border-white bg-white/20 backdrop-blur-sm">
-            <div className="w-2 h-2 bg-white rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-          </div>
-        )
-      case 'video':
-        return (
-          <div className="w-full h-full rounded-full border-2 border-red-500 bg-red-500/20 backdrop-blur-sm flex items-center justify-center">
-            <svg className="w-4 h-4 text-red-500 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z"/>
-            </svg>
-          </div>
-        )
-      case 'text':
-        return <div className="w-full h-full bg-gray-900 animate-pulse" />
-      default:
-        return <div className="w-full h-full rounded-full bg-gray-900" />
-    }
-  }
+  const cursorClasses = `
+    fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference
+    ${cursorVariant === 'default' ? 'w-3 h-3 -ml-1.5 -mt-1.5' : ''}
+    ${cursorVariant === 'hover' ? 'w-8 h-8 -ml-4 -mt-4' : ''}
+    ${cursorVariant === 'video' ? 'w-12 h-12 -ml-6 -mt-6' : ''}
+    ${cursorVariant === 'text' ? 'w-0.5 h-6 -ml-0.5 -mt-3' : ''}
+  `
 
-  if (!isVisible) return null
+  const dotClasses = `
+    fixed top-0 left-0 pointer-events-none z-[9999]
+    ${cursorVariant === 'default' ? 'w-1 h-1 -ml-0.5 -mt-0.5' : ''}
+    ${cursorVariant === 'hover' ? 'w-2 h-2 -ml-1 -mt-1' : ''}
+    ${cursorVariant === 'video' ? 'w-1 h-1 -ml-0.5 -mt-0.5 opacity-0' : ''}
+    ${cursorVariant === 'text' ? 'w-0 h-0' : ''}
+  `
 
   return (
-    <div
-      className={getCursorStyles()}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }}
-    >
-      {getCursorElement()}
-    </div>
+    <>
+      <div 
+        ref={cursorRef}
+        className={cursorClasses}
+        style={{
+          transition: 'width 0.2s ease-out, height 0.2s ease-out, margin 0.2s ease-out',
+          backgroundColor: cursorVariant === 'video' ? 'transparent' : 'white',
+          borderRadius: cursorVariant === 'text' ? '0' : '50%',
+          border: cursorVariant === 'video' ? '2px solid #ef4444' : 'none',
+          willChange: 'transform',
+        }}
+      />
+      <div 
+        ref={cursorDotRef}
+        className={dotClasses}
+        style={{
+          transition: 'all 0.1s ease-out',
+          backgroundColor: 'white',
+          borderRadius: '50%',
+          willChange: 'transform',
+        }}
+      />
+    </>
   )
 }
