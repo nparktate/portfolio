@@ -104,13 +104,12 @@ body {
 /* Fix for mobile viewport height */
 .h-screen {
   height: 100vh;
-  height: -webkit-fill-available;
-  height: -moz-available;
-  height: fill-available;
 }
 
-@supports (-webkit-touch-callout: none) {
+/* Only apply viewport fixes on actual mobile devices */
+@media (max-width: 768px) {
   .h-screen {
+    height: 100vh;
     height: -webkit-fill-available;
   }
 }
