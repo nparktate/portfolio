@@ -914,12 +914,12 @@ export default function Portfolio() {
                   </div>
                 </div>
               </div>
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">Augmented Reality Calendar</h3>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">Augmented Reality Calendar</h3>
                   <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2020</span>
                 </div>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
                   AR application that brings calendar events to life.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -927,8 +927,124 @@ export default function Portfolio() {
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Interactive Design</span>
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Unity</span>
                 </div>
-                <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Type:</span> Academic Project • <span className="font-medium">Year:</span> 2020
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Type:</span> Academic Project <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2020
+                </div>
+              </div>
+            </div>
+
+            {/* Nike DN Sportswear */}
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-orange-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-600 to-orange-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">NIKE DN</div>
+                    <div className="font-mono text-orange-200 text-sm">SPORTSWEAR VFX</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">Nike DN Sportswear</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
+                </div>
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  Supernatural VFX for Nike DN Sportswear campaign, enhancing scenes of athletes performing extraordinary feats.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">VFX</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Direction</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Sportswear</span>
+                </div>
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Nike Sportswear <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2023
+                </div>
+              </div>
+            </div>
+
+            {/* The Penguin */}
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-slate-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">THE PENGUIN</div>
+                    <div className="font-mono text-slate-200 text-sm">MOTION GRAPHICS</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">The Penguin</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2024</span>
+                </div>
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  Coordinated and designed campaign graphics, including critics&apos; quotes and animated concept art for HBO&apos;s The Penguin series.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Promotional</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
+                </div>
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> HBO <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2024
+                </div>
+              </div>
+            </div>
+
+            {/* DC Studios Showcase */}
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-red-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">DC STUDIOS</div>
+                    <div className="font-mono text-red-200 text-sm">SHOWCASE</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">DC Studios Showcase</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2024</span>
+                </div>
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  Designed the graphics package for DC Studios Showcase podcast, including a 3D-animated intro and a comprehensive After Effects toolkit.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Promotional</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">3D Animation</span>
+                </div>
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> HBO <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2024
+                </div>
+              </div>
+            </div>
+
+            {/* Slice Hunter */}
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-amber-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-600 to-amber-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">SLICE HUNTER</div>
+                    <div className="font-mono text-amber-200 text-sm">AR FILTER</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">Slice Hunter</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
+                </div>
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                  Designed a TikTok AR filter mini-game for Mike&apos;s Hot Honey, featuring a bottle shooting honey at various food items to promote the brand.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">AR</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Filter</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Freelance</span>
+                </div>
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Mike&apos;s Hot Honey <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2023
                 </div>
               </div>
             </div>
