@@ -475,123 +475,455 @@ export default function Portfolio() {
           </div>
 
           {/* Project Grid */}
+          {/* Selected Work Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Project 1 */}
+            {/* HBO Projects */}
             <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
               <div className="aspect-video bg-gray-900 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="font-mono text-white text-xl mb-2">THE LAST OF US S2</div>
+                    <div className="font-mono text-white text-xl mb-2">WHITE HOUSE PLUMBERS</div>
                     <div className="font-mono text-gray-400 text-sm">PODCAST VISUALS</div>
                   </div>
                 </div>
               </div>
               <div className="p-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">The Last of Us S2</h3>
-                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">Featured</span>
+                  <h3 className="font-mono text-xl font-bold text-gray-900">White House Plumbers Podcast</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
                 </div>
                 <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
-                  Created highly-praised marketing promo visuals and looping platform content 
-                  for HBO official companion podcast.
+                  Motion graphics and visual content for HBO&apos;s official companion podcast.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Design</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">After Effects</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Podcast</span>
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
                 </div>
                 <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Client:</span> Warner Bros. Discovery • <span className="font-medium">Year:</span> 2024
+                  <span className="font-medium">Client:</span> Warner Bros. Discovery • <span className="font-medium">Year:</span> 2023
                 </div>
               </div>
             </div>
 
-            {/* Project 2 */}
             <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
-              <div className="aspect-video bg-gray-100 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+              <div className="aspect-video bg-yellow-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-600 to-yellow-900 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="font-mono text-white text-xl mb-2">NIKE D/N</div>
-                    <div className="font-mono text-red-200 text-sm">GLOBAL LAUNCH</div>
+                    <div className="font-mono text-white text-xl mb-2">WINNING TIME</div>
+                    <div className="font-mono text-yellow-200 text-sm">SET TOUR VISUALS</div>
                   </div>
                 </div>
               </div>
               <div className="p-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">Nike D/N Global Launch</h3>
-                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">Contract</span>
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Quincy Isaiah &amp; John C. Reilly Winning Time Set Tour</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                 </div>
                 <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
-                  Led design and coordination of VFX/GFX for Nike global product launch campaign 
-                  across multiple markets.
+                  Behind-the-scenes content and promotional materials for HBO&apos;s Winning Time.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">VFX Direction</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">360° Video</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Global</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Promotional</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
                 </div>
                 <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Client:</span> NIKE, Inc. • <span className="font-medium">Year:</span> 2023
+                  <span className="font-medium">Client:</span> HBO Max • <span className="font-medium">Year:</span> 2022
                 </div>
               </div>
             </div>
 
-            {/* Project 3 */}
             <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
               <div className="aspect-video bg-purple-900 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="font-mono text-white text-xl mb-2">UNIVERSAL MUSIC</div>
-                    <div className="font-mono text-purple-200 text-sm">LYRIC VIDEOS</div>
+                    <div className="font-mono text-white text-xl mb-2">WESTWORLD</div>
+                    <div className="font-mono text-purple-200 text-sm">MARKETING CAMPAIGN</div>
                   </div>
                 </div>
               </div>
               <div className="p-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">Universal Music Lyric Videos</h3>
-                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">21M+ Views</span>
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Westworld Marketing Campaign</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                 </div>
                 <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
-                  Produced animated lyric videos for Jeremy Zucker and Alexander 23 using 
-                  motion tracking and 3D projection techniques.
+                  Comprehensive marketing assets for HBO&apos;s Westworld series.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Kinetic Typography</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Tracking</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">3D</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Campaign Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
                 </div>
                 <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Client:</span> Universal Music Group • <span className="font-medium">Year:</span> 2021-2022
+                  <span className="font-medium">Client:</span> HBO Max • <span className="font-medium">Year:</span> 2022
                 </div>
               </div>
             </div>
 
-            {/* Project 4 */}
             <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
-              <div className="aspect-video bg-blue-900 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center">
+              <div className="aspect-video bg-pink-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-600 to-pink-900 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="font-mono text-white text-xl mb-2">HBO MAX AR</div>
-                    <div className="font-mono text-blue-200 text-sm">SOCIAL FILTERS</div>
+                    <div className="font-mono text-white text-xl mb-2">EUPHORIA</div>
+                    <div className="font-mono text-pink-200 text-sm">MARKETING CAMPAIGN</div>
                   </div>
                 </div>
               </div>
               <div className="p-8">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">HBO Max AR Filters</h3>
-                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2M+ Uses</span>
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Euphoria Marketing Campaign</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                 </div>
                 <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
-                  Created interactive AR filters for major franchises using Instagram Spark AR 
-                  and TikTok Effect House.
+                  Visual identity and motion assets for Euphoria&apos;s marketing campaign.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Visual Identity</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> HBO Max • <span className="font-medium">Year:</span> 2022
+                </div>
+              </div>
+            </div>
+
+            {/* Music Projects */}
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-blue-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">BRENT II</div>
+                    <div className="font-mono text-blue-200 text-sm">JEREMY ZUCKER</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Brent II - Jeremy Zucker</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Lyric video with motion tracking and 3D compositing techniques.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Lyric Video</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Tracking</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">3D</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Universal Music Group • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-green-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">BRAINSTORM</div>
+                    <div className="font-mono text-green-200 text-sm">ALEXANDER 23</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Brainstorm - Alexander 23</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Animated lyric video with kinetic typography and visual effects.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Kinetic Typography</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Animation</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Music Video</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Universal Music Group • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-indigo-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 to-indigo-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">CARPOOL</div>
+                    <div className="font-mono text-indigo-200 text-sm">ZACHARY KNOWLES</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Carpool - Zachary Knowles</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Music video with custom motion graphics and visual storytelling.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Music Video</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">VFX</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Independent • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-orange-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-600 to-orange-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">TENDENCY TO BE A LONER</div>
+                    <div className="font-mono text-orange-200 text-sm">ZACHARY KNOWLES</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Tendency to be a Loner - Zachary Knowles</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Lyric video featuring experimental typography and motion design.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Lyric Video</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Typography</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Experimental</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Independent • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            {/* Other Projects */}
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-red-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">KATKOOT ITALIA</div>
+                    <div className="font-mono text-red-200 text-sm">WEB DEVELOPMENT</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Katkoot Italia Website</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Full-stack website with custom CMS, automated publishing, and advanced animations.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Web Development</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">CMS</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">UI/UX</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Katkoot Italia • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-cyan-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-600 to-cyan-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">6 FOOT WITH SHOES ON</div>
+                    <div className="font-mono text-cyan-200 text-sm">MOTION DESIGN</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">6 Foot With Shoes On</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Motion design project featuring experimental animation techniques.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Animation</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Experimental</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Type:</span> Personal Project • <span className="font-medium">Year:</span> 2023
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-gray-700 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">EVOLUTIONARY TYPE</div>
+                    <div className="font-mono text-gray-300 text-sm">TYPOGRAPHY PROJECT</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Evolutionary Type</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Experimental typography project exploring generative design principles.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Typography</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Generative Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Type:</span> Academic Project • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-teal-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-600 to-teal-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">BUBBLEGUM</div>
+                    <div className="font-mono text-teal-200 text-sm">3D ASSETS</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Bubblegum 3D Assets</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  3D modeling and rendering of stylized bubblegum assets.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">3D Modeling</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Rendering</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Blender</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Type:</span> Personal Project • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-amber-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-600 to-amber-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">BOY BI</div>
+                    <div className="font-mono text-amber-200 text-sm">MAD TSAI</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Boy Bi Title Work - Mad Tsai</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2021</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Title design and motion graphics for music video.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Title Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Music Video</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Mad Tsai • <span className="font-medium">Year:</span> 2021
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-stone-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-stone-600 to-stone-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">KNOLL WORKPLACE</div>
+                    <div className="font-mono text-stone-200 text-sm">RESEARCH LIBRARY</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Knoll Workplace Research Library</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2020</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Design research and visualization for workplace solutions.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Research</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Visualization</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Editorial</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Knoll • <span className="font-medium">Year:</span> 2020
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-emerald-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 to-emerald-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">VIRUS SANDBOX</div>
+                    <div className="font-mono text-emerald-200 text-sm">GAME DEVELOPMENT</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Virus Sandbox Game</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2020</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  Interactive game experience exploring viral simulations.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Game Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Unity</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Interactive</span>
+                </div>
+                <div className="font-mono text-sm text-gray-500">
+                  <span className="font-medium">Type:</span> Personal Project • <span className="font-medium">Year:</span> 2020
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
+              <div className="aspect-video bg-lime-900 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-lime-600 to-lime-900 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="font-mono text-white text-xl mb-2">AUGMENTED REALITY</div>
+                    <div className="font-mono text-lime-200 text-sm">CALENDAR</div>
+                  </div>
+                </div>
+              </div>
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-mono text-xl font-bold text-gray-900">Augmented Reality Calendar</h3>
+                  <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2020</span>
+                </div>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                  AR application that brings calendar events to life.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">AR Development</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Spark AR</span>
-                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Social</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Interactive Design</span>
+                  <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Unity</span>
                 </div>
                 <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Client:</span> HBO Max • <span className="font-medium">Year:</span> 2021-2022
+                  <span className="font-medium">Type:</span> Academic Project • <span className="font-medium">Year:</span> 2020
                 </div>
               </div>
             </div>
