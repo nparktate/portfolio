@@ -306,49 +306,49 @@ export default function Portfolio() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
-            {/* Additional Experience */}
-            <div className="relative">
-              <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
-              <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
-              <div className="pl-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Dec 2021 - Mar 2022</span>
-                  <span className="font-mono text-sm text-gray-400">Contract</span>
+                {/* Additional Experience */}
+                <div className="relative">
+                  <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
+                  <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
+                  <div className="pl-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Dec 2021 - Mar 2022</span>
+                      <span className="font-mono text-sm text-gray-400">Contract</span>
+                    </div>
+                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Web Developer</h3>
+                    <p className="font-mono text-lg text-gray-700 mb-4">Katkoot Italia</p>
+                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                      Full stack web development using custom CMS for wine brand. Built automated article-publishing system, adaptive SEO features, and complex UI interactions and animations.
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                      <div>• Custom CMS development</div>
+                      <div>• Automated publishing system</div>
+                      <div>• Adaptive SEO implementation</div>
+                      <div>• Advanced UI animations</div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Web Developer</h3>
-                <p className="font-mono text-lg text-gray-700 mb-4">Katkoot Italia</p>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
-                  Full stack web development using custom CMS for wine brand. Built automated article-publishing system, adaptive SEO features, and complex UI interactions and animations.
-                </p>
-                <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                  <div>• Custom CMS development</div>
-                  <div>• Automated publishing system</div>
-                  <div>• Adaptive SEO implementation</div>
-                  <div>• Advanced UI animations</div>
-                </div>
-              </div>
-            </div>
 
-            <div className="relative">
-              <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
-              <div className="pl-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2019 - Dec 2019</span>
-                  <span className="font-mono text-sm text-gray-400">Contract</span>
-                </div>
-                <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Designer</h3>
-                <p className="font-mono text-lg text-gray-700 mb-4">Creature Conserve</p>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
-                  Collaborated with Dr. Lucy Spelman to create mock-up designs for a book focused on Primatologist Dian Fossey. Designs intended for National Geographic review.
-                </p>
-                <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                  <div>• Book design & layout</div>
-                  <div>• National Geographic standards</div>
-                  <div>• Scientific illustration</div>
-                  <div>• Editorial design</div>
+                <div className="relative">
+                  <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
+                  <div className="pl-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2019 - Dec 2019</span>
+                      <span className="font-mono text-sm text-gray-400">Contract</span>
+                    </div>
+                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Designer</h3>
+                    <p className="font-mono text-lg text-gray-700 mb-4">Creature Conserve</p>
+                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                      Collaborated with Dr. Lucy Spelman to create mock-up designs for a book focused on Primatologist Dian Fossey. Designs intended for National Geographic review.
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                      <div>• Book design & layout</div>
+                      <div>• National Geographic standards</div>
+                      <div>• Scientific illustration</div>
+                      <div>• Editorial design</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
