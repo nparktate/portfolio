@@ -191,13 +191,14 @@ export default function Portfolio() {
             <div className="col-span-9">
               <div className="space-y-16">
                 {/* Current Position */}
+                {/* Current Role */}
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-900 rounded-full transform -translate-x-1"></div>
                   <div className="pl-8">
                     <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2022 - Present</span>
-                      <span className="font-mono text-sm text-gray-400">2+ Years</span>
+                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Present</span>
+                      <span className="font-mono text-sm text-gray-400">Current</span>
                     </div>
                     <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Motion Designer</h3>
                     <p className="font-mono text-lg text-gray-700 mb-4">Warner Bros. Discovery</p>
@@ -215,7 +216,30 @@ export default function Portfolio() {
                   </div>
                 </div>
 
-                {/* Previous Position */}
+                {/* Graphics Specialist Role */}
+                <div className="relative">
+                  <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
+                  <div className="absolute left-0 top-2 w-3 h-3 bg-gray-600 rounded-full transform -translate-x-1"></div>
+                  <div className="pl-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2022</span>
+                      <span className="font-mono text-sm text-gray-400">Promoted</span>
+                    </div>
+                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Graphics Specialist</h3>
+                    <p className="font-mono text-lg text-gray-700 mb-4">Warner Bros. Discovery</p>
+                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                      Coordinated graphic deliverables for AV promos and trailers for MAX and HBO Original titles. Built modular After Effects toolkits and worked under the Concept + Design Studio team as both designer and finisher.
+                    </p>
+                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                      <div>• AV promo & trailer graphics</div>
+                      <div>• Modular toolkit development</div>
+                      <div>• Creative & technical execution</div>
+                      <div>• Concept + Design Studio team</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Initial Motion Designer Role */}
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-600 rounded-full transform -translate-x-1"></div>
@@ -227,14 +251,13 @@ export default function Portfolio() {
                     <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Motion Designer</h3>
                     <p className="font-mono text-lg text-gray-700 mb-4">Warner Bros. Discovery (HBO Max)</p>
                     <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
-                      Developed graphics and animations for HBO Max streaming originals marketing. 
-                      Contributed to key art design on 50+ shows and podcasts, pioneered branded AR filters.
+                      Developed graphics and animations for HBO MAX, from official podcast visuals to supplementary motion graphics. Collaborated with cross-functional teams as a design generalist. Contributed to key art designs for 50+ shows and podcasts.
                     </p>
                     <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                      <div>• 50+ shows and podcasts</div>
-                      <div>• AR filters (2M+ interactions)</div>
-                      <div>• Key art design</div>
-                      <div>• Cross-functional collaboration</div>
+                      <div>• Spark AR & TikTok Effect House filters</div>
+                      <div>• Top 1% ranked AR filters (2M+ uses)</div>
+                      <div>• Succession to DC Comics filters</div>
+                      <div>• Storyboarding & static mock-ups</div>
                     </div>
                   </div>
                 </div>
@@ -251,14 +274,13 @@ export default function Portfolio() {
                     <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">VFX Director</h3>
                     <p className="font-mono text-lg text-gray-700 mb-4">NIKE, Inc.</p>
                     <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
-                      Led design and coordination of VFX/GFX for Nike D/N global launch campaign. 
-                      Defined visual style and coordinated international production team.
+                      Coordinated and designed VFX/GFX for five short-form social promotional assets and final sizzle piece for Nike D/N global launch. Worked internationally with coordinators from Bangkok to India on practical effects, green screen work, and 360 video reframing.
                     </p>
                     <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                      <div>• Global campaign direction</div>
-                      <div>• 360° video techniques</div>
-                      <div>• International team coordination</div>
-                      <div>• Advanced compositing</div>
+                      <div>• Advanced rotoscoping & compositing</div>
+                      <div>• 360° video reframing techniques</div>
+                      <div>• GFX toolkit for design challenge</div>
+                      <div>• International talent coordination</div>
                     </div>
                   </div>
                 </div>
@@ -274,16 +296,59 @@ export default function Portfolio() {
                     <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Motion Graphics Artist</h3>
                     <p className="font-mono text-lg text-gray-700 mb-4">Universal Music Group</p>
                     <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
-                      Produced animated lyric videos for major recording artists accumulating 21M+ views. 
-                      Utilized motion tracking and 3D camera projection techniques.
+                      Produced lyric video animations for six distinct albums, amassing over 21 million views. Utilized motion tracking and 3D compositing techniques in After Effects and Blender to create seamless text aesthetics integrated with 3D space.
                     </p>
                     <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                      <div>• 21M+ total views</div>
-                      <div>• Jeremy Zucker & Alexander 23</div>
-                      <div>• Motion tracking integration</div>
-                      <div>• 3D camera projection</div>
+                      <div>• 6 albums, 21M+ total views</div>
+                      <div>• After Effects & Blender workflow</div>
+                      <div>• 3D space extraction from footage</div>
+                      <div>• Seamless text integration</div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional Experience */}
+            <div className="relative">
+              <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
+              <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
+              <div className="pl-8">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Dec 2021 - Mar 2022</span>
+                  <span className="font-mono text-sm text-gray-400">Contract</span>
+                </div>
+                <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Web Developer</h3>
+                <p className="font-mono text-lg text-gray-700 mb-4">Katkoot Italia</p>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                  Full stack web development using custom CMS for wine brand. Built automated article-publishing system, adaptive SEO features, and complex UI interactions and animations.
+                </p>
+                <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                  <div>• Custom CMS development</div>
+                  <div>• Automated publishing system</div>
+                  <div>• Adaptive SEO implementation</div>
+                  <div>• Advanced UI animations</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative">
+              <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
+              <div className="pl-8">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2019 - Dec 2019</span>
+                  <span className="font-mono text-sm text-gray-400">Contract</span>
+                </div>
+                <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Designer</h3>
+                <p className="font-mono text-lg text-gray-700 mb-4">Creature Conserve</p>
+                <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                  Collaborated with Dr. Lucy Spelman to create mock-up designs for a book focused on Primatologist Dian Fossey. Designs intended for National Geographic review.
+                </p>
+                <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                  <div>• Book design & layout</div>
+                  <div>• National Geographic standards</div>
+                  <div>• Scientific illustration</div>
+                  <div>• Editorial design</div>
                 </div>
               </div>
             </div>
@@ -312,7 +377,80 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Work Section */}
+      {/* Skills Section */}
+      <section className="py-32 bg-gray-100">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="grid grid-cols-12 gap-8">
+            <div className="col-span-3">
+              <h2 className="font-mono text-4xl font-bold text-gray-900 uppercase sticky top-8">Skills</h2>
+            </div>
+            <div className="col-span-9">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="bg-white border border-gray-200 p-8">
+                  <h3 className="font-mono text-xl font-bold text-gray-900 mb-6 uppercase">Design Expertise</h3>
+                  <div className="space-y-3 font-mono text-sm text-gray-700">
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Typography & Static Design
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      AR Filter Development
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Motion Design & 3D Design
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Interactive Design & Web Development
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      3D Texturing & Rendering
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Program Development (iOS, PC, Mac, Linux)
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white border border-gray-200 p-8">
+                  <h3 className="font-mono text-xl font-bold text-gray-900 mb-6 uppercase">Software</h3>
+                  <div className="space-y-3 font-mono text-sm text-gray-700">
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      After Effects, Premiere Pro, DaVinci Resolve
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Photoshop, Illustrator
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Blender 3D, Cinema 4D, RedShift
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Houdini, Substance Suite
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Unreal Engine 5, Unity
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                      Spark AR, TikTok Effect House
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Selected Work */}
       <section className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-8">
           <div className="grid grid-cols-12 gap-8 mb-16">
