@@ -92,7 +92,7 @@ export default function Portfolio() {
   return (
     <div className="bg-white">
       {/* Video Reel Section */}
-      <section className="relative h-screen bg-black">
+      <section className="relative h-screen min-h-[500px] md:min-h-[600px] bg-black">
         <video 
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
@@ -159,13 +159,13 @@ export default function Portfolio() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none"></div>
         
         {/* Video info */}
-        <div className="absolute bottom-0 left-0 right-0 p-8 text-white pointer-events-none">
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8 text-white pointer-events-none">
           <div className="max-w-7xl mx-auto">
-            <h1 className="font-mono text-sm font-bold mb-2 tracking-tight">NICHOLAS PARK</h1>
-            <p className="font-mono text-sm text-gray-300 mb-6">Motion Designer & Creative Technologist</p>
-            <div className="flex items-center space-x-8 font-mono text-sm text-gray-400">
+            <h1 className="font-mono text-xs md:text-sm font-bold mb-1 md:mb-2 tracking-tight">NICHOLAS PARK</h1>
+            <p className="font-mono text-xs md:text-sm text-gray-300 mb-3 md:mb-6">Motion Designer & Creative Technologist</p>
+            <div className="flex flex-wrap items-center gap-3 md:gap-4 lg:gap-8 font-mono text-xs md:text-sm text-gray-400">
               <span>REEL 2023</span>
-              <span>21M+ VIEWS</span>
+              <span className="hidden sm:inline">21M+ VIEWS</span>
               <span>HBO • NIKE • UNIVERSAL</span>
             </div>
           </div>
@@ -180,34 +180,34 @@ export default function Portfolio() {
       </section>
 
       {/* Timeline/Resume Section */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-12 gap-8 mb-16">
-            <div className="col-span-3">
-              <h2 className="font-mono text-4xl font-bold text-gray-900 uppercase sticky top-8">
+      <section className="py-16 md:py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+            <div className="lg:col-span-3">
+              <h2 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase lg:sticky lg:top-8 mb-8 lg:mb-0">
                 Experience
               </h2>
             </div>
-            <div className="col-span-9">
+            <div className="lg:col-span-9">
               <div className="space-y-16">
                 {/* Current Position */}
                 {/* Current Role */}
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-900 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Present</span>
-                      <span className="font-mono text-sm text-gray-400">Current</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Present</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">Current</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Motion Designer</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">Warner Bros. Discovery</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">Motion Designer</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Warner Bros. Discovery</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Create motion graphics and visual content for HBO and Max Original programming. 
                       Develop modular After Effects toolkits to streamline versioning and localization 
                       across marketing assets while maintaining brand consistency.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
                       <div>• The Last of Us S2 podcast visuals</div>
                       <div>• White Lotus S3 generative effects</div>
                       <div>• DC Studios Showcase GFX suite</div>
@@ -220,17 +220,17 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-600 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2022</span>
-                      <span className="font-mono text-sm text-gray-400">Promoted</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Oct 2022</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">Promoted</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Graphics Specialist</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">Warner Bros. Discovery</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">Graphics Specialist</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Warner Bros. Discovery</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Coordinated graphic deliverables for AV promos and trailers for MAX and HBO Original titles. Built modular After Effects toolkits and worked under the Concept + Design Studio team as both designer and finisher.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
                       <div>• AV promo & trailer graphics</div>
                       <div>• Modular toolkit development</div>
                       <div>• Creative & technical execution</div>
@@ -243,17 +243,17 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-600 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2020 - Oct 2022</span>
-                      <span className="font-mono text-sm text-gray-400">2 Years</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Oct 2020 - Oct 2022</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">2 Years</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Motion Designer</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">Warner Bros. Discovery (HBO Max)</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">Motion Designer</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Warner Bros. Discovery (HBO Max)</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Developed graphics and animations for HBO MAX, from official podcast visuals to supplementary motion graphics. Collaborated with cross-functional teams as a design generalist. Contributed to key art designs for 50+ shows and podcasts.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
                       <div>• Spark AR & TikTok Effect House filters</div>
                       <div>• Top 1% ranked AR filters (2M+ uses)</div>
                       <div>• Succession to DC Comics filters</div>
@@ -266,17 +266,17 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-600 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Feb 2023 - Mar 2023</span>
-                      <span className="font-mono text-sm text-gray-400">Contract</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Feb 2023 - Mar 2023</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">Contract</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">VFX Director</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">NIKE, Inc.</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">VFX Director</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">NIKE, Inc.</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Coordinated and designed VFX/GFX for five short-form social promotional assets and final sizzle piece for Nike D/N global launch. Worked internationally with coordinators from Bangkok to India on practical effects, green screen work, and 360 video reframing.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
                       <div>• Advanced rotoscoping & compositing</div>
                       <div>• 360° video reframing techniques</div>
                       <div>• GFX toolkit for design challenge</div>
@@ -288,14 +288,14 @@ export default function Portfolio() {
                 {/* Freelance Work */}
                 <div className="relative">
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Mar 2021 - Jan 2022</span>
-                      <span className="font-mono text-sm text-gray-400">Freelance</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Mar 2021 - Jan 2022</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">Freelance</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Motion Graphics Artist</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">Universal Music Group</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">Motion Graphics Artist</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Universal Music Group</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Produced lyric video animations for six distinct albums, amassing over 21 million views. Utilized motion tracking and 3D compositing techniques in After Effects and Blender to create seamless text aesthetics integrated with 3D space.
                     </p>
                     <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
@@ -318,7 +318,7 @@ export default function Portfolio() {
                     </div>
                     <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Web Developer</h3>
                     <p className="font-mono text-lg text-gray-700 mb-4">Katkoot Italia</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 leading-relaxed mb-6 md:mb-8">
                       Full stack web development using custom CMS for wine brand. Built automated article-publishing system, adaptive SEO features, and complex UI interactions and animations.
                     </p>
                     <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
@@ -378,17 +378,17 @@ export default function Portfolio() {
       </section>
 
       {/* Skills Section */}
-      <section className="py-32 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-3">
-              <h2 className="font-mono text-4xl font-bold text-gray-900 uppercase sticky top-8">Skills</h2>
+      <section className="py-16 md:py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div className="lg:col-span-3">
+              <h2 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase lg:sticky lg:top-8 mb-8 lg:mb-0">Skills</h2>
             </div>
-            <div className="col-span-9">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="bg-white border border-gray-200 p-8">
-                  <h3 className="font-mono text-xl font-bold text-gray-900 mb-6 uppercase">Design Expertise</h3>
-                  <div className="space-y-3 font-mono text-sm text-gray-700">
+            <div className="lg:col-span-9">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div className="bg-white border border-gray-200 p-6 md:p-8">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-4 md:mb-6 uppercase">Design Expertise</h3>
+                  <div className="space-y-2 md:space-y-3 font-mono text-xs md:text-sm text-gray-700">
                     <div className="flex items-center">
                       <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
                       Typography & Static Design
@@ -415,9 +415,9 @@ export default function Portfolio() {
                     </div>
                   </div>
                 </div>
-                <div className="bg-white border border-gray-200 p-8">
-                  <h3 className="font-mono text-xl font-bold text-gray-900 mb-6 uppercase">Software</h3>
-                  <div className="space-y-3 font-mono text-sm text-gray-700">
+                <div className="bg-white border border-gray-200 p-6 md:p-8">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-4 md:mb-6 uppercase">Software & Tools</h3>
+                  <div className="space-y-2 md:space-y-3 font-mono text-xs md:text-sm text-gray-700">
                     <div className="flex items-center">
                       <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
                       After Effects, Premiere Pro, DaVinci Resolve
@@ -451,22 +451,23 @@ export default function Portfolio() {
       </section>
 
       {/* Selected Work */}
-      <section className="py-32 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-12 gap-8 mb-16">
-            <div className="col-span-3">
-              <h2 className="font-mono text-4xl font-bold text-gray-900 uppercase sticky top-8">
-                Selected Work
-              </h2>
+      {/* About Section */}
+      <section className="py-16 md:py-24 lg:py-32 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-1">
+              <h2 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase lg:sticky lg:top-8 mb-8 lg:mb-0">About</h2>
             </div>
-            <div className="col-span-6">
-              <p className="font-mono text-lg text-gray-700 leading-relaxed">
+            <div className="lg:col-span-2">
+              <div className="prose prose-sm md:prose-base lg:prose-lg max-w-none">
+                <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 leading-relaxed mb-6 md:mb-8">
                 A curated selection of motion graphics, VFX, and creative technology projects 
                 spanning entertainment, music, and brand campaigns.
-              </p>
+                </p>
+              </div>
             </div>
-            <div className="col-span-3">
-              <div className="font-mono text-sm text-gray-500 space-y-2">
+            <div className="lg:col-span-3">
+              <div className="font-mono text-xs md:text-sm text-gray-500 flex flex-wrap gap-4 md:gap-6">
                 <div>TOTAL PROJECTS: 50+</div>
                 <div>COMBINED VIEWS: 21M+</div>
                 <div>YEARS ACTIVE: 2020-2024</div>
@@ -476,7 +477,7 @@ export default function Portfolio() {
 
           {/* Project Grid */}
           {/* Selected Work Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8 mt-8 md:mt-12 lg:mt-16">
             {/* HBO Projects */}
             <div className="bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300">
               <div className="aspect-video bg-gray-900 relative overflow-hidden">
@@ -487,12 +488,12 @@ export default function Portfolio() {
                   </div>
                 </div>
               </div>
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">White House Plumbers Podcast</h3>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">White House Plumbers Podcast</h3>
                   <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
                 </div>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
                   Motion graphics and visual content for HBO&apos;s official companion podcast.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -500,8 +501,8 @@ export default function Portfolio() {
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Podcast</span>
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
                 </div>
-                <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Client:</span> Warner Bros. Discovery • <span className="font-medium">Year:</span> 2023
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> Warner Bros. Discovery <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2023
                 </div>
               </div>
             </div>
@@ -515,12 +516,12 @@ export default function Portfolio() {
                   </div>
                 </div>
               </div>
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">Quincy Isaiah &amp; John C. Reilly Winning Time Set Tour</h3>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">Quincy Isaiah &amp; John C. Reilly Winning Time Set Tour</h3>
                   <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                 </div>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
                   Behind-the-scenes content and promotional materials for HBO&apos;s Winning Time.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -528,8 +529,8 @@ export default function Portfolio() {
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Promotional</span>
                   <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">HBO</span>
                 </div>
-                <div className="font-mono text-sm text-gray-500">
-                  <span className="font-medium">Client:</span> HBO Max • <span className="font-medium">Year:</span> 2022
+                <div className="font-mono text-xs md:text-sm text-gray-500">
+                  <span className="font-medium">Client:</span> HBO Max <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2022
                 </div>
               </div>
             </div>
@@ -543,12 +544,12 @@ export default function Portfolio() {
                   </div>
                 </div>
               </div>
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">Westworld Marketing Campaign</h3>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">Westworld Marketing Campaign</h3>
                   <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                 </div>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
                   Comprehensive marketing assets for HBO&apos;s Westworld series.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -571,12 +572,12 @@ export default function Portfolio() {
                   </div>
                 </div>
               </div>
-              <div className="p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-mono text-xl font-bold text-gray-900">Euphoria Marketing Campaign</h3>
+              <div className="p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900">Euphoria Marketing Campaign</h3>
                   <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                 </div>
-                <p className="font-mono text-base text-gray-600 leading-relaxed mb-4">
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
                   Visual identity and motion assets for Euphoria&apos;s marketing campaign.
                 </p>
                 <div className="flex flex-wrap gap-2 mb-4">
@@ -932,55 +933,55 @@ export default function Portfolio() {
       </section>
 
       {/* Contact Section */}
-      <footer className="py-16 bg-gray-900 text-white">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="grid grid-cols-12 gap-8">
-            <div className="col-span-6">
-              <h3 className="font-mono text-2xl font-bold mb-6 uppercase">Get In Touch</h3>
-              <p className="font-mono text-base text-gray-300 leading-relaxed mb-6">
+      <footer className="py-12 md:py-16 bg-gray-900 text-white">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+            <div className="lg:col-span-6">
+              <h3 className="font-mono text-xl md:text-2xl font-bold mb-4 md:mb-6 uppercase">Get In Touch</h3>
+              <p className="font-mono text-sm md:text-base text-gray-300 leading-relaxed mb-6">
                 Available for select freelance projects and collaborations in motion design and creative technology.
               </p>
-              <div className="space-y-3 font-mono text-sm">
-                <div className="flex items-center">
-                  <span className="text-gray-400 w-16">EMAIL:</span>
-                  <a href="mailto:nparktate@gmail.com" className="text-white hover:text-gray-300 transition-colors">
+              <div className="space-y-3 font-mono text-xs md:text-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
+                  <span className="text-gray-400 sm:w-16">EMAIL:</span>
+                  <a href="mailto:nparktate@gmail.com" className="text-white hover:text-gray-300 transition-colors break-all">
                     nparktate@gmail.com
                   </a>
                 </div>
-                <div className="flex items-center">
-                  <span className="text-gray-400 w-16">PHONE:</span>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
+                  <span className="text-gray-400 sm:w-16">PHONE:</span>
                   <a href="tel:4012413241" className="text-white hover:text-gray-300 transition-colors">
                     (401) 241-3241
                   </a>
                 </div>
-                <div className="flex items-center">
-                  <span className="text-gray-400 w-16">LINKED:</span>
-                  <a href="https://www.linkedin.com/in/linkparkdesign/" target="_blank" className="text-white hover:text-gray-300 transition-colors">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0">
+                  <span className="text-gray-400 sm:w-16">LINKED:</span>
+                  <a href="https://www.linkedin.com/in/linkparkdesign/" target="_blank" className="text-white hover:text-gray-300 transition-colors break-all">
                     linkedin.com/in/linkparkdesign
                   </a>
                 </div>
               </div>
             </div>
-            <div className="col-span-6">
-              <div className="grid grid-cols-3 gap-8 font-mono text-sm">
+            <div className="lg:col-span-6">
+              <div className="grid grid-cols-3 gap-4 md:gap-6 lg:gap-8 font-mono text-xs md:text-sm">
                 <div>
-                  <div className="text-gray-400 uppercase mb-3">Status</div>
+                  <div className="text-gray-400 uppercase mb-2 md:mb-3">Status</div>
                   <div className="text-white">Available</div>
                 </div>
                 <div>
-                  <div className="text-gray-400 uppercase mb-3">Location</div>
+                  <div className="text-gray-400 uppercase mb-2 md:mb-3">Location</div>
                   <div className="text-white">Los Angeles, CA</div>
                 </div>
                 <div>
-                  <div className="text-gray-400 uppercase mb-3">Response</div>
+                  <div className="text-gray-400 uppercase mb-2 md:mb-3">Response</div>
                   <div className="text-white">24-48 Hours</div>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="border-t border-gray-800 mt-12 pt-8">
-            <div className="flex items-center justify-between font-mono text-xs text-gray-500">
+          <div className="border-t border-gray-800 mt-8 md:mt-12 pt-6 md:pt-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 md:gap-0 font-mono text-xs text-gray-500 text-center md:text-left">
               <div>© 2024 Nicholas Park. Motion Designer & Creative Technologist.</div>
               <div>Portfolio v10.0 • Built with Next.js</div>
             </div>
