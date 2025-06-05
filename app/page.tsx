@@ -92,7 +92,7 @@ export default function Portfolio() {
   return (
     <div className="bg-white">
       {/* Video Reel Section */}
-      <section className="relative h-screen min-h-[500px] md:min-h-[600px] bg-black">
+      <section className="relative h-screen bg-black">
         <video 
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover"
