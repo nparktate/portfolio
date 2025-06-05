@@ -565,7 +565,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2024</span>
                   </div>
                   <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Coordinated and designed campaign graphics, including critics' quotes and animated concept art for HBO's The Penguin series.
+                    Coordinated and designed campaign graphics, including critics&apos; quotes and animated concept art for HBO&apos;s The Penguin series.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
@@ -630,7 +630,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
                   </div>
                   <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Motion graphics and visual content for HBO's official companion podcast.
+                    Motion graphics and visual content for HBO&apos;s official companion podcast.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Design</span>
@@ -688,7 +688,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2023</span>
                   </div>
                   <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Designed a TikTok AR filter mini-game for Mike's Hot Honey, featuring a bottle shooting honey at various food items to promote the brand.
+                    Designed a TikTok AR filter mini-game for Mike&apos;s Hot Honey, featuring a bottle shooting honey at various food items to promote the brand.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">AR</span>
@@ -696,7 +696,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Freelance</span>
                   </div>
                   <div className="font-mono text-xs md:text-sm text-gray-500">
-                    <span className="font-medium">Client:</span> Mike's Hot Honey <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2023
+                    <span className="font-medium">Client:</span> Mike&apos;s Hot Honey <span className="hidden sm:inline">•</span> <span className="sm:hidden block"></span><span className="font-medium">Year:</span> 2023
                   </div>
                 </div>
               </div>
@@ -724,7 +724,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                   </div>
                   <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Behind-the-scenes content and promotional materials for HBO's Winning Time.
+                    Behind-the-scenes content and promotional materials for HBO&apos;s Winning Time.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Motion Graphics</span>
@@ -753,7 +753,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                   </div>
                   <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Comprehensive marketing assets for HBO's Westworld series.
+                    Comprehensive marketing assets for HBO&apos;s Westworld series.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Campaign Design</span>
@@ -782,7 +782,7 @@ export default function Portfolio() {
                     <span className="font-mono text-xs text-gray-500 bg-gray-100 px-2 py-1 uppercase">2022</span>
                   </div>
                   <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-4">
-                    Visual identity and motion assets for Euphoria's marketing campaign.
+                    Visual identity and motion assets for Euphoria&apos;s marketing campaign.
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1">Visual Identity</span>
