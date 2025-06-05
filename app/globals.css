@@ -85,6 +85,57 @@ body {
   font-family: 'JetBrains Mono', monospace;
 }
 
+/* Marquee animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee 15s linear infinite;
+  padding-right: 100%;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+/* Faster marquee for metrics */
+.marquee-fast .marquee-content {
+  animation: marquee 12s linear infinite;
+}
+
+/* Ensure marquee works on mobile */
+@media (max-width: 768px) {
+  .marquee-content {
+    animation-duration: 20s;
+  }
+  
+  .marquee-fast .marquee-content {
+    animation-duration: 15s;
+  }
+}
+
 /* Responsive utilities */
 @media (max-width: 640px) {
   /* Adjust container padding on mobile */
@@ -101,15 +152,16 @@ body {
   }
 }
 
-/* Fix for mobile viewport height */
+/* Consistent viewport height across all devices */
 .h-screen {
   height: 100vh;
+  min-height: 100vh;
 }
 
-/* Only apply viewport fixes on actual mobile devices */
-@media (max-width: 768px) {
+/* Mobile Safari viewport fix */
+@supports (-webkit-touch-callout: none) {
   .h-screen {
-    height: 100vh;
     height: -webkit-fill-available;
+    min-height: -webkit-fill-available;
   }
 }

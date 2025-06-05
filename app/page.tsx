@@ -207,11 +207,10 @@ export default function Portfolio() {
                       Develop modular After Effects toolkits to streamline versioning and localization 
                       across marketing assets while maintaining brand consistency.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
-                      <div>• The Last of Us S2 podcast visuals</div>
-                      <div>• White Lotus S3 generative effects</div>
-                      <div>• DC Studios Showcase GFX suite</div>
-                      <div>• 15+ major show campaigns</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• The Last of Us S2 podcast visuals • White Lotus S3 generative effects • DC Studios Showcase GFX suite • 15+ major show campaigns</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -230,11 +229,10 @@ export default function Portfolio() {
                     <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Coordinated graphic deliverables for AV promos and trailers for MAX and HBO Original titles. Built modular After Effects toolkits and worked under the Concept + Design Studio team as both designer and finisher.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
-                      <div>• AV promo & trailer graphics</div>
-                      <div>• Modular toolkit development</div>
-                      <div>• Creative & technical execution</div>
-                      <div>• Concept + Design Studio team</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• AV promo & trailer graphics • Modular toolkit development • Creative & technical execution • Concept + Design Studio team</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -253,11 +251,10 @@ export default function Portfolio() {
                     <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Developed graphics and animations for HBO MAX, from official podcast visuals to supplementary motion graphics. Collaborated with cross-functional teams as a design generalist. Contributed to key art designs for 50+ shows and podcasts.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
-                      <div>• Spark AR & TikTok Effect House filters</div>
-                      <div>• Top 1% ranked AR filters (2M+ uses)</div>
-                      <div>• Succession to DC Comics filters</div>
-                      <div>• Storyboarding & static mock-ups</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• Spark AR & TikTok Effect House filters • Top 1% ranked AR filters (2M+ uses) • Succession to DC Comics filters • Storyboarding & static mock-ups</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -276,11 +273,10 @@ export default function Portfolio() {
                     <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Coordinated and designed VFX/GFX for five short-form social promotional assets and final sizzle piece for Nike D/N global launch. Worked internationally with coordinators from Bangkok to India on practical effects, green screen work, and 360 video reframing.
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4 text-xs md:text-sm font-mono text-gray-700">
-                      <div>• Advanced rotoscoping & compositing</div>
-                      <div>• 360° video reframing techniques</div>
-                      <div>• GFX toolkit for design challenge</div>
-                      <div>• International talent coordination</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• Advanced rotoscoping & compositing • 360° video reframing techniques • GFX toolkit for design challenge • International talent coordination</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -298,11 +294,10 @@ export default function Portfolio() {
                     <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Produced lyric video animations for six distinct albums, amassing over 21 million views. Utilized motion tracking and 3D compositing techniques in After Effects and Blender to create seamless text aesthetics integrated with 3D space.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                      <div>• 6 albums, 21M+ total views</div>
-                      <div>• After Effects & Blender workflow</div>
-                      <div>• 3D space extraction from footage</div>
-                      <div>• Seamless text integration</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• 6 albums with 21M+ total views • Motion tracking & 3D compositing • 3D space extraction from footage • Seamless text integration</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -311,42 +306,40 @@ export default function Portfolio() {
                 <div className="relative">
                   <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Dec 2021 - Mar 2022</span>
-                      <span className="font-mono text-sm text-gray-400">Contract</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Dec 2021 - Mar 2022</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">Contract</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Web Developer</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">Katkoot Italia</p>
-                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 leading-relaxed mb-6 md:mb-8">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">Web Developer</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Katkoot Italia</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Full stack web development using custom CMS for wine brand. Built automated article-publishing system, adaptive SEO features, and complex UI interactions and animations.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                      <div>• Custom CMS development</div>
-                      <div>• Automated publishing system</div>
-                      <div>• Adaptive SEO implementation</div>
-                      <div>• Advanced UI animations</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• Custom CMS development • Automated publishing system • Adaptive SEO implementation • Advanced UI animations</div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="relative">
                   <div className="absolute left-0 top-2 w-3 h-3 bg-gray-400 rounded-full transform -translate-x-1"></div>
-                  <div className="pl-8">
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="font-mono text-sm text-gray-500 bg-gray-100 px-3 py-1 uppercase">Oct 2019 - Dec 2019</span>
-                      <span className="font-mono text-sm text-gray-400">Contract</span>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">Oct 2019 - Dec 2019</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">Contract</span>
                     </div>
-                    <h3 className="font-mono text-2xl font-bold text-gray-900 mb-2">Designer</h3>
-                    <p className="font-mono text-lg text-gray-700 mb-4">Creature Conserve</p>
-                    <p className="font-mono text-base text-gray-600 leading-relaxed mb-6">
+                    <h3 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">Designer</h3>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Creature Conserve</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed mb-6">
                       Collaborated with Dr. Lucy Spelman to create mock-up designs for a book focused on Primatologist Dian Fossey. Designs intended for National Geographic review.
                     </p>
-                    <div className="grid grid-cols-2 gap-4 text-sm font-mono text-gray-700">
-                      <div>• Book design & layout</div>
-                      <div>• National Geographic standards</div>
-                      <div>• Scientific illustration</div>
-                      <div>• Editorial design</div>
+                    <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
+                      <div className="marquee">
+                        <div className="marquee-content">• Book design & layout • National Geographic standards • Scientific illustration • Editorial design</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -355,19 +348,19 @@ export default function Portfolio() {
           </div>
 
           {/* Education */}
-          <div className="grid grid-cols-12 gap-8 pt-16 border-t border-gray-200">
-            <div className="col-span-3">
-              <h3 className="font-mono text-2xl font-bold text-gray-900 uppercase">Education</h3>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-16 border-t border-gray-200">
+            <div className="lg:col-span-3">
+              <h3 className="font-mono text-xl md:text-2xl font-bold text-gray-900 uppercase mb-6 lg:mb-0">Education</h3>
             </div>
-            <div className="col-span-9">
-              <div className="bg-gray-50 border border-gray-200 p-8">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="font-mono text-sm text-gray-500 bg-white px-3 py-1 uppercase">2017 - 2021</span>
-                  <span className="font-mono text-sm text-gray-400">GPA: 3.7/4.0 • Honors</span>
+            <div className="lg:col-span-9">
+              <div className="bg-gray-50 border border-gray-200 p-4 md:p-6 lg:p-8">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
+                  <span className="font-mono text-xs md:text-sm text-gray-500 bg-white px-2 md:px-3 py-1 uppercase inline-block w-fit">2017 - 2021</span>
+                  <span className="font-mono text-xs md:text-sm text-gray-400">GPA: 3.7/4.0 • Honors</span>
                 </div>
-                <h4 className="font-mono text-xl font-bold text-gray-900 mb-2">B.F.A. in Graphic Design</h4>
-                <p className="font-mono text-lg text-gray-700 mb-4">Rhode Island School of Design (RISD)</p>
-                <p className="font-mono text-base text-gray-600 leading-relaxed">
+                <h4 className="font-mono text-lg md:text-xl font-bold text-gray-900 mb-2">B.F.A. in Graphic Design</h4>
+                <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Rhode Island School of Design (RISD)</p>
+                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed">
                   Graduated with Graphic Design Honors. Coursework emphasized motion design, 
                   interactive media, and visual communication. Active in cross-disciplinary collaborations.
                 </p>
@@ -467,10 +460,8 @@ export default function Portfolio() {
               </div>
             </div>
             <div className="lg:col-span-3">
-              <div className="font-mono text-xs md:text-sm text-gray-500 flex flex-wrap gap-4 md:gap-6">
-                <div>TOTAL PROJECTS: 50+</div>
-                <div>COMBINED VIEWS: 21M+</div>
-                <div>YEARS ACTIVE: 2020-2024</div>
+              <div className="font-mono text-xs md:text-sm text-gray-500 marquee marquee-fast">
+                <div className="marquee-content">TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024</div>
               </div>
             </div>
           </div>
