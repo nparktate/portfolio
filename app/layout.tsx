@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import PerformantCursor from './components/Cursor/PerformantCursor'
 
 export const metadata: Metadata = {
   title: 'Nicholas Park — Motion Designer',
@@ -26,7 +25,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
       <body className="h-full bg-white text-gray-900 font-sans antialiased">
-        <PerformantCursor />
         {children}
       </body>
     </html>

@@ -10,40 +10,39 @@ html {
 
 * {
   box-sizing: border-box;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
 }
 
-/* Hide default cursor only on devices with hover capability */
-@media (hover: hover) {
-  body {
-    cursor: none;
-  }
-  
-  a, button, input, textarea, select {
-    cursor: none;
-  }
-}
-
-/* Allow selection in inputs/textareas if added later */
 /* Allow text selection for certain elements */
-input, textarea {
+p, h1, h2, h3, h4, h5, h6, span, div, li, td, th, label {
   user-select: text;
   -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+/* Ensure proper cursor for interactive elements */
+a, button, [role="button"], [onclick], [tabindex]:not([tabindex="-1"]) {
+  cursor: pointer;
+}
+
+input, textarea, select {
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+input[type="checkbox"], input[type="radio"], input[type="button"], input[type="submit"] {
+  cursor: pointer;
+}
+
+/* Video elements */
+video {
+  cursor: pointer;
 }
 
 /* Optimize for performance */
 body {
   will-change: auto;
-}
-
-/* Disable custom cursor on touch devices */
-@media (hover: none) {
-  * {
-    cursor: auto !important;
-  }
 }
 
 body {
