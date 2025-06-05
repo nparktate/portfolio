@@ -95,25 +95,22 @@ body {
   }
 }
 
-@keyframes marquee-reverse {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
 .marquee {
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
   position: relative;
+  margin: 0 -2rem;
+  padding: 0 2rem;
 }
 
 .marquee-content {
   display: inline-block;
-  animation: marquee 15s linear infinite;
-  padding-right: 100%;
+  animation: marquee 25s linear infinite;
+}
+
+.marquee-content::after {
+  content: attr(data-text);
+  padding-left: 4rem;
 }
 
 .marquee-content:hover {
@@ -122,17 +119,26 @@ body {
 
 /* Faster marquee for metrics */
 .marquee-fast .marquee-content {
-  animation: marquee 12s linear infinite;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee-fast .marquee-content::after {
+  padding-left: 6rem;
 }
 
 /* Ensure marquee works on mobile */
 @media (max-width: 768px) {
+  .marquee {
+    margin: 0 -1rem;
+    padding: 0 1rem;
+  }
+  
   .marquee-content {
-    animation-duration: 20s;
+    animation-duration: 30s;
   }
   
   .marquee-fast .marquee-content {
-    animation-duration: 15s;
+    animation-duration: 25s;
   }
 }
 

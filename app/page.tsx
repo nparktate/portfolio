@@ -209,7 +209,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• The Last of Us S2 podcast visuals • White Lotus S3 generative effects • DC Studios Showcase GFX suite • 15+ major show campaigns</div>
+                        <div className="marquee-content" data-text="• The Last of Us S2 podcast visuals • White Lotus S3 generative effects • DC Studios Showcase GFX suite • 15+ major show campaigns">• The Last of Us S2 podcast visuals • White Lotus S3 generative effects • DC Studios Showcase GFX suite • 15+ major show campaigns</div>
                       </div>
                     </div>
                   </div>
@@ -231,7 +231,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• AV promo & trailer graphics • Modular toolkit development • Creative & technical execution • Concept + Design Studio team</div>
+                        <div className="marquee-content" data-text="• AV promo & trailer graphics • Modular toolkit development • Creative & technical execution • Concept + Design Studio team">• AV promo & trailer graphics • Modular toolkit development • Creative & technical execution • Concept + Design Studio team</div>
                       </div>
                     </div>
                   </div>
@@ -253,7 +253,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• Spark AR & TikTok Effect House filters • Top 1% ranked AR filters (2M+ uses) • Succession to DC Comics filters • Storyboarding & static mock-ups</div>
+                        <div className="marquee-content" data-text="• Spark AR & TikTok Effect House filters • Top 1% ranked AR filters (2M+ uses) • Succession to DC Comics filters • Storyboarding & static mock-ups">• Spark AR & TikTok Effect House filters • Top 1% ranked AR filters (2M+ uses) • Succession to DC Comics filters • Storyboarding & static mock-ups</div>
                       </div>
                     </div>
                   </div>
@@ -275,7 +275,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• Advanced rotoscoping & compositing • 360° video reframing techniques • GFX toolkit for design challenge • International talent coordination</div>
+                        <div className="marquee-content" data-text="• Advanced rotoscoping & compositing • 360° video reframing techniques • GFX toolkit for design challenge • International talent coordination">• Advanced rotoscoping & compositing • 360° video reframing techniques • GFX toolkit for design challenge • International talent coordination</div>
                       </div>
                     </div>
                   </div>
@@ -296,7 +296,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• 6 albums with 21M+ total views • Motion tracking & 3D compositing • 3D space extraction from footage • Seamless text integration</div>
+                        <div className="marquee-content" data-text="• 6 albums with 21M+ total views • Motion tracking & 3D compositing • 3D space extraction from footage • Seamless text integration">• 6 albums with 21M+ total views • Motion tracking & 3D compositing • 3D space extraction from footage • Seamless text integration</div>
                       </div>
                     </div>
                   </div>
@@ -318,7 +318,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• Custom CMS development • Automated publishing system • Adaptive SEO implementation • Advanced UI animations</div>
+                        <div className="marquee-content" data-text="• Custom CMS development • Automated publishing system • Adaptive SEO implementation • Advanced UI animations">• Custom CMS development • Automated publishing system • Adaptive SEO implementation • Advanced UI animations</div>
                       </div>
                     </div>
                   </div>
@@ -338,7 +338,7 @@ export default function Portfolio() {
                     </p>
                     <div className="space-y-2 text-xs md:text-sm font-mono text-gray-700">
                       <div className="marquee">
-                        <div className="marquee-content">• Book design & layout • National Geographic standards • Scientific illustration • Editorial design</div>
+                        <div className="marquee-content" data-text="• Book design & layout • National Geographic standards • Scientific illustration • Editorial design">• Book design & layout • National Geographic standards • Scientific illustration • Editorial design</div>
                       </div>
                     </div>
                   </div>
@@ -461,7 +461,7 @@ export default function Portfolio() {
             </div>
             <div className="lg:col-span-3">
               <div className="font-mono text-xs md:text-sm text-gray-500 marquee marquee-fast">
-                <div className="marquee-content">TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024</div>
+                <div className="marquee-content" data-text="TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024">TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024</div>
               </div>
             </div>
           </div>
