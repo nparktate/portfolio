@@ -347,109 +347,122 @@ export default function Portfolio() {
             </div>
           </div>
 
-          {/* Education */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-16 border-t border-gray-200">
-            <div className="lg:col-span-3">
-              <h3 className="font-mono text-xl md:text-2xl font-bold text-gray-900 uppercase mb-6 lg:mb-0">Education</h3>
-            </div>
-            <div className="lg:col-span-9">
-              <div className="bg-gray-50 border border-gray-200 p-4 md:p-6 lg:p-8">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
-                  <span className="font-mono text-xs md:text-sm text-gray-500 bg-white px-2 md:px-3 py-1 uppercase inline-block w-fit">2017 - 2021</span>
-                  <span className="font-mono text-xs md:text-sm text-gray-400">GPA: 3.7/4.0 • Honors</span>
+          {/* Education & Skills Section */}
+          <div className="space-y-16 pt-16 border-t border-gray-200">
+            {/* Education */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-3">
+                <h3 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase mb-6 lg:mb-0">Education</h3>
+              </div>
+              <div className="lg:col-span-9">
+                <div className="relative">
+                  <div className="absolute left-0 top-0 w-px h-full bg-gray-200"></div>
+                  <div className="absolute left-0 top-2 w-3 h-3 bg-gray-900 rounded-full transform -translate-x-1"></div>
+                  <div className="pl-6 md:pl-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+                      <span className="font-mono text-xs md:text-sm text-gray-500 bg-gray-100 px-2 md:px-3 py-1 uppercase inline-block w-fit">2017 - 2021</span>
+                      <span className="font-mono text-xs md:text-sm text-gray-400">GPA: 3.7/4.0 • Honors</span>
+                    </div>
+                    <h4 className="font-mono text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-2">B.F.A. in Graphic Design</h4>
+                    <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Rhode Island School of Design (RISD)</p>
+                    <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed">
+                      Graduated with Graphic Design Honors. Coursework emphasized motion design, 
+                      interactive media, and visual communication. Active in cross-disciplinary collaborations.
+                    </p>
+                  </div>
                 </div>
-                <h4 className="font-mono text-lg md:text-xl font-bold text-gray-900 mb-2">B.F.A. in Graphic Design</h4>
-                <p className="font-mono text-sm md:text-base lg:text-lg text-gray-700 mb-4">Rhode Island School of Design (RISD)</p>
-                <p className="font-mono text-sm md:text-base text-gray-600 leading-relaxed">
-                  Graduated with Graphic Design Honors. Coursework emphasized motion design, 
-                  interactive media, and visual communication. Active in cross-disciplinary collaborations.
-                </p>
+              </div>
+            </div>
+
+            {/* Skills */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-3">
+                <h3 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase mb-6 lg:mb-0">Skills</h3>
+              </div>
+              <div className="lg:col-span-9">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                  <div className="bg-white border border-gray-200 p-6 md:p-8">
+                    <h4 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-4 md:mb-6 uppercase">Design Expertise</h4>
+                    <div className="space-y-2 md:space-y-3 font-mono text-xs md:text-sm text-gray-700">
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Typography & Static Design
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Motion Graphics & Animation
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        VFX & Compositing
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        3D Modeling & Rendering
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        AR Filter Development
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Creative Coding & Automation
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Full-Stack Web Development
+                      </div>
+                    </div>
+                  </div>
+                  <div className="bg-white border border-gray-200 p-6 md:p-8">
+                    <h4 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-4 md:mb-6 uppercase">Software & Tools</h4>
+                    <div className="space-y-2 md:space-y-3 font-mono text-xs md:text-sm text-gray-700">
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        After Effects, Premiere Pro, DaVinci Resolve
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Blender, Cinema 4D, Maya
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Photoshop, Illustrator, Figma
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Spark AR Studio, Effect House
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        JavaScript, Python, React, Node.js
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Unity, Unreal Engine
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
+                        Git, Docker, AWS
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-3">
-              <h2 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase lg:sticky lg:top-8 mb-8 lg:mb-0">Skills</h2>
-            </div>
-            <div className="lg:col-span-9">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <div className="bg-white border border-gray-200 p-6 md:p-8">
-                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-4 md:mb-6 uppercase">Design Expertise</h3>
-                  <div className="space-y-2 md:space-y-3 font-mono text-xs md:text-sm text-gray-700">
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Typography & Static Design
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      AR Filter Development
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Motion Design & 3D Design
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Interactive Design & Web Development
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      3D Texturing & Rendering
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Program Development (iOS, PC, Mac, Linux)
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white border border-gray-200 p-6 md:p-8">
-                  <h3 className="font-mono text-base md:text-lg lg:text-xl font-bold text-gray-900 mb-4 md:mb-6 uppercase">Software & Tools</h3>
-                  <div className="space-y-2 md:space-y-3 font-mono text-xs md:text-sm text-gray-700">
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      After Effects, Premiere Pro, DaVinci Resolve
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Photoshop, Illustrator
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Blender 3D, Cinema 4D, RedShift
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Houdini, Substance Suite
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Unreal Engine 5, Unity
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full mr-3"></span>
-                      Spark AR, TikTok Effect House
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Projects Section - keeping the existing background */}
+      <section className="py-16 md:py-24 lg:py-32 bg-gray-50">
 
       {/* Selected Work */}
-      {/* About Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-gray-50">
+
         <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1">
-              <h2 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase lg:sticky lg:top-8 mb-8 lg:mb-0">About</h2>
+              <h2 className="font-mono text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 uppercase lg:sticky lg:top-8 mb-8 lg:mb-0">Projects</h2>
             </div>
             <div className="lg:col-span-2">
               <div className="prose prose-sm md:prose-base lg:prose-lg max-w-none">
@@ -461,7 +474,7 @@ export default function Portfolio() {
             </div>
             <div className="lg:col-span-3">
               <div className="font-mono text-xs md:text-sm text-gray-500 marquee marquee-fast">
-                <div className="marquee-content" data-text="TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024">TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024</div>
+                <div className="marquee-content" data-text="TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024 • TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024 • TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024">TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024 • TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024 • TOTAL PROJECTS: 50+ • COMBINED VIEWS: 21M+ • YEARS ACTIVE: 2020-2024</div>
               </div>
             </div>
           </div>
