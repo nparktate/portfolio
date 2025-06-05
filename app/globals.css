@@ -7,6 +7,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
+  overflow-x: hidden; /* Prevent horizontal scrolling globally */
 }
 
 * {
@@ -88,29 +89,33 @@ body {
 /* Marquee animations */
 @keyframes marquee {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0%);
   }
   100% {
-    transform: translateX(-100%);
+    transform: translateX(-50%);
   }
 }
 
 .marquee {
-  overflow: visible;
+  overflow: hidden;
   white-space: nowrap;
   position: relative;
-  margin: 0 -2rem;
-  padding: 0 2rem;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  mask: linear-gradient(90deg, transparent 0%, black 2%, black 98%, transparent 100%);
+  -webkit-mask: linear-gradient(90deg, transparent 0%, black 2%, black 98%, transparent 100%);
 }
 
 .marquee-content {
   display: inline-block;
-  animation: marquee 25s linear infinite;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
 }
 
 .marquee-content::after {
   content: attr(data-text);
-  padding-left: 4rem;
+  padding-left: 3rem;
+  white-space: nowrap;
 }
 
 .marquee-content:hover {
@@ -119,26 +124,24 @@ body {
 
 /* Faster marquee for metrics */
 .marquee-fast .marquee-content {
-  animation: marquee 20s linear infinite;
-}
-
-.marquee-fast .marquee-content::after {
-  padding-left: 6rem;
+  animation: marquee 25s linear infinite;
 }
 
 /* Ensure marquee works on mobile */
 @media (max-width: 768px) {
   .marquee {
-    margin: 0 -1rem;
-    padding: 0 1rem;
+    margin: 0 -0.5rem;
+    padding: 0 0.5rem;
+    mask: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
+    -webkit-mask: linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%);
   }
   
   .marquee-content {
-    animation-duration: 30s;
+    animation-duration: 35s;
   }
   
   .marquee-fast .marquee-content {
-    animation-duration: 25s;
+    animation-duration: 30s;
   }
 }
 
