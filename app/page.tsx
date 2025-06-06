@@ -550,7 +550,7 @@ export default function Portfolio() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
               
               {/* The Penguin */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,hbo,promotional">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,hbo,promotional">
                 <div className="aspect-video bg-slate-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-slate-600 to-slate-900 flex items-center justify-center">
                     <div className="text-center">
@@ -579,7 +579,7 @@ export default function Portfolio() {
               </div>
 
               {/* DC Studios Showcase */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,hbo,promotional">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,hbo,promotional">
                 <div className="aspect-video bg-red-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center">
                     <div className="text-center">
@@ -615,7 +615,7 @@ export default function Portfolio() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
               
               {/* White House Plumbers */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,hbo,podcast">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,hbo,podcast">
                 <div className="aspect-video bg-gray-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
                     <div className="text-center">
@@ -644,7 +644,7 @@ export default function Portfolio() {
               </div>
 
               {/* Nike DN Sportswear */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="vfx,sportswear">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="vfx,sportswear">
                 <div className="aspect-video bg-orange-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-orange-600 to-orange-900 flex items-center justify-center">
                     <div className="text-center">
@@ -673,7 +673,7 @@ export default function Portfolio() {
               </div>
 
               {/* Slice Hunter */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="ar,freelance">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="ar,freelance">
                 <div className="aspect-video bg-amber-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-amber-600 to-amber-900 flex items-center justify-center">
                     <div className="text-center">
@@ -709,7 +709,7 @@ export default function Portfolio() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
 
               {/* Winning Time */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,hbo,promotional">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,hbo,promotional">
                 <div className="aspect-video bg-yellow-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-yellow-600 to-yellow-900 flex items-center justify-center">
                     <div className="text-center">
@@ -738,7 +738,7 @@ export default function Portfolio() {
               </div>
 
               {/* Westworld */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,hbo,promotional">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,hbo,promotional">
                 <div className="aspect-video bg-purple-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-purple-900 flex items-center justify-center">
                     <div className="text-center">
@@ -767,7 +767,7 @@ export default function Portfolio() {
               </div>
 
               {/* Euphoria */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,hbo,promotional">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,hbo,promotional">
                 <div className="aspect-video bg-pink-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-pink-600 to-pink-900 flex items-center justify-center">
                     <div className="text-center">
@@ -803,7 +803,7 @@ export default function Portfolio() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
 
               {/* Jeremy Zucker - Brent II */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,music">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,music">
                 <div className="aspect-video bg-blue-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-900 flex items-center justify-center">
                     <div className="text-center">
@@ -832,7 +832,7 @@ export default function Portfolio() {
               </div>
 
               {/* Jeremy Zucker - Love Is Not Dying */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="motion-graphics,music">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="motion-graphics,music">
                 <div className="aspect-video bg-green-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-green-600 to-green-900 flex items-center justify-center">
                     <div className="text-center">
@@ -861,7 +861,7 @@ export default function Portfolio() {
               </div>
 
               {/* Augmented Reality Calendar */}
-              <div className="project-card bg-white border border-gray-200 overflow-hidden group hover:shadow-lg transition-all duration-300" data-tags="ar,academic">
+              <div className="project-card bg-white border border-gray-200 rounded-xl overflow-hidden group" data-tags="ar,academic">
                 <div className="aspect-video bg-lime-900 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-lime-600 to-lime-900 flex items-center justify-center">
                     <div className="text-center">

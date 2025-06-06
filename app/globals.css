@@ -174,3 +174,35 @@ body {
     min-height: -webkit-fill-available;
   }
 }
+
+/* 3D Hover Effects for Project Cards */
+.project-card {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.project-card:hover {
+  transform: rotateY(-6deg) rotateX(3deg) scale(1.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Prevent 3D effects on mobile for better performance */
+@media (max-width: 768px) {
+  .project-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .project-card {
+    transition: none;
+  }
+  
+  .project-card:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
